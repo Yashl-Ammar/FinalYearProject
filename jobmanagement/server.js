@@ -3,12 +3,14 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 require("dotenv").config();
 const cors = require("cors");
+const JobRouter = require("./Routes/JobRoute");
 
-const JobRouter = require("./Routes/Job.Route");
+
 
 const app = express();
 app.use(cors());
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 const DB_URI = process.env.DB_URI;
 const port = process.env.port || 3090;
 
@@ -25,7 +27,5 @@ app.get('/', (req,res) => {
   res.json({'message':'Hello There!'})
 })
 
-app.use(express.static("public"));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use("/jobmanagement", JobRouter);
+
+app.use("/job", JobRouter);

@@ -1,17 +1,56 @@
 const mongoose = require("mongoose");
-const AdminUserSchema = mongoose.Schema(
+
+const JobSchema = mongoose.Schema(
   {
-    username: {
+    title: {
       type: String,
-      unique: true,
+      required: true, 
     },
-    password: {
+    description: {
       type: String,
+      required: true,
+    },
+    skills: {
+      type: [String], 
+    },
+    budget: {
+      amount: {
+        type: Number,
+        required: true,
+      },
+      currency: {
+        type: String,
+        required: true,
+      },
+    },
+    difficulty: {
+      type: String,
+      required: true,
+    },
+    paymentVerify: {
+      type: String,
+      required: true,
+    },
+    dislikeCount: { 
+      type: Number,
+      default: 0, 
+    },
+    projectStatus: { 
+      type: String,
+      required: true,
+    },
+    bookmarkCount: { 
+      type: Number,
+      default: 0, 
+    },
+    numberOfProposals: { 
+      type: Number,
+      default: 0, 
     },
   },
   { timestamps: true }
 );
 
-const AdminUser = mongoose.model("AdminUser", AdminUserSchema);
+const Jobs = mongoose.model("Jobs", JobSchema);
 
-module.exports = AdminUser;
+module.exports = Jobs;
