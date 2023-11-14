@@ -13,7 +13,7 @@
     "and",
     "Project"
   ],
-  "author": "Agha Haider",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.4.0",

@@ -1,7 +1,7 @@
 const mongoose= require("mongoose")
 const jwt=require("jsonwebtoken")
 require("dotenv").config();
-const clientSchema=new mongoose.Schema({
+const adminSchema=new mongoose.Schema({
     fname:{
         type: String,
         require:true,
@@ -36,9 +36,9 @@ const clientSchema=new mongoose.Schema({
         default:false,
     }
 })
-clientSchema.methods.generateAuthtoken =function(){
-    const token = jwt.sign({_id:this._id,role:'client'},process.env.SECRET_KEY ,{expiresIn:'24h'} )
+adminSchema.methods.generateAuthtoken =function(){
+    const token = jwt.sign({_id:this._id,role:"admin"},process.env.SECRET_KEY ,{expiresIn:'24h'} )
     return token
 }
-const Client= mongoose.model("Client",clientSchema )
-module.exports=Client;
+const Admin= mongoose.model("Admin",adminSchema )
+module.exports=Admin;

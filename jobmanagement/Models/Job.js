@@ -37,7 +37,7 @@ const JobSchema = mongoose.Schema(
     },
     projectStatus: { 
       type: String,
-      required: true,
+      required:true
     },
     bookmarkCount: { 
       type: Number,

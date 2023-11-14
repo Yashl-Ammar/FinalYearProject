@@ -30,10 +30,14 @@ const freelancerSchema =new mongoose.Schema({
     country:{
         type: String,
         require:true
+    },
+    isBanned:{
+        type: Boolean,
+        default:false,
     }
 })
 freelancerSchema.methods.generateAuthtoken =function(){
-    const token = jwt.sign({_id:this._id},process.env.SECRET_KEY,{expiresIn:'24h'} )
+    const token = jwt.sign({_id:this._id,role:"freelancer"},process.env.SECRET_KEY,{expiresIn:'24h'} )
     return token
 }
 const Freelancer= mongoose.model("Freelancer", freelancerSchema)

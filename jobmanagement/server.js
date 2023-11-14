@@ -4,9 +4,6 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const cors = require("cors");
 const JobRouter = require("./Routes/JobRoute");
-
-
-
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
