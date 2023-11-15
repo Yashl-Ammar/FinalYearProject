@@ -2,16 +2,17 @@ const Job=require("../Models/Job")
 const postjob = async (req, res) => {
     try {
       // Assuming these fields come from a request body
-      const { title, description, skills, budget, difficulty, paymentVerify } = req.body;
+      const { title, description, skills, budget, difficulty, paymentVerify,projectStatus } = req.body;
   
       // Create a new job posting
-      const newJob = new Jobs({
+      const newJob = new Job({
         title,
         description,
         skills,
         budget,
         difficulty,
         paymentVerify,
+        projectStatus
         // Set other fields as needed
       });
       // Save the job to the database and await the result

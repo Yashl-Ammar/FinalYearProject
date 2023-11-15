@@ -1,7 +1,7 @@
 const express=require("express")
 const clientRouter= express.Router()
-const {clientSignup,clientSignin}=require("../Controller/ClientController")
+const {clientSignup,clientSignIn}=require("../Controller/ClientController")
 clientRouter.post("/signup",clientSignup)
-clientRouter.post("/signin",clientSignin)
+clientRouter.post("/signin",clientSignIn)
 
 module.exports=clientRouter;

@@ -1,4 +1,5 @@
 const Client=require("../Models/Client")
+const Freelancer=require("../Models/Freelancer")
 const _=require("lodash")
 const bcrypt=require("bcryptjs")
 const clientSignup= async(req,res)=>{
@@ -19,14 +20,19 @@ const clientSignup= async(req,res)=>{
 
     res.send(_.pick(client,['_id','fname','lname','email','country']))
 }
-const clientSignin=async (req,res)=>{
-    const {email,password}=req.body
+const clientSignIn=async (req,res)=>{
+    const {email,password,rememberMe}=req.body
     let client= await Client.findOne({email})
+
     if(!client) return res.status(400).send("Invalid Email or Password")
+        
+    
     let validPassword=await bcrypt.compare(password,client.password)
     if(!validPassword)  return res.status(400).send("Invalid Email or Password")
-    const token= client.generateAuthtoken()
+    const token= client.generateAuthtoken(rememberMe)
     res.send(token)
+    
+   
 }
 
-module.exports={clientSignup,clientSignin};
+module.exports={clientSignup,clientSignIn};

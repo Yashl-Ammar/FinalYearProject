@@ -30,10 +30,23 @@ const clientSchema=new mongoose.Schema({
     country:{
         type: String,
         require:true
+    },
+    isBanned:{
+        type: Boolean,
+        default:false,
     }
 })
-clientSchema.methods.generateAuthtoken =function(){
-    const token = jwt.sign({_id:this._id},process.env.SECRET_KEY ,{expiresIn:'24h'} )
+clientSchema.methods.generateAuthtoken =function(rememberMe){
+    
+    if(rememberMe)
+    {
+        expiresIn="720h"
+    }
+    else
+    {
+        expiresIn='4h'
+    }
+    const token = jwt.sign({_id:this._id,role:'client'},process.env.SECRET_KEY ,{expiresIn:expiresIn} )
     return token
 }
 const Client= mongoose.model("Client",clientSchema )

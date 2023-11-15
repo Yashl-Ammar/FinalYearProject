@@ -15,7 +15,7 @@ const JobSchema = mongoose.Schema(
     },
     budget: {
       amount: {
-        type: Number,
+        type: mongoose.Decimal128,
         required: true,
       },
       currency: {
@@ -37,7 +37,7 @@ const JobSchema = mongoose.Schema(
     },
     projectStatus: { 
       type: String,
-      required: true,
+      required:true
     },
     bookmarkCount: { 
       type: Number,
