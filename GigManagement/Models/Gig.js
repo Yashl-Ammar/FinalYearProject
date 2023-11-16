@@ -84,6 +84,7 @@ const gigSchema= new mongoose.Schema({
     },
     file:{
         type:[String],
+        required:true
     },
 })
 

@@ -34,6 +34,33 @@ const freelancerSchema =new mongoose.Schema({
     isBanned:{
         type: Boolean,
         default:false,
+    },
+    username:{
+        type:String,
+        minlength:5,
+        maxlength:10
+    },
+    tagline:{
+        type:String,
+        minlength:10,
+        maxlength:30
+    },
+    description:{
+        type:String,
+        minlength:10,
+        maxlength:500
+    },
+    languages:{
+        type:[String]
+    },
+    skills:{
+        type:[String]
+    },
+    education:{
+        type:[String]
+    },
+    profilepic:{
+        type:String
     }
 })
 freelancerSchema.methods.generateAuthtoken =function(rememberMe){

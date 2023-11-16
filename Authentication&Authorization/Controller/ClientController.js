@@ -1,7 +1,9 @@
 const Client=require("../Models/Client")
-const Freelancer=require("../Models/Freelancer")
+const cloudinary=require("../utils/cloudinary")
 const _=require("lodash")
 const bcrypt=require("bcryptjs")
+const jwt = require("jsonwebtoken");
+const getDataUri = require("../utils/dataUri");
 const clientSignup= async(req,res)=>{
     const {fname,lname,email,password,country}=req.body
 
@@ -34,5 +36,29 @@ const clientSignIn=async (req,res)=>{
     
    
 }
+const editProfile=async(req,res)=>{
+    let token = req.headers["token"];
+    if(!token) return res.status(401).send("Access denied. No token provided.")
+  
+      const decoded=jwt.verify(token,process.env.SECRET_KEY)
+      req.user=decoded
+      id =req.user._id
+      const{username,languages}=req.body
+      const profilepic=req.file;
+      let client= await Client.findById(id)
+      if(!client) return res.status(404).send("Client Not found")
+      const fileUri=getDataUri(profilepic)
+      const mycloud= await cloudinary.uploader.upload(fileUri.content)  
+        
+      client.username=username
+      client.languages=languages
+      client.profilepic=mycloud.secure_url
 
-module.exports={clientSignup,clientSignIn};
+      client.save()
+
+      res.send(client)
+
+    
+}
+
+module.exports={clientSignup,clientSignIn,editProfile};

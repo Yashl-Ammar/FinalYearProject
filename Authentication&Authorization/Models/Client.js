@@ -34,6 +34,15 @@ const clientSchema=new mongoose.Schema({
     isBanned:{
         type: Boolean,
         default:false,
+    },
+    username:{
+        type:String,
+    },
+    languages:{
+        type:[String]
+    },
+    profilepic:{
+        type:String
     }
 })
 clientSchema.methods.generateAuthtoken =function(rememberMe){
