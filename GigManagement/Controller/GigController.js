@@ -1,38 +1,40 @@
 const Gig = require("../Models/Gig");
 const cloudinary = require("../utils/cloudinary");
 const getDataUri = require("../utils/dataUri");
-const bodyParser = require("body-parser");
 const createGig = async (req, res) => {
   try {
-    const data=JSON.parse(req.body.data)
-    const { title, skills, description,basic,standard,premium } = data;
-  
-    const file=req.file;
-    
-    // Check if req.file is defined (file processed by Multer middleware)
-    const fileUri=getDataUri(file)
-    const mycloud = await cloudinary.uploader.upload(fileUri.content);
-      // Create a new Gig with the uploaded file details
-      const gig = new Gig({
-        title,
-        skills,
-        description,
-        basic,
-        standard,
-        premium,
-        file:mycloud.secure_url // Use the secure_url from Cloudinary
-      });
+    const data = JSON.parse(req.body.data);
+    const { title, skills, description, basic, standard, premium } = data;
+    const files = req.files; // Use req.files to get an array of files
 
-      // Save the Gig to the database
-      gig.save().then((savedGig) => {
-        res.status(201).json(savedGig);
-      });
-    }catch (error) {
+    const fileUris = await Promise.all(
+      files.map(async (file) => {
+        const fileUri = getDataUri(file);
+        const mycloud = await cloudinary.uploader.upload(fileUri.content);
+        return mycloud.secure_url;
+      })
+    );
+
+    // Create a new Gig with the uploaded file details
+    const gig = new Gig({
+      title,
+      skills,
+      description,
+      basic,
+      standard,
+      premium,
+      file: fileUris, // Use the array of secure_urls from Cloudinary
+    });
+
+    // Save the Gig to the database
+    gig.save().then((savedGig) => {
+      res.status(201).json(savedGig);
+    });
+  } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to post the Gig' });
   }
 };
-
 const getAllGigs = async (req, res) => {
   try {
     const gigs = await Gig.find();
