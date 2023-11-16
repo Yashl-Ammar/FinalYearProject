@@ -2,7 +2,6 @@ const express = require('express');
 const jobrouter = express.Router();
 const {postjob,deleteJob,updateJob,getAllJobs,getJobs} = require("../Controller/JobController");
 const verifyuserloggedIn= require("../Middleware/authentication")
-const isFreelancer=require("../Middleware/isFreelancer")
 const isClient =require("../Middleware/isClient")
 // Define the route for creating a job (POST request)
 jobrouter.post("/create",verifyuserloggedIn,isClient,postjob);

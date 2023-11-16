@@ -20,13 +20,13 @@ const freelancerSignup= async(req,res)=>{
     res.send(_.pick(freelancer,["_id","fname","lname","email","country"]))
 }
 const freelancerSignin=async (req,res)=>{
-    const {email,password}=req.body
+    const {email,password,rememberMe}=req.body
     let freelancer= await Freelancer.findOne({email})
     if(!freelancer) return res.status(400).send("Invalid Email or Password")
 
     let validPassword=await bcrypt.compare(password,freelancer.password)
     if(!validPassword)  return res.status(400).send("Invalid Email or Password")
-    const token= freelancer.generateAuthtoken()
+    const token= freelancer.generateAuthtoken(rememberMe)
     res.send(token)
 }
 module.exports={freelancerSignup,freelancerSignin};

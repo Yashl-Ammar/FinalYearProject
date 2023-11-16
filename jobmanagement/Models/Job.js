@@ -15,7 +15,7 @@ const JobSchema = mongoose.Schema(
     },
     budget: {
       amount: {
-        type: Number,
+        type: mongoose.Decimal128,
         required: true,
       },
       currency: {
