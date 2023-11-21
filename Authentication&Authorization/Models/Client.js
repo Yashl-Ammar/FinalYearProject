@@ -44,7 +44,9 @@ const clientSchema=new mongoose.Schema({
     profilepic:{
         type:String
     }
-})
+},
+{ timestamps: true }
+)
 clientSchema.methods.generateAuthtoken =function(rememberMe){
     
     if(rememberMe)

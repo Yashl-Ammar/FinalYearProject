@@ -86,7 +86,10 @@ const gigSchema= new mongoose.Schema({
         type:[String],
         required:true
     },
-})
+    
+},
+{ timestamps: true }
+)
 
 const Gig= mongoose.model("Gig",gigSchema)
 

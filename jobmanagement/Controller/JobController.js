@@ -9,7 +9,8 @@ const postjob = async (req, res) => {
         title,
         description,
         skills,
-        budget,
+        amount,
+        budgetType,
         difficulty,
         paymentVerify,
         projectStatus

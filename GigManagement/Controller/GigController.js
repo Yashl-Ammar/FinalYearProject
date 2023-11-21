@@ -1,6 +1,7 @@
 const Gig = require("../Models/Gig");
 const cloudinary = require("../utils/cloudinary");
 const getDataUri = require("../utils/dataUri");
+
 const createGig = async (req, res) => {
   try {
     const data = JSON.parse(req.body.data);

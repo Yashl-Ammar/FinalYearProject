@@ -13,15 +13,13 @@ const JobSchema = mongoose.Schema(
     skills: {
       type: [String], 
     },
-    budget: {
-      amount: {
+    amount: {
         type: mongoose.Decimal128,
         required: true,
-      },
-      currency: {
-        type: String,
-        required: true,
-      },
+    },
+    budgetType:{
+      type: String,
+      required: true,
     },
     difficulty: {
       type: String,

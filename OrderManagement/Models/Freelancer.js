@@ -62,9 +62,7 @@ const freelancerSchema =new mongoose.Schema({
     profilepic:{
         type:String
     }
-},
-    { timestamps: true }
-)
+})
 freelancerSchema.methods.generateAuthtoken =function(rememberMe){
     if(rememberMe)
     {
