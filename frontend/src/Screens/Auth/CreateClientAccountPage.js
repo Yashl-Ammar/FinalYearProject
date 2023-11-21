@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { LargeHeadingStyle } from "../../CommonStyles/Style";
+import { LargeHeadingStyle, termsErrorMessage } from "../../Constants/constants";
 import NavBarOnlyLogo from "../../Components/Nav/NavBarOnlyLogo";
 import RegularRoundedButton from "../../Components/Buttons/RegularRoundedButton";
 import { Link } from "react-router-dom";
@@ -13,6 +13,7 @@ import PasswordInputField from "../../Components/InputFields/PasswordInputField"
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import RegularDropDown from "../../Components/InputFields/RegularDropDown";
 
 function CreateClientAccountPage() {
 
@@ -27,12 +28,6 @@ function CreateClientAccountPage() {
       })
     let navigate = useNavigate();
 
-    let allCountriesOption = () => { 
-        return allCountries.map((value,index) => {
-            return <option key={index}>{value}</option>
-        })
-    }
-
     let onSubmit = async (data) => {
         setTermsError(false);
         if(!data.isCheckedTerms){
@@ -40,7 +35,7 @@ function CreateClientAccountPage() {
         }
         else{
             try{
-                let response = await axios.post(process.env.REACT_APP_AuthPath+'client/signup',{
+                await axios.post(process.env.REACT_APP_AuthPath+'client/signup',{
                     fname: data.firstname,
                     lname: data.lastname,
                     email: data.email,
@@ -60,7 +55,7 @@ function CreateClientAccountPage() {
     <div className="w-full lg:w-4/5">
         <NavBarOnlyLogo />
         <div className="flex justify-center w-full">
-            <form className="bg-aamdanSuperDeepBlack sm:rounded-xl w-full sm:w-4/5 py-2 px-4 sm:py-8 sm:px-20 flex flex-col justify-center items-center" onSubmit={handleSubmit(onSubmit)} >
+            <form className="bg-aamdanSuperDeepBlack sm:rounded-xl w-full sm:w-4/5 py-2 px-4 sm:py-8 sm:px-20 flex flex-col justify-center items-center mb-8" onSubmit={handleSubmit(onSubmit)} >
                 <h1 className={LargeHeadingStyle}>Sign up to hire work</h1>
                 <div className="h-16"></div>
                 <div className="w-full my-8">
@@ -83,19 +78,17 @@ function CreateClientAccountPage() {
                         {errors.password && <p className="text-red">{errors.password.message}</p>}
                     </div>
                     <div className="mb-8">
-                        <select className="rounded-lg bg-aamdanBackground py-3 px-5 border border-strokeColor border-opacity-50 w-full" {...register('country')}>
-                            {allCountriesOption()}
-                        </select>
+                        <RegularDropDown data={allCountries} register={register('country')} />
                         {errors.country && <p className="text-red">{errors.country.message}</p>}
                     </div>
                     <div className="flex">
                         <input className="w-6 mr-3" type="checkbox" {...register('isCheckedTerms')} />
                         <p className="text-sm">Yes, I understand and agree to the <span className="text-aamdanBlue">Aamdan Terms of Service</span>, including the <span className="text-aamdanBlue">User Agreement</span> and <span className="text-aamdanBlue">Privacy Policy</span>.</p>
                     </div>
-                    {termsError && <p className="text-red">Terms Must be accepted</p>}
+                    {termsError && <p className="text-red">{termsErrorMessage}</p>}
                 </div>
                 <RegularRoundedButton text='Create Account' type='submit'/>
-                <p className="mt-7 text-xl ">Already have an account?  <Link to='/' className="text-aamdanBlue">Login</Link></p>
+                <p className="mt-7 text-xl ">Already have an account?  <Link to='/login' className="text-aamdanBlue">Login</Link></p>
                 <ToastContainer />
             </form>
         </div>

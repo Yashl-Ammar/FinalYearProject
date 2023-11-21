@@ -33,8 +33,6 @@ const clientSignIn=async (req,res)=>{
     if(!validPassword)  return res.status(400).send("Invalid Email or Password")
     const token= client.generateAuthtoken(rememberMe)
     res.send(token)
-    
-   
 }
 const editProfile=async(req,res)=>{
     let token = req.headers["token"];
