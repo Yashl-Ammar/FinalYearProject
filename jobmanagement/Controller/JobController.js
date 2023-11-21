@@ -3,9 +3,10 @@ const postjob = async (req, res) => {
     try {
       // Assuming these fields come from a request body
       const { title, description, skills, amount,budgetType, difficulty, location,category } = req.body;
-  
+      
       // Create a new job posting
       const newJob = new Job({
+        client:req.user._id,
         title,
         description,
         skills,

@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const JobSchema = mongoose.Schema(
   {
+    client: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Client", // Reference to the client who placed the order
+    },
     title: {
       type: String,
       required: true, 
