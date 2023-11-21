@@ -65,10 +65,20 @@ const postjob = async (req, res) => {
       res.status(500).json({ error: 'Failed to get all jobs' });
     }
   };
+  const getSpecifiJobs=async(req,res)=>{
+    try{
+      const jobs = await Job.find({client:req.user._id}) // Retrieve all jobs
+      res.status(200).json(jobs);
+    }catch(err){
+      console.log(err)
+      res.status(500).json({err:"Failed to get all jobs of Specific Client"})  
+    }
+  }
   module.exports = {
      postjob,
      deleteJob,
      updateJob,
      getAllJobs,
-     getJobs
+     getJobs,
+     getSpecifiJobs
    }

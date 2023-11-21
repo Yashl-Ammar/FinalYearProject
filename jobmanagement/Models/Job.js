@@ -5,6 +5,7 @@ const JobSchema = mongoose.Schema(
     client: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Client", // Reference to the client who placed the order
+      required: true,
     },
     title: {
       type: String,
@@ -24,6 +25,10 @@ const JobSchema = mongoose.Schema(
     budgetType:{
       type: String,
       required: true,
+    },
+    jobStatus:{
+      type:String,
+      default:"Active"
     },
     difficulty: {
       type: String,

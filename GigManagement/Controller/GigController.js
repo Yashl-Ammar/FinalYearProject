@@ -18,6 +18,7 @@ const createGig = async (req, res) => {
 
     // Create a new Gig with the uploaded file details
     const gig = new Gig({
+      freelancer:req.user._id,
       title,
       skills,
       description,

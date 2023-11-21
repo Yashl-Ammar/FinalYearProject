@@ -1,6 +1,11 @@
 const mongoose=require("mongoose")
 
 const gigSchema= new mongoose.Schema({
+    freelancer:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Freelancer", // Reference to the freelancer providing the service
+        required: true,
+    },
     title:{
         type:String,
         required:true,
