@@ -12,8 +12,8 @@ const postjob = async (req, res) => {
         amount,
         budgetType,
         difficulty,
-        paymentVerify,
-        projectStatus
+        location,
+        category
         // Set other fields as needed
       });
       // Save the job to the database and await the result

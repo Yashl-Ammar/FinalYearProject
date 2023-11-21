@@ -25,6 +25,10 @@ const JobSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    location:{
+      type:String,
+      required:true
+    },
     paymentVerify: {
       type: String,
       required: true,
@@ -35,6 +39,10 @@ const JobSchema = mongoose.Schema(
     },
     projectStatus: { 
       type: String,
+      required:true
+    },
+    category:{
+      type:String,
       required:true
     },
     bookmarkCount: { 
