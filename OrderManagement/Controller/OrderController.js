@@ -1,7 +1,7 @@
 const Client = require("../Models/Client");
 const Freelancer = require("../Models/Freelancer");
 const Order=require("../Models/order")
-const cloudinary = require("cloudinary");
+const cloudinary = require("../utils/cloudinary");
 const getDataUri = require("../utils/dataUri");
 
 const placeOrder = async (req, res) => {

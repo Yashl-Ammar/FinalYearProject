@@ -31,7 +31,6 @@ const JobSchema = mongoose.Schema(
     },
     paymentVerify: {
       type: String,
-      required: true,
     },
     dislikeCount: { 
       type: Number,
@@ -39,7 +38,6 @@ const JobSchema = mongoose.Schema(
     },
     projectStatus: { 
       type: String,
-      required:true
     },
     category:{
       type:String,
