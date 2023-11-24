@@ -10,7 +10,6 @@ jobrouter.delete("/delete/:id",verifyuserloggedIn,isClient, deleteJob);
 jobrouter.put("/update/:id",verifyuserloggedIn,isClient, updateJob);
 jobrouter.get("/getJobs/specificUser",verifyuserloggedIn,isClient,getSpecifiJobs)
 jobrouter.get("/all",verifyuserloggedIn,isfreelancer, getAllJobs);
-jobrouter.get("/getJob/:jobId",verifyuserloggedIn,isfreelancer, getJobs);
-jobrouter.get("/getJob/:jobId",verifyuserloggedIn,isClient, getJobs);
+jobrouter.get("/getJob/:jobId",verifyuserloggedIn, getJobs);
 
 module.exports = jobrouter;
