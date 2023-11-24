@@ -28,7 +28,7 @@ const postjob = async (req, res) => {
   };
   const getJobs = async (req, res) => {
     try {
-      const jobs = await Job.find(); // Retrieve all jobs
+      const jobs = await Job.findById(req.params.jobId); // Retrieve all jobs
       res.status(200).json(jobs);
     } catch (error) {
       console.error(error);

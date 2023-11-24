@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const cors = require("cors");
 const JobRouter = require("./Routes/JobRoute");
+const Proposal=require("./Routes/ProposalRoute")
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -26,3 +27,4 @@ app.get('/', (req,res) => {
 
 
 app.use("/job", JobRouter);
+app.use("/proposal",Proposal)
