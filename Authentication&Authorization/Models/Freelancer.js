@@ -61,6 +61,10 @@ const freelancerSchema =new mongoose.Schema({
     },
     profilepic:{
         type:String
+    },
+    rating:{
+        type:Number,
+        default:0
     }
 },
     { timestamps: true }

@@ -1,4 +1,5 @@
 const Job=require("../Models/Job")
+const Client=require('../Models/Client')
 const postjob = async (req, res) => {
     try {
       // Assuming these fields come from a request body
@@ -28,7 +29,7 @@ const postjob = async (req, res) => {
   };
   const getJob= async (req, res) => {
     try {
-      const job = await Job.findById(req.params.jobId); // Retrieve all jobs
+      const job = await await Job.findById(req.params.jobId).populate('client',"paymentStatus noOfJobPosted totalSpending rating country"); // Retrieve all jobs
       if(!job)
       {
         res.status(404).send("Job Not Found")
