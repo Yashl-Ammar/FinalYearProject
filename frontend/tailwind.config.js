@@ -17,7 +17,8 @@ module.exports = {
       'aamdanDarkGray': '#222222',
       'white': '#ffffff',
       'strokeColor' : '#D2D2D2',
-      'red':'#DC3545'
+      'red':'#DC3545',
+      'lightGray':'#BCBCBC'
     },
     fontFamily: {
       heading: ['Playfair Display', 'sans-serif'],
