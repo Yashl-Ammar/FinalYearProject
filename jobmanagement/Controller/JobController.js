@@ -26,10 +26,22 @@ const postjob = async (req, res) => {
       res.status(500).json({ error: 'Failed to post the job' });
     }
   };
-  const getJobs = async (req, res) => {
+  const getJob= async (req, res) => {
     try {
-      const jobs = await Job.findById(req.params.jobId); // Retrieve all jobs
-      res.status(200).json(jobs);
+      const job = await Job.findById(req.params.jobId); // Retrieve all jobs
+      if(!job)
+      {
+        res.status(404).send("Job Not Found")
+      }
+      else{
+        if(job.jobStatus==="Removed" && job.client!=req.user._id)
+        {
+          res.send(404).send("Job Removed")
+        }else{
+          res.status(200).send(job)
+        }
+      }
+      
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Failed to get jobs' });
@@ -49,7 +61,16 @@ const postjob = async (req, res) => {
   const deleteJob = async (req, res) => {
     const jobId = req.params.id; // Assuming the job ID is part of the URL
     try {
-      await Job.findByIdAndRemove(jobId);
+      const job=await Job.findByIdAndUpdate(jobId);
+      if(!job){
+        res.staus(200).send("Job Not found")
+      }else{
+        
+        job.jobStatus="Removed"
+
+        const JobUpdated=await job.save()
+        res.send(JobUpdated)
+      }
       res.status(204).end(); // No content to send in response
     } catch (error) {
       console.error(error);
@@ -79,6 +100,6 @@ const postjob = async (req, res) => {
      deleteJob,
      updateJob,
      getAllJobs,
-     getJobs,
+     getJob,
      getSpecifiJobs
    }
