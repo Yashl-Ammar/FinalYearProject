@@ -161,7 +161,7 @@ const deleteProposal = async (req, res) => {
 const viewSpecificProposal=async(req,res)=>{
     try {
         // Retrieve all proposals
-        const proposals = await Proposal.findById(req.params.proposalId).populate('freelancer',"profilepic fname lname country rating");
+        const proposals = await Proposal.findById(req.params.proposalId).populate('freelancer',"profilepic fname lname country rating skills languages");
         const clientCheck=await Job.findById(proposals.job).populate('client','_id')
         if(!proposals)
         {
