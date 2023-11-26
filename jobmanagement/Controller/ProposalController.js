@@ -98,17 +98,25 @@ const getAllProposals = async (req, res) => {
     try {
         // Retrieve all proposals
         const proposals = await Proposal.find();
+        
         res.send(proposals);
     } catch (error) {
         console.error('Error:', error.message);
         res.status(500).send('Internal Server Error');
     }
 };
-const viewSpecifcProposal=async(req,res)=>{
+const viewProposalsOnSpecificJob=async(req,res)=>{
     try {
         // Retrieve all proposals
-        const proposals = await Proposal.findById(req.params.jobId);
-        res.send(proposals);
+        const proposals = await Proposal.find({job:req.params.jobId});
+        if(!proposals)
+        {
+            res.status(404).send("Proposal Not Found")
+        }
+        else{
+            res.status(200).send(proposals)
+        }
+        
     } catch (error) {
         console.error('Error:', error.message);
         res.status(500).send('Internal Server Error');
@@ -117,7 +125,7 @@ const viewSpecifcProposal=async(req,res)=>{
 const allproposalByFreelancer=async(req,res)=>{
     try {
         // Retrieve all proposals
-        const proposals = await Proposal.findById(req.user._id);
+        const proposals = await Proposal.findById({freelancer:req.user._id});
         res.send(proposals);
     } catch (error) {
         console.error('Error:', error.message);
@@ -141,4 +149,4 @@ const deleteProposal = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
-module.exports={postProposal,editProposal,getAllProposals,viewSpecifcProposal,allproposalByFreelancer,deleteProposal}
+module.exports={postProposal,editProposal,getAllProposals,viewProposalsOnSpecificJob,allproposalByFreelancer,deleteProposal}
