@@ -37,8 +37,6 @@ const freelancerSchema =new mongoose.Schema({
     },
     username:{
         type:String,
-        minlength:5,
-        maxlength:10
     },
     tagline:{
         type:String,

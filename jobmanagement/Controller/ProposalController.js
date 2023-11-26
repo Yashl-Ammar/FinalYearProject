@@ -158,4 +158,27 @@ const deleteProposal = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
-module.exports={postProposal,editProposal,getAllProposals,viewProposalsOnSpecificJob,allproposalByFreelancer,deleteProposal}
+const viewSpecificProposal=async(req,res)=>{
+    try {
+        // Retrieve all proposals
+        const proposals = await Proposal.findById(req.params.proposalId).populate('freelancer',"profilepic fname lname country rating");
+        const clientCheck=await Job.findById(req.params.jobId).populate('client','_id')
+        if(!proposals)
+        {
+            res.status(404).send("Proposal Not Found")
+        }
+        else{
+            if(clientCheck.client._id==req.user._id || proposal.freelancer==req.user._id )
+            {
+                res.status(200).send(proposals)
+            }
+            else{ 
+                res.status(500).send("Client Not verified")
+            }
+        }
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(500).send('Internal Server Error');
+    }
+}
+module.exports={postProposal,editProposal,viewSpecificProposal,getAllProposals,viewProposalsOnSpecificJob,allproposalByFreelancer,deleteProposal}
