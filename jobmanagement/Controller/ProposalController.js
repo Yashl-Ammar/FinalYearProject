@@ -1,6 +1,8 @@
 const Proposal=require('../Models/Proposal')
 const getDataUri=require("../utils/dataUri")
 const cloudinary=require("../utils/cloudinary")
+const Job=require('../Models/Job')
+const Freelancer=require('../Models/Freelancer')
 const postProposal=async(req,res)=>{
     const{job,bid,requiredTime,revisions,coverLetter,}=req.body
 
@@ -108,15 +110,22 @@ const getAllProposals = async (req, res) => {
 const viewProposalsOnSpecificJob=async(req,res)=>{
     try {
         // Retrieve all proposals
-        const proposals = await Proposal.find({job:req.params.jobId});
+        const proposals = await Proposal.find({job:req.params.jobId}).populate('freelancer',"profilepic fname lname country rating");
+        const clientCheck=await Job.findById(req.params.jobId).populate('client','_id')
         if(!proposals)
         {
             res.status(404).send("Proposal Not Found")
         }
         else{
-            res.status(200).send(proposals)
+            if(clientCheck.client._id==req.user._id)
+            {
+                res.status(200).send(proposals)
+            }
+            else{ 
+                res.status(500).send("Client Not verified")
+            }
+            
         }
-        
     } catch (error) {
         console.error('Error:', error.message);
         res.status(500).send('Internal Server Error');

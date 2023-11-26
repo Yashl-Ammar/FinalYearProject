@@ -30,6 +30,10 @@ const proposalSchema = mongoose.Schema(
     },
     files:{
         type:[String]
+    },
+    pinned:{
+      type:Boolean,
+      default:false
     }
   },
   { timestamps: true }
