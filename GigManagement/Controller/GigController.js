@@ -1,4 +1,5 @@
 const Gig = require("../Models/Gig");
+const Freelancer=require("../Models/Freelancer")
 const cloudinary = require("../utils/cloudinary");
 const getDataUri = require("../utils/dataUri");
 const bodyParser = require("body-parser");
@@ -51,7 +52,7 @@ const getAllGigs = async (req, res) => {
 const viewGigsByFreelancer = async (req, res) => {
   const { id } = req.params;
   try {
-    const gig = await Gig.findById(req.user._id);
+    const gig = await Gig.findById({freelancer:req.user._id}).populate('freelancer','fname lname rating completedOrder');
     if (!gig) {
       return res.status(404).json({ error: 'Gig not found' });
     }
@@ -120,7 +121,21 @@ const viewSpecificGigByClient=async(req,res)=>{
   const { gigId } = req.params;
 
   try {
-    const specificGig = await Gig.findById(gigId);
+    const specificGig = await Gig.findById(gigId).populate('freelancer','fname lname rating completedOrder languages education skills');
+    if (!specificGig) {
+      return res.status(404).json({ error: 'Gig not found' });
+    }
+    res.status(200).json(specificGig);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to delete the gig' });
+  }
+}
+const viewSpecificGigByFreelancer=async(req,res)=>{
+  const { gigId } = req.params;
+
+  try {
+    const specificGig = await Gig.findById(gigId).populate('freelancer','fname lname rating completedOrder languages education skills');
     if (!specificGig) {
       return res.status(404).json({ error: 'Gig not found' });
     }
@@ -136,6 +151,7 @@ module.exports = {
   updateGigById,
   deleteGigById,
   viewGigsByFreelancer,
-  viewSpecificGigByClient
+  viewSpecificGigByClient,
+  viewSpecificGigByFreelancer
 };
 

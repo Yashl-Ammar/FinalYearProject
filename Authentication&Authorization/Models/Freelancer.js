@@ -63,6 +63,10 @@ const freelancerSchema =new mongoose.Schema({
     rating:{
         type:Number,
         default:0
+    },
+    completedOrder:{
+        type:Number,
+        default:0
     }
 },
     { timestamps: true }
