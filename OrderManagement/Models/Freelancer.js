@@ -61,6 +61,10 @@ const freelancerSchema =new mongoose.Schema({
     },
     profilepic:{
         type:String
+    },
+    completedOrder:{
+        type:Number,
+        default:0
     }
 })
 freelancerSchema.methods.generateAuthtoken =function(rememberMe){
