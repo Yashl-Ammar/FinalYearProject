@@ -39,7 +39,7 @@ const createGig = async (req, res) => {
 };
 const getAllGigs = async (req, res) => {
   try {
-    const gigs = await Gig.find({});
+    const gigs = await Gig.find({}).populate('freelancer','fname lname rating completedOrder');
     res.status(200).json(gigs);
   } catch (error) {
     console.error(error);
