@@ -45,7 +45,7 @@ const gigSchema= new mongoose.Schema({
     },
     standard:{
         price:{
-            type:mongoose.Decimal128,
+            type:Number,
             required:true
         },
         time:{
@@ -67,7 +67,7 @@ const gigSchema= new mongoose.Schema({
     },
     premium:{
         price:{
-            type:mongoose.Decimal128,
+            type:Number,
             required:true
         },
         time:{
