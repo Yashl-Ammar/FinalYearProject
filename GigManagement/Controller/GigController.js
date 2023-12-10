@@ -5,10 +5,8 @@ const bodyParser = require("body-parser");
 const createGig = async (req, res) => {
   try {
     const data = JSON.parse(req.body.data);
-    console.log(data)
     const { title, skills, description, basic, standard, premium } = data;
     const files = req.files; // Use req.files to get an array of files
-
     const fileUris = await Promise.all(
       files.map(async (file) => {
         const fileUri = getDataUri(file);

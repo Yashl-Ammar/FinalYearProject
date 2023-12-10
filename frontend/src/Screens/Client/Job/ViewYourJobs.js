@@ -1,20 +1,8 @@
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import {  Link, useNavigate } from "react-router-dom";
-import { allCountries } from "../../../Data/Countries";
+import {  Link } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import RegularInputField from "../../../Components/InputFields/RegularInputField";
-import RegularRoundedButton from "../../../Components/Buttons/RegularRoundedButton";
-import { zodResolver } from '@hookform/resolvers/zod';
 import NavBarFreelancer from "../../../Components/Nav/NavBarFreelancer";
-import { PostJobValidationSchema } from "../../../Validations/PostJobValidation";
-import RegularSquareButton from "../../../Components/Buttons/RegularSquareButton";
-import RegularTextArea from "../../../Components/InputFields/RegularTextArea";
-import RegularDropDown from "../../../Components/InputFields/RegularDropDown";
-import { allDifficulties } from "../../../Data/Difficulty";
-import { allCategories } from "../../../Data/Categories";
-import RegularSkillTag from "../../../Components/Tag/RegularSkillTag";
 import Jobtile from "../../../Components/Tiles/JobTile";
 
 
@@ -28,9 +16,9 @@ function ViewYourJobPage() {
         fetchJobs();
     }, [])
     
-    let fetchJobs = async () => {
+    const fetchJobs = async () => {
         try{
-            let response = await axios.get(process.env.REACT_APP_JobPath+'job/getJobs/specificUser',{
+            let response = await axios.get(process.env.REACT_APP_JobPath+'job/getPostedJobsByClient',{
                 headers:{
                     'token':localStorage.getItem('token')
                 }
@@ -42,9 +30,7 @@ function ViewYourJobPage() {
         }
     }
 
-    let navigate = useNavigate();
-
-    let countActive = () => {
+    const countActive = () => {
         let count = 0;
         data.forEach((val) => {
             if(val.jobStatus === 'Active'){
@@ -54,19 +40,21 @@ function ViewYourJobPage() {
         return count;
     }
 
-    let mapJobs = () => {
+    console.log(data);
+
+    const mapJobs = () => {
         return data.map((val,index) => {
             if(selectedFilter === 'active')
             {
                 if(val.jobStatus === 'Active')
-                    return <Jobtile key={index} amount={val.amount} bookmarks={val.bookmarkCount} budgetType={val.budgetType} description={val.description} difficulty={val.difficulty} likes={val.dislikeCount} postTime={val.createdAt} proposalCount={val.numberOfProposals} tags={val.skills} title={val.title} />
+                    return <Jobtile id={val._id} key={index} amount={val.amount} bookmarks={val.bookmarkCount} budgetType={val.budgetType} description={val.description} difficulty={val.difficulty} likes={val.dislikeCount} postTime={val.createdAt} proposalCount={val.numberOfProposals} tags={val.skills} title={val.title} />
             }
             else if(selectedFilter === 'removed'){
                 if(val.jobStatus === 'Removed')
-                    return <Jobtile key={index} amount={val.amount} bookmarks={val.bookmarkCount} budgetType={val.budgetType} description={val.description} difficulty={val.difficulty} likes={val.dislikeCount} postTime={val.createdAt} proposalCount={val.numberOfProposals} tags={val.skills} title={val.title} />
+                    return <Jobtile id={val._id} key={index} amount={val.amount} bookmarks={val.bookmarkCount} budgetType={val.budgetType} description={val.description} difficulty={val.difficulty} likes={val.dislikeCount} postTime={val.createdAt} proposalCount={val.numberOfProposals} tags={val.skills} title={val.title} />
             }
-            else {
-                return <Jobtile key={index} amount={val.amount} bookmarks={val.bookmarkCount} budgetType={val.budgetType} description={val.description} difficulty={val.difficulty} likes={val.dislikeCount} postTime={val.createdAt} proposalCount={val.numberOfProposals} tags={val.skills} title={val.title} />
+            else{
+                return <Jobtile id={val._id} key={index} amount={val.amount} bookmarks={val.bookmarkCount} budgetType={val.budgetType} description={val.description} difficulty={val.difficulty} likes={val.dislikeCount} postTime={val.createdAt} proposalCount={val.numberOfProposals} tags={val.skills} title={val.title} />
             }
         })
     } 
@@ -107,7 +95,9 @@ function ViewYourJobPage() {
                 </div>
                 <p className="text-xl mb-12">Browse your jobs according to the filters above to make searching easier.</p>
             </div>
-            {mapJobs()}
+            {
+                mapJobs()                
+            }
         </div>
         <ToastContainer />
     </div>

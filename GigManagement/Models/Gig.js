@@ -9,8 +9,6 @@ const gigSchema= new mongoose.Schema({
     title:{
         type:String,
         required:true,
-        minlength:8,
-        maxlength:1024
     },
     skills:{
         type:[String],
@@ -18,8 +16,6 @@ const gigSchema= new mongoose.Schema({
     },
     description:{
         type:String,
-        minlength:10,
-        maxlength:500
     },
     basic:{
         price:{
@@ -32,8 +28,6 @@ const gigSchema= new mongoose.Schema({
         },
         detail:{
             type:String,
-            minlength:5,
-            maxlength:300
         },
         offerDetails:{
             type:[String],
@@ -45,7 +39,7 @@ const gigSchema= new mongoose.Schema({
     },
     standard:{
         price:{
-            type:mongoose.Decimal128,
+            type:Number,
             required:true
         },
         time:{
@@ -54,8 +48,6 @@ const gigSchema= new mongoose.Schema({
         },
         detail:{
             type:String,
-            minlength:5,
-            maxlength:300
         },
         offerDetails:{
             type:[String],
@@ -76,8 +68,6 @@ const gigSchema= new mongoose.Schema({
         },
         detail:{
             type:String,
-            minlength:5,
-            maxlength:300
         },
         offerDetails:{
             type:[String],
