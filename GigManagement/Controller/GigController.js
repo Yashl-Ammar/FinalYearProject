@@ -39,7 +39,7 @@ const createGig = async (req, res) => {
 };
 const getAllGigs = async (req, res) => {
   try {
-    const gigs = await Gig.find({}).populate('freelancer','fname lname rating completedOrder');
+    const gigs = await Gig.find({}).populate('freelancer','fname lname rating completedOrder profilepic');
     res.status(200).json(gigs);
   } catch (error) {
     console.error(error);
@@ -50,7 +50,7 @@ const getAllGigs = async (req, res) => {
 const viewGigsByFreelancer = async (req, res) => {
   const { id } = req.params;
   try {
-    const gig = await Gig.findById({freelancer:req.user._id}).populate('freelancer','fname lname rating completedOrder');
+    const gig = await Gig.findById({freelancer:req.user._id}).populate('freelancer','fname lname rating completedOrder profilepic');
     if (!gig) {
       return res.status(404).json({ error: 'Gig not found' });
     }
@@ -119,7 +119,7 @@ const viewSpecificGigByClient=async(req,res)=>{
   const { gigId } = req.params;
 
   try {
-    const specificGig = await Gig.findById(gigId).populate('freelancer','fname lname rating completedOrder languages education skills');
+    const specificGig = await Gig.findById(gigId).populate('freelancer','fname lname rating completedOrder languages education skills profilepic');
     if (!specificGig) {
       return res.status(404).json({ error: 'Gig not found' });
     }
@@ -133,7 +133,7 @@ const viewSpecificGigByFreelancer=async(req,res)=>{
   const { gigId } = req.params;
 
   try {
-    const specificGig = await Gig.findById(gigId).populate('freelancer','fname lname rating completedOrder languages education skills');
+    const specificGig = await Gig.findById(gigId).populate('freelancer','fname lname rating completedOrder languages education skills profilepic');
     if (!specificGig) {
       return res.status(404).json({ error: 'Gig not found' });
     }
