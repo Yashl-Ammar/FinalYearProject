@@ -4,7 +4,8 @@ const postjob = async (req, res) => {
     try {
       // Assuming these fields come from a request body
       const { title, description, skills, amount,budgetType, difficulty, location,category } = req.body;
-      
+      const clientId=req.user._id
+      const client =await Client.findById(clientId)
       // Create a new job posting
       const newJob = new Job({
         client:req.user._id,
@@ -19,6 +20,8 @@ const postjob = async (req, res) => {
         // Set other fields as needed
       });
       // Save the job to the database and await the result
+      client.noOfJobPosted++
+      await client.save()
       const savedJob = await newJob.save();
       //Respond with the saved job
      res.status(201).json(savedJob);

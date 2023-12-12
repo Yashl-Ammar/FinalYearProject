@@ -24,7 +24,6 @@ const orderSchema = mongoose.Schema(
     },
     orderStatus: {
       type: String,
-      enum: ["Pending", "In Progress", "Completed", "Cancelled"],
       default: "Pending",
     },
     paymentMethod: {
@@ -33,7 +32,6 @@ const orderSchema = mongoose.Schema(
     },
     paymentStatus: {
       type: String,
-      enum: ["Pending", "Paid", "Failed"],
       default: "Pending",
     },
     price: {
@@ -49,6 +47,9 @@ const orderSchema = mongoose.Schema(
     },
     files:{
         type:[String]
+    },
+    deliveredfiles:{
+      type:[String]
     }
   },
   { timestamps: true }
