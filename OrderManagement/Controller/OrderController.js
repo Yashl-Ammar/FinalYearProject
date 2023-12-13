@@ -9,7 +9,7 @@ const placeOrder = async (req, res) => {
     const { type, orderStatus, paymentMethod, paymentStatus, price, revisions, activities } = req.body;
     const files = req.files;
 
-    const clientId = req.params.clientId;
+    const clientId = req.user._id;
     const freelancerId = req.params.freelancerId;
     const client = await Client.findById(clientId);
 
