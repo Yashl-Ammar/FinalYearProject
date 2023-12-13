@@ -168,15 +168,11 @@ const viewSpecificProposal=async(req,res)=>{
         {
             res.status(404).send("Proposal Not Found")
         }
-        else{
-            if(clientCheck.client._id==req.user._id || proposal.freelancer==req.user._id )
-            {
+        
+         
                 res.status(200).send(proposals)
-            }
-            else{ 
-                res.status(500).send("Client Not verified")
-            }
-        }
+           
+        
     } catch (error) {
         console.error('Error:', error.message);
         res.status(500).send('Internal Server Error');
