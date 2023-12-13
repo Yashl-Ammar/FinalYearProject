@@ -4,13 +4,19 @@ import { extractDateTime } from "../../Utilities/ExtractDate";
 
 
 
-function Proposaltile({id,postTime,description,amount,rating,country,user,pinned,url,jobId}) {
+function Proposaltile({id,postTime,description,amount,rating,country,user,pinned,url,jobId, isFreelancer}) {
 
     const navigate = useNavigate();
 
     return ( 
         <button className="w-full text-left rounded-xl px-11 py-14 bg-aamdanDeepBlack mb-14 hover:bg-aamdanDarkGray" onClick={() => {
-            navigate(`/job/${jobId}/proposal/${id}`);
+            if(isFreelancer)
+            {
+                navigate('/freelancer/viewSpecificProposal', {state: {pid: id}});
+            }
+            else{
+                navigate(`/job/${jobId}/proposal/${id}`);
+            }
         }}>
                 <div className="flex justify-between">
                     <h1 className="text-3xl font-bold mb-4">Proposal by {user}</h1>

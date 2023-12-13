@@ -10,7 +10,7 @@ import NavBarClient from "../../../Components/Nav/NavBarClient";
 
 
 
-function ViewJobProposalsPage() {
+function ViewYourProposalsPage() {
 
     const [selectedFilter, setSelectedFilter] = useState('best');
     const [data, setData] = useState([]);
@@ -25,7 +25,7 @@ function ViewJobProposalsPage() {
     
     const fetchJobs = async () => {
         try{
-            let response = await axios.get(process.env.REACT_APP_JobPath+'proposal/viewProposalsOnSpecificJob/'+id,{
+            let response = await axios.get(process.env.REACT_APP_JobPath+'proposal/allproposalByFreelancer',{
                 headers:{
                     'token':localStorage.getItem('token')
                 }
@@ -44,11 +44,11 @@ function ViewJobProposalsPage() {
         return data.map((val,index) => {
             if(selectedFilter === 'best')
             {
-                return <Proposaltile key={index} jobId={id} url={val.freelancer.profilepic} amount={val.bid} country={val.freelancer.country} description={val.coverLetter} id={val._id} pinned={val.pinned} postTime={val.createdAt} rating={val.freelancer.rating} user={val.freelancer.fname + ' ' + val.freelancer.lname} />
+                return <Proposaltile isFreelancer={true} key={index} jobId={id} url={val.freelancer.profilepic} amount={val.bid} country={val.freelancer.country} description={val.coverLetter} id={val._id} pinned={val.pinned} postTime={val.createdAt} rating={val.freelancer.rating} user={val.freelancer.fname + ' ' + val.freelancer.lname} />
             }
             else if(selectedFilter === 'pinned'){
                 if(val.pinned)
-                    return <Proposaltile key={index} jobId={id} url={val.freelancer.profilepic} amount={val.bid} country={val.freelancer.country} description={val.coverLetter} id={val._id} pinned={val.pinned} postTime={val.createdAt} rating={val.freelancer.rating} user={val.freelancer.fname + ' ' + val.freelancer.lname} />
+                    return <Proposaltile isFreelancer={true} key={index} jobId={id} url={val.freelancer.profilepic} amount={val.bid} country={val.freelancer.country} description={val.coverLetter} id={val._id} pinned={val.pinned} postTime={val.createdAt} rating={val.freelancer.rating} user={val.freelancer.fname + ' ' + val.freelancer.lname} />
             }
         })
     } 
@@ -94,4 +94,4 @@ function ViewJobProposalsPage() {
 </div> );
 }
 
-export default ViewJobProposalsPage;
+export default ViewYourProposalsPage;

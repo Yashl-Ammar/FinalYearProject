@@ -5,11 +5,10 @@ import { ToastContainer, toast } from "react-toastify";
 import NavBarFreelancer from "../../../Components/Nav/NavBarFreelancer";
 import Jobtile from "../../../Components/Tiles/JobTile";
 import Footer from "../../../Components/Nav/Footer";
-import NavBarClient from "../../../Components/Nav/NavBarClient";
 
 
 
-function ViewYourJobPage() {
+function ViewJobsFreelancerPage() {
 
     const [selectedFilter, setSelectedFilter] = useState('active');
     const [data, setData] = useState([]);
@@ -20,12 +19,13 @@ function ViewYourJobPage() {
     
     const fetchJobs = async () => {
         try{
-            let response = await axios.get(process.env.REACT_APP_JobPath+'job/getPostedJobsByClient',{
+            let response = await axios.get(process.env.REACT_APP_JobPath+'job/all',{
                 headers:{
                     'token':localStorage.getItem('token')
                 }
             })
 
+            console.log(response);
             setData(response.data);
         }catch(e){
             toast('There seems to be some issue fetching the data!');
@@ -49,21 +49,21 @@ function ViewYourJobPage() {
             if(selectedFilter === 'active')
             {
                 if(val.jobStatus === 'Active')
-                    return <Jobtile id={val._id} key={index} amount={val.amount} bookmarks={val.bookmarkCount} budgetType={val.budgetType} description={val.description} difficulty={val.difficulty} likes={val.dislikeCount} postTime={val.createdAt} proposalCount={val.numberOfProposals} tags={val.skills} title={val.title} />
+                    return <Jobtile isFreelancer={true} id={val._id} key={index} amount={val.amount} bookmarks={val.bookmarkCount} budgetType={val.budgetType} description={val.description} difficulty={val.difficulty} likes={val.dislikeCount} postTime={val.createdAt} proposalCount={val.numberOfProposals} tags={val.skills} title={val.title} />
             }
             else if(selectedFilter === 'removed'){
                 if(val.jobStatus === 'Removed')
-                    return <Jobtile id={val._id} key={index} amount={val.amount} bookmarks={val.bookmarkCount} budgetType={val.budgetType} description={val.description} difficulty={val.difficulty} likes={val.dislikeCount} postTime={val.createdAt} proposalCount={val.numberOfProposals} tags={val.skills} title={val.title} />
+                    return <Jobtile isFreelancer={true} id={val._id} key={index} amount={val.amount} bookmarks={val.bookmarkCount} budgetType={val.budgetType} description={val.description} difficulty={val.difficulty} likes={val.dislikeCount} postTime={val.createdAt} proposalCount={val.numberOfProposals} tags={val.skills} title={val.title} />
             }
             else{
-                return <Jobtile id={val._id} key={index} amount={val.amount} bookmarks={val.bookmarkCount} budgetType={val.budgetType} description={val.description} difficulty={val.difficulty} likes={val.dislikeCount} postTime={val.createdAt} proposalCount={val.numberOfProposals} tags={val.skills} title={val.title} />
+                return <Jobtile isFreelancer={true} id={val._id} key={index} amount={val.amount} bookmarks={val.bookmarkCount} budgetType={val.budgetType} description={val.description} difficulty={val.difficulty} likes={val.dislikeCount} postTime={val.createdAt} proposalCount={val.numberOfProposals} tags={val.skills} title={val.title} />
             }
         })
     } 
 
     return ( <div className="w-full flex justify-center">
     <div className="w-full lg:w-4/5">
-        <NavBarClient />
+        <NavBarFreelancer />
         <div className="text-center">
             <h1 className="font-heading text-5xl mb-12">View your jobs</h1>
         </div>
@@ -72,11 +72,11 @@ function ViewYourJobPage() {
                 <h1 className="font-bold text-5xl mb-10">Jobs you posted</h1>
                 <div className="hidden sm:flex mb-12">
                     <div className="w-full lg:w-1/5 text-center">
-                        <p className="text-lg font-bold mb-3 px-5" onClick={() => {setSelectedFilter('active')}}><Link>Active ({countActive()})</Link></p>
+                        <p className="text-lg font-bold mb-3 px-5" onClick={() => {setSelectedFilter('active')}}><Link>Best Matches ({countActive()})</Link></p>
                         <div className={`w-full ${selectedFilter === 'active' ? 'bg-aamdanBackground' : 'bg-white'}`} style={{height:'1px'}} ></div>
                     </div>
                     <div className="w-full lg:w-1/5 text-center">
-                        <p className="text-lg font-bold mb-3 px-5" onClick={() => {setSelectedFilter('removed')}}><Link>Removed ({data.length - countActive()})</Link></p>
+                        <p className="text-lg font-bold mb-3 px-5" onClick={() => {setSelectedFilter('removed')}}><Link>Saved ({data.length - countActive()})</Link></p>
                         <div className={`w-full ${selectedFilter === 'removed' ? 'bg-aamdanBackground' : 'bg-white'}`} style={{height:'1px'}} ></div>
                     </div>
                     <div className="w-full lg:w-1/5 text-center">
@@ -107,4 +107,4 @@ function ViewYourJobPage() {
 </div> );
 }
 
-export default ViewYourJobPage;
+export default ViewJobsFreelancerPage;

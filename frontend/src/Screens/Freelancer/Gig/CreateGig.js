@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import NavBarFreelancer from "../../../Components/Nav/NavBarFreelancer";
 import { CreateGigValidationSchema } from "../../../Validations/CreateGigValidation";
+import Footer from "../../../Components/Nav/Footer";
 
 
 
@@ -132,6 +133,7 @@ function CreateGigPage() {
             </div>
         </div>
         <ToastContainer />
+        <Footer />
     </div>
 </div> );
 }

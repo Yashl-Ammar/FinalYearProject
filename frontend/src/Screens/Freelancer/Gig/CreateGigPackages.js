@@ -11,6 +11,7 @@ import NavBarFreelancer from "../../../Components/Nav/NavBarFreelancer";
 import { CreateGigValidationSchema } from "../../../Validations/CreateGigValidation";
 import PackageCard from "../../../Components/Cards/PackageCard";
 import { CreatePackagesValidationSchema } from "../../../Validations/CreatePackagesValidation";
+import Footer from "../../../Components/Nav/Footer";
 
 
 
@@ -112,6 +113,7 @@ function CreateGigPackagesPage() {
             </div>
         </div>
         <ToastContainer />
+        <Footer />
     </div>
 </div> );
 }

@@ -15,14 +15,14 @@ import NavBarClient from "../../../Components/Nav/NavBarClient";
 
 
 
-function ViewSpecificProposalPage() {
+function ViewSpecificProposalFreelancerPage() {
 
     const [data, setData] = useState();
 
     const navigate = useNavigate();
-    const { id, pid } = useParams();
+    const location = useLocation();
+    const pid = location.state ?  location.state.pid : '';
 
-    console.log(id)
     console.log(pid)
 
     useEffect(() => {
@@ -103,34 +103,10 @@ function ViewSpecificProposalPage() {
                     <div className="lg:w-1/3">
                         <section className="px-6 sm:px-12 py-9 w-full">
                             <div className="mb-7">
-                                <RegularRoundedIconButton img='/Chat Message.svg' text='Message' onClick={() => {navigate('/job/'+id+'/proposals')}}/>
+                                <RoundedTransparentIconButton img='/Edit.svg' text='Edit' />
                             </div>
                             <div className="mb-7">
-                                <RegularRoundedIconButton img='/Purchase Order.svg' text='Place Order' onClick={async () => {
-                                    try{
-                                        const obj = {
-                                            type: 'Job Order', 
-                                            orderStatus: 'Active', 
-                                            paymentMethod: 'Card', 
-                                            paymentStatus: 'Verified', 
-                                            price: data.bid,
-                                            revisions: data.revisions
-                                        }
-                                        let response = await axios.post(process.env.REACT_APP_OrderPath+'order/placeOrder/'+data.freelancer._id,obj,{
-                                            headers:{
-                                                'token':localStorage.getItem('token')
-                                            }
-                                        })
-                            
-                                        console.log(response);
-                            
-                                        setData(response.data);
-                                    }catch(e){
-                                        toast('There seems to be some issue fetching the data!');
-                                    }
-                                    
-                                    navigate('/client/manageOrderClientPage')
-                                }}/>
+                                <RoundedTransparentIconButton img='/Waste.svg' text='Remove' />
                             </div>
                         </section>
                         <hr />
@@ -169,4 +145,4 @@ function ViewSpecificProposalPage() {
 </div> );
 }
 
-export default ViewSpecificProposalPage;
+export default ViewSpecificProposalFreelancerPage;

@@ -13,7 +13,7 @@ import Footer from "../../../Components/Nav/Footer";
 
 
 
-function CreateGigOverviewPage() {
+function EditGigPage() {
 
     const location = useLocation();
     const data = location.state.data;
@@ -103,12 +103,11 @@ function CreateGigOverviewPage() {
     <div className="w-full lg:w-4/5">
         <NavBarFreelancer />
         <div className="text-center">
-            <h1 className="font-heading text-5xl mb-12">Create Gig</h1>
-            <h1 className="font-bold text-5xl mb-12">Become a part of the Aamdan Family</h1>
+            <h1 className="font-heading text-5xl mb-12">Edit Gig</h1>
         </div>
         <div className="bg-aamdanSuperDeepBlack rounded-xl w-full px-12 py-9">
-            <h1 className="font-bold text-5xl mb-7">Create Gig</h1>
-            <p className="text-lightGray mb-8">This fundamental action sets the stage for you to tap into the diverse pool of freelancers, facilitating the realization of your goals and successful project completion.</p>
+            <h1 className="font-bold text-5xl mb-7">Edit Gig</h1>
+            <p className="text-lightGray mb-8">Not happy with your gig? No problem, make changes to the gig here and make it more effective in attracting clients that are looking for your work.</p>
             <hr className="mb-11" />
             <div className="rounded-xl sm:px-11 sm:py-14 sm:bg-aamdanDeepBlack">
                 <form onSubmit={onSubmit}>
@@ -175,7 +174,7 @@ function CreateGigOverviewPage() {
 
                     <DragDrop disabled={true} files={files} setFiles={setFiles} />
 
-                    <RegularRoundedButton  text='Submit' />
+                    <RegularRoundedButton  text='Edit' />
                 </form>
             </div>
         </div>
@@ -185,4 +184,4 @@ function CreateGigOverviewPage() {
 </div> );
 }
 
-export default CreateGigOverviewPage;
+export default EditGigPage;

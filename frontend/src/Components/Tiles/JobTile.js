@@ -4,7 +4,7 @@ import { extractDateTime } from "../../Utilities/ExtractDate";
 
 
 
-function Jobtile({id,title,difficulty,postTime,budgetType,description,amount,tags,proposalCount,likes,bookmarks}) {
+function Jobtile({isFreelancer,id,title,difficulty,postTime,budgetType,description,amount,tags,proposalCount,likes,bookmarks}) {
 
     const navigate = useNavigate();
 
@@ -36,10 +36,15 @@ function Jobtile({id,title,difficulty,postTime,budgetType,description,amount,tag
 
     return ( 
         <button className="w-full text-left rounded-xl px-11 py-14 bg-aamdanDeepBlack mb-14 hover:bg-aamdanDarkGray" onClick={() => {
-            navigate('/job/'+id);
+            if(isFreelancer){
+                navigate('/freelancer/job/'+id)
+            }
+            else{
+                navigate('/job/'+id);
+            }
         }}>
                 <h1 className="text-3xl font-bold mb-4">{title}</h1>
-                <p className="text-lightGray mb-10">{budgetType.toUpperCase()} - {difficultyCheck()} - Posted {extractDateTime(postTime)}</p>
+                <p className="text-lightGray mb-10">{budgetType ? budgetType.toUpperCase(): ''} - {difficultyCheck()} - Posted {extractDateTime(postTime)}</p>
                 <p className="mb-10">{description}</p>
                 <div className="flex mb-5 flex-col sm:flex-row">
                     <p className="text-xl mr-12 mb-5">Estimated Budget: ${amount}</p>

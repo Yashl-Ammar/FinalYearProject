@@ -35,7 +35,7 @@ const orderSchema = mongoose.Schema(
       default: "Pending",
     },
     price: {
-      type: mongoose.Decimal128, // Total order amount
+      type: Number, // Total order amount
       required: true,
     },
     revisions:{

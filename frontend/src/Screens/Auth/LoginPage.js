@@ -45,10 +45,10 @@ function LoginPage() {
                     let token = response.data;
                     localStorage.setItem('token', token);
                     if(selectedUser === 'freelancer'){
-                        navigate('/freelancer/postgig');
+                        navigate('/freelancer/home');
                     }
                     else{
-                        navigate('/client/postjob');
+                        navigate('/client/home');
                     }
                 }
                 catch(e){

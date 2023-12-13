@@ -15,6 +15,8 @@ import RegularDropDown from "../../../Components/InputFields/RegularDropDown";
 import { allDifficulties } from "../../../Data/Difficulty";
 import { allCategories } from "../../../Data/Categories";
 import GigCard from "../../../Components/Cards/GigCard";
+import Footer from "../../../Components/Nav/Footer";
+import NavBarClient from "../../../Components/Nav/NavBarClient";
 
 
 
@@ -47,7 +49,7 @@ function ViewGigsPage() {
 
     return ( <div className="w-full flex justify-center">
     <div className="w-full lg:w-4/5">
-        <NavBarFreelancer />
+        <NavBarClient />
         <div className="text-center">
             <h1 className="font-heading text-5xl mb-12">View Gigs</h1>
             <h1 className="font-bold text-5xl mb-12">Get your work done by professionals</h1>
@@ -63,6 +65,7 @@ function ViewGigsPage() {
             
         </div>
         <ToastContainer />
+        <Footer />
     </div>
 </div> );
 }

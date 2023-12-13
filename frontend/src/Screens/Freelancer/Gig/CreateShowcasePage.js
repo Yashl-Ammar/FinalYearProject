@@ -11,6 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import NavBarFreelancer from "../../../Components/Nav/NavBarFreelancer";
 import { CreateGigValidationSchema } from "../../../Validations/CreateGigValidation";
 import DragDrop from "../../../Components/DragDrop/DragDrop";
+import Footer from "../../../Components/Nav/Footer";
 
 
 function CreateShowcasePage() {
@@ -73,6 +74,7 @@ function CreateShowcasePage() {
             </div>
         </div>
         <ToastContainer />
+        <Footer />
     </div>
 </div> );
 }

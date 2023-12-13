@@ -14,7 +14,7 @@ import NavBarClient from "../../../Components/Nav/NavBarClient";
 
 
 
-function ViewSpecificJobPage() {
+function ViewSpecificJobFreelancerPage() {
 
     const [data, setData] = useState();
 
@@ -97,13 +97,10 @@ function ViewSpecificJobPage() {
                     <div className="lg:w-1/3">
                         <section className="px-6 sm:px-12 py-9 w-full">
                             <div className="mb-7">
-                                <RegularRoundedButton text='View Proposals' onClick={() => {navigate('/job/'+id+'/proposals')}}/>
+                                <RegularRoundedButton text='Apply Now' onClick={() => {navigate('/freelancer/submitProposalPage/'+id)}}/>
                             </div>
                             <div className="mb-7">
-                                <RoundedTransparentIconButton img='/Edit.svg' text='Edit Job' />
-                            </div>
-                            <div className="mb-7">
-                                <RoundedTransparentIconButton img='/Waste.svg' text='Remove Job' />
+                                <RoundedTransparentIconButton img='/Love.svg' text='Save' />
                             </div>
                         </section>
                         <hr />
@@ -145,4 +142,4 @@ function ViewSpecificJobPage() {
 </div> );
 }
 
-export default ViewSpecificJobPage;
+export default ViewSpecificJobFreelancerPage;
