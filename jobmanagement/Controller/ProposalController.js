@@ -166,13 +166,11 @@ const viewSpecificProposal=async(req,res)=>{
         const clientCheck=await Job.findById(proposals.job).populate('client','_id')
         if(!proposals)
         {
-            res.status(404).send("Proposal Not Found")
+           return res.status(404).send("Proposal Not Found")
         }
-        
-         
-                res.status(200).send(proposals)
-           
-        
+      
+         res.status(200).send( proposals)
+            
     } catch (error) {
         console.error('Error:', error.message);
         res.status(500).send('Internal Server Error');
