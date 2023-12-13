@@ -1,0 +1,16 @@
+const express =require('express')
+const reportRouter=express.Router()
+const verifyuserloggedIn=require('./Middleware/authentication')
+const isClient=require('./Middleware/isClient')
+const isFreelancer=require('./Middleware/isFreelancer')
+const isAdmin=require('./Middleware/isAdmin')
+const{addReportByClient,addReportByfreelancer,viewReports,viewSpecificReport,resolveReport,updateReport,deleteReport}=require('./Controller/ReportController')
+
+reportRouter.post('/addReportByClient',verifyuserloggedIn,isClient,addReportByClient)
+reportRouter.post('/addReportByfreelancer',verifyuserloggedIn,isFreelancer,addReportByClient)
+reportRouter.get('/viewReports',verifyuserloggedIn,isAdmin,viewReports)
+reportRouter.get('/viewSpecificReport/:reportId',verifyuserloggedIn,isAdmin,viewSpecificReport)
+reportRouter.put('/resolveReport/:reportId',verifyuserloggedIn,isAdmin,resolveReport)
+reportRouter.put('/updateReport/:reportId',verifyuserloggedIn,isAdmin,updateReport)
+reportRouter.delete('/deleteReport/:reportId',verifyuserloggedIn,isAdmin,deleteReport)
+module.exports=reportRouter

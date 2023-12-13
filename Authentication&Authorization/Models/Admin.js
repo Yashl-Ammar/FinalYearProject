@@ -5,27 +5,21 @@ const adminSchema=new mongoose.Schema({
     fname:{
         type: String,
         require:true,
-        minlength:5,
-        maxlength:50
     },
     lname:{
         type: String,
         require:true,
-        minlength:5,
-        maxlength:50
+
     },
     email:{
         type: String,
         require:true,
         unique:true,
-        minlength:5,
-        maxlength:255
+ 
     },
     password:{
         type: String,
         require:true,
-        minlength:5,
-        maxlength:1024
     },
     country:{
         type: String,
