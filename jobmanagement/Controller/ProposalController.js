@@ -6,30 +6,31 @@ const Freelancer=require('../Models/Freelancer')
 const postProposal=async(req,res)=>{
     const{job,bid,requiredTime,revisions,coverLetter,}=req.body
 
-    const files=req.files
+    //const files=req.files
+
     try{
-        const fileUris = await Promise.all(
-            files.map(async (file) => {
-                try {
-                    const fileUri = getDataUri(file);
-                    // Use a folder name based on the file type (e.g., "Order_Documents")
-                    const folderName = "Proposal_Documents";
-                    const uploadOptions = {
-                        folder: folderName,
-                        public_id: file.originalname, // Use the original filename for Cloudinary
-                        resource_type: "raw", // Automatically determine the file type
-                        use_filename: true, // Use the original filename
-                    };
+        // const fileUris = await Promise.all(
+        //     files.map(async (file) => {
+        //         try {
+        //             const fileUri = getDataUri(file);
+        //             // Use a folder name based on the file type (e.g., "Order_Documents")
+        //             const folderName = "Proposal_Documents";
+        //             const uploadOptions = {
+        //                 folder: folderName,
+        //                 public_id: file.originalname, // Use the original filename for Cloudinary
+        //                 resource_type: "raw", // Automatically determine the file type
+        //                 use_filename: true, // Use the original filename
+        //             };
 
-                    const result = await cloudinary.uploader.upload(fileUri.content, uploadOptions);
+        //             const result = await cloudinary.uploader.upload(fileUri.content, uploadOptions);
 
-                    return result.secure_url;
-                } catch (uploadError) {
-                    console.error("Error uploading file to Cloudinary:", uploadError.message);
-                    throw uploadError; // Rethrow the error to be caught in the catch block below
-                }
-            })
-        );
+        //             return result.secure_url;
+        //         } catch (uploadError) {
+        //             console.error("Error uploading file to Cloudinary:", uploadError.message);
+        //             throw uploadError; // Rethrow the error to be caught in the catch block below
+        //         }
+        //     })
+        // );
         const proposal=new Proposal({
             job,
             freelancer:req.user._id,
@@ -37,7 +38,7 @@ const postProposal=async(req,res)=>{
             requiredTime,
             revisions,
             coverLetter,
-            files:fileUris
+          //  files:fileUris
         })
 
         const proposalSaved=await proposal.save()
