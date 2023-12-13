@@ -135,7 +135,7 @@ const viewProposalsOnSpecificJob=async(req,res)=>{
 const allproposalByFreelancer=async(req,res)=>{
     try {
         // Retrieve all proposals
-        const proposals = await Proposal.find({freelancer:req.user._id});
+        const proposals = await Proposal.find({freelancer:req.user._id}).populate('freelancer','profilepic fname lname country rating');
         res.send(proposals);
     } catch (error) {
         console.error('Error:', error.message);
