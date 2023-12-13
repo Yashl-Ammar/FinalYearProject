@@ -135,7 +135,7 @@ const viewProposalsOnSpecificJob=async(req,res)=>{
 const allproposalByFreelancer=async(req,res)=>{
     try {
         // Retrieve all proposals
-        const proposals = await Proposal.findById({freelancer:req.user._id});
+        const proposals = await Proposal.find({freelancer:req.user._id});
         res.send(proposals);
     } catch (error) {
         console.error('Error:', error.message);
