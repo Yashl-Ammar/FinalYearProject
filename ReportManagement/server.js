@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 require("dotenv").config();
 const cors = require("cors");
+const reportRouter=require('./Routes/ReportRoute')
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -17,7 +18,7 @@ mongoose
 app.listen(port, () => {
   console.log(`The Server is running on Port ${port}`);
 });
-
+app.use('/report',reportRouter)
 app.get('/', (req,res) => {
   res.json({'message':'Hello There!'})
 })
