@@ -11,9 +11,10 @@ function NavBarFreelancer() {
                     <h2 className="text-white font-bold text-3xl" style={{fontFamily:'Playfair-Display'}}>Aamdan</h2>
                 </div>
                 <ul className="w-1/3 flex justify-around ">
-                    <li><Link>Jobs</Link></li>
+                    <li><Link to={'/freelancer/viewJobs'}>Jobs</Link></li>
                     <li><Link>Talent</Link></li>
                     <li><Link>Messages</Link></li>
+                    <li><Link>Orders</Link></li>
                 </ul>
                 <div className="w-1/4 flex justify-between items-center">
                     <img src="/Notification.png" alt=""/>

@@ -7,7 +7,7 @@ const getDataUri = require("../utils/dataUri");
 
 const placeOrder = async (req, res) => {
     const { type, orderStatus, paymentMethod, paymentStatus, price, revisions, activities } = req.body;
-    const files = req.files;
+    // const files = req.files;
 
     const clientId = req.user._id;
     const freelancerId = req.params.freelancerId;
@@ -19,30 +19,30 @@ const placeOrder = async (req, res) => {
 
     try {
         // Upload files to Cloudinary
-        const fileUris = await Promise.all(
-            files.map(async (file) => {
-                try {
-                    const fileUri = getDataUri(file);
-                    console.log(file.originalname);
+        // const fileUris = await Promise.all(
+        //     files.map(async (file) => {
+        //         try {
+        //             const fileUri = getDataUri(file);
+        //             console.log(file.originalname);
 
-                    // Use a folder name based on the file type (e.g., "Order_Documents")
-                    const folderName = "Order_Documents";
-                    const uploadOptions = {
-                        folder: folderName,
-                        public_id: file.originalname, // Use the original filename for Cloudinary
-                        resource_type: "raw", // Automatically determine the file type
-                        use_filename: true, // Use the original filename
-                    };
+        //             // Use a folder name based on the file type (e.g., "Order_Documents")
+        //             const folderName = "Order_Documents";
+        //             const uploadOptions = {
+        //                 folder: folderName,
+        //                 public_id: file.originalname, // Use the original filename for Cloudinary
+        //                 resource_type: "raw", // Automatically determine the file type
+        //                 use_filename: true, // Use the original filename
+        //             };
 
-                    const result = await cloudinary.uploader.upload(fileUri.content, uploadOptions);
+        //             const result = await cloudinary.uploader.upload(fileUri.content, uploadOptions);
 
-                    return result.secure_url;
-                } catch (uploadError) {
-                    console.error("Error uploading file to Cloudinary:", uploadError.message);
-                    throw uploadError; // Rethrow the error to be caught in the catch block below
-                }
-            })
-        );
+        //             return result.secure_url;
+        //         } catch (uploadError) {
+        //             console.error("Error uploading file to Cloudinary:", uploadError.message);
+        //             throw uploadError; // Rethrow the error to be caught in the catch block below
+        //         }
+        //     })
+        // );
 
         const order = new Order({
             freelancer: freelancer._id,
@@ -54,7 +54,7 @@ const placeOrder = async (req, res) => {
             price,
             revisions,
             activities,
-            files: fileUris,
+            // files: fileUris,
         });
 
         const orderSaved = await order.save();

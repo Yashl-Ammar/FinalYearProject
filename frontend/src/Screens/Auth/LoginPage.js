@@ -45,9 +45,11 @@ function LoginPage() {
                     let token = response.data;
                     localStorage.setItem('token', token);
                     if(selectedUser === 'freelancer'){
-                        navigate('/login');
+                        navigate('/freelancer/home');
                     }
-                    navigate('/client/postjob');
+                    else{
+                        navigate('/client/home');
+                    }
                 }
                 catch(e){
                     toast(e.response.data);
@@ -93,7 +95,7 @@ function LoginPage() {
                     <p className="text-xl w-2/4 text-center">Don’t have an Aamdan Account?</p>
                     <div className="w-1/4 bg-lightGray" style={{height:'1px'}}></div>
                 </div>
-                <div>
+                <div className="w-full">
                     <Link to='/joinas'><RoundedTransparentButton text='Sign up' /></Link>
                 </div>
                 <ToastContainer />
