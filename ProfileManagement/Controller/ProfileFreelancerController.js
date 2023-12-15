@@ -1,6 +1,13 @@
 const Freelancer=require('../Models/Freelancer')
 const getDataUri = require("../utils/dataUri");
 const cloudinary=require("../utils/cloudinary")
+
+const getFreelanceData=async(req,res)=>{
+    const id=req.user._id
+    let freelancer= await Freelancer.findById(id)
+    if(!freelancer) return res.status(404).send("Freelancer Not found")
+    res.send(freelancer)
+}
 const freelancerEditProfile=async(req,res)=>{
     const id=req.user._id
     const{username,tagline,description,country,languages,skills,education}=req.body
@@ -23,4 +30,4 @@ const freelancerEditProfile=async(req,res)=>{
     res.send(freelancer)
 }
 
-module.exports=freelancerEditProfile
+module.exports={freelancerEditProfile,getFreelanceData}
