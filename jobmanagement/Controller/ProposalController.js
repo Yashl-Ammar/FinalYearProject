@@ -169,7 +169,7 @@ const viewSpecificProposal=async(req,res)=>{
            return res.status(404).send("Proposal Not Found")
         }
       
-         res.status(200).send( proposals)
+        res.status(200).send( proposals)
             
     } catch (error) {
         console.error('Error:', error.message);
