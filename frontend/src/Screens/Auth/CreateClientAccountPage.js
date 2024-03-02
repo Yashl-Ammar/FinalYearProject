@@ -46,6 +46,7 @@ function CreateClientAccountPage() {
                 navigate('/login');
             }
             catch(e){
+                console.log(e);
                 toast("There was some issue creating your account. Please try later!");
             }
         }

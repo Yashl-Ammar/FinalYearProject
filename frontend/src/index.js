@@ -34,6 +34,13 @@ import ViewJobsFreelancerPage from './Screens/Freelancer/Jobs/ViewJobsFreelancer
 import ViewYourProposalsPage from './Screens/Freelancer/Jobs/ViewYourProposals.js';
 import ViewSpecificProposalFreelancerPage from './Screens/Freelancer/Jobs/ViewSpecificProposalFreelancer.js';
 import SubmitProposalPage from './Screens/Freelancer/Jobs/SubmitProposal.js';
+import AdminDashboardPage from './Screens/Admin/AdminDashboardPage.js';
+import AdminAdminsPage from './Screens/Admin/AdminAdminsPage.js';
+import AdminCustomerSupportPage from './Screens/Admin/AdminCustomerSupportPage.js';
+import AdminReportsPage from './Screens/Admin/AdminReportsPage.js';
+import AdminTicketsPage from './Screens/Admin/AdminTicketPage.js';
+import AdminUsersPage from './Screens/Admin/AdminUsersPage.js';
+import AdminLoginPage from './Screens/Admin/AdminLoginPage.js';
 
 
 // Wrap your App component with BrowserRouter
@@ -70,6 +77,13 @@ root.render(
         <Route path="/freelancer/viewYourProposals" element={<ViewYourProposalsPage />} />
         <Route path="/freelancer/viewSpecificProposal" element={<ViewSpecificProposalFreelancerPage />} />
         <Route path="/freelancer/submitProposalPage/:id" element={<SubmitProposalPage />} />
+        <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+        <Route path="/admin/admins" element={<AdminAdminsPage />} />
+        <Route path="/admin/customersupport" element={<AdminCustomerSupportPage />} />
+        <Route path="/admin/reports" element={<AdminReportsPage />} />
+        <Route path="/admin/tickets" element={<AdminTicketsPage />} />
+        <Route path="/admin/login" element={<AdminLoginPage />} />
+        <Route path="/admin/users" element={<AdminUsersPage />} />
         <Route path="/general/messaging" element={<MessagingPage />} />
       </Routes>
     </BrowserRouter>

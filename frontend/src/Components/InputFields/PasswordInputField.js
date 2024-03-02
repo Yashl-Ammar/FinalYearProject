@@ -13,7 +13,7 @@ function PasswordInputField({placeholder,register}) {
                 type = {passwordReveal ? 'type' : 'password'}
                 {...register}
             />
-            {passwordReveal ? <img src="passwordeyeopen.svg" alt="Password Eye" className="absolute top-1/2 transform -translate-y-1/2 right-3 cursor-pointer" onClick={() => {setpasswordReveal(false)}} /> : <img src="passwordEye.svg" alt="Password Eye" className="absolute top-1/2 transform -translate-y-1/2 right-3 cursor-pointer" onClick={() => {setpasswordReveal(true)}} />}
+            {passwordReveal ? <img src="/passwordeyeopen.svg" alt="Password Eye" className="absolute top-1/2 transform -translate-y-1/2 right-3 cursor-pointer" onClick={() => {setpasswordReveal(false)}} /> : <img src="/passwordEye.svg" alt="Password Eye" className="absolute top-1/2 transform -translate-y-1/2 right-3 cursor-pointer" onClick={() => {setpasswordReveal(true)}} />}
             
             
         </div>
