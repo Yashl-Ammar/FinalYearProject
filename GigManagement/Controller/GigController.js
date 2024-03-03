@@ -6,8 +6,6 @@ const bodyParser = require("body-parser");
 const searchGig = async (req, res) => {
   try {
     const search = req.body.search;
-    // Assuming skills are provided in the request body
-    // Using the $regex operator to perform a case-insensitive search on the title
     const gigs = await Gig.find({
       $or: [
         { title: { $regex: new RegExp(search, 'i') } },
@@ -66,16 +64,19 @@ const getAllGigs = async (req, res) => {
 };
 
 const viewGigsByFreelancer = async (req, res) => {
-  const { id } = req.params;
   try {
-    const gig = await Gig.findById({freelancer:req.user._id}).populate('freelancer','fname lname rating completedOrder profilepic');
-    if (!gig) {
-      return res.status(404).json({ error: 'Gig not found' });
+    const gigs = await Gig.find({ freelancer: req.user._id }).populate('freelancer','fname lname rating completedOrder profilepic');
+      
+    console.log(gigs);
+
+    if (!gigs || gigs.length === 0) {
+      return res.status(404).json({ error: 'Gigs not found for this freelancer' });
     }
-    res.status(200).json(gig);
+
+    res.status(200).json(gigs);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to retrieve the gig' });
+    res.status(500).json({ error: 'Failed to retrieve gigs for the freelancer' });
   }
 };
 
