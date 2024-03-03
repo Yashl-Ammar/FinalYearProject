@@ -39,8 +39,6 @@ const topfreelancer = async (req, res) => {
 const reportInformation=async(req,res)=>{
     try {
         const reports = await Reports.countDocuments();
-      
-    
         res.json({
         reports
         });
@@ -49,10 +47,22 @@ const reportInformation=async(req,res)=>{
         res.status(500).json({ error: 'Internal Server Error' });
       }
 }
+const getAllReports=async(req,res)=>{
+    try{
+        const reports= await Reports.find()
+        res.json({reports})
+        
+    }catch(error)
+    {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
 
 module.exports={
     dashboardInformation,
     topfreelancer,
-    reportInformation
+    reportInformation,
+    getAllReports
 
 }
