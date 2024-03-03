@@ -9,11 +9,14 @@ const dashboardInformation = async (req, res) => {
       const clientCount = await Client.countDocuments();
       const freelancerCount = await Freelancer.countDocuments();
       const orderCount = await Order.countDocuments();
-  
+      const admins=await Admin.countDocuments()
+      const totalusers=clientCount+freelancerCount
       res.json({
         clientCount,
         freelancerCount,
         orderCount,
+        totalusers,
+        admin
       });
     } catch (error) {
       console.error(error);
@@ -58,11 +61,41 @@ const getAllReports=async(req,res)=>{
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
-
+const getAllUsers = async (req, res) => {
+    try {
+      const clients = await Client.find();
+      const freelancers = await Freelancer.find();
+  
+      // Combine clients and freelancers into a single array
+      const allUsers = [...clients, ...freelancers];
+  
+      // Sort the combined array by creation time in ascending order
+      allUsers.sort((a, b) => a.createdAt - b.createdAt);
+  
+      res.json({ allUsers });
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+const getAllAdmins=async(req,res)=>{
+    try {
+        const admins = await Admin.find().sort();
+        res.json(admins)
+       
+    
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+}
+  
 module.exports={
     dashboardInformation,
     topfreelancer,
     reportInformation,
-    getAllReports
-
+    getAllReports,
+    getAllUsers,
+    getAllAdmins
 }
