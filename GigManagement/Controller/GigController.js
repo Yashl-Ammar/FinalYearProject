@@ -3,6 +3,16 @@ const Freelancer=require("../Models/Freelancer")
 const cloudinary = require("../utils/cloudinary");
 const getDataUri = require("../utils/dataUri");
 const bodyParser = require("body-parser");
+const searchGig = async (req, res) => {
+  try {
+    const title = req.body.title;
+    const gigs = await Gig.find({ title: new RegExp(title, 'i') });
+    res.json(gigs);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 const createGig = async (req, res) => {
   try {
     const data = JSON.parse(req.body.data);
@@ -150,6 +160,7 @@ module.exports = {
   deleteGigById,
   viewGigsByFreelancer,
   viewSpecificGigByClient,
-  viewSpecificGigByFreelancer
+  viewSpecificGigByFreelancer,
+  searchGig
 };
 
