@@ -5,27 +5,23 @@ const freelancerSchema =new mongoose.Schema({
     fname:{
         type: String,
         require:true,
-        minlength:5,
-        maxlength:50
+      
     },
     lname:{
         type: String,
         require:true,
-        minlength:5,
-        maxlength:50
+
     },
     email:{
         type: String,
         require:true,
         unique:true,
-        minlength:5,
-        maxlength:255
+      
     },
     password:{
         type: String,
         require:true,
-        minlength:5,
-        maxlength:1024
+ 
     },
     country:{
         type: String,
@@ -37,18 +33,14 @@ const freelancerSchema =new mongoose.Schema({
     },
     username:{
         type:String,
-        minlength:5,
-        maxlength:10
     },
     tagline:{
         type:String,
-        minlength:10,
-        maxlength:30
+  
     },
     description:{
         type:String,
-        minlength:10,
-        maxlength:500
+    
     },
     languages:{
         type:[String]
@@ -63,7 +55,7 @@ const freelancerSchema =new mongoose.Schema({
         type:String
     },
     rating:{
-        type:Boolean,
+        type:Number,
         default:0
     },
     completedOrder:{

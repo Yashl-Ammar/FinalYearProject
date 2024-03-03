@@ -11,7 +11,7 @@ const searchGig = async (req, res) => {
         { title: { $regex: new RegExp(search, 'i') } },
         { skills: { $in: search } }
       ]
-    }).populate('freelancer','fname lname rating completedOrder profilepic');;
+    }).populate('freelancer','fname lname rating completedOrder profilepic');
 
     res.json(gigs);
   } catch (error) {

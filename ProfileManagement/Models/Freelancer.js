@@ -55,7 +55,7 @@ const freelancerSchema =new mongoose.Schema({
         type:String
     },
     rating:{
-        type:Boolean,
+        type:Number,
         default:0
     },
     completedOrder:{
