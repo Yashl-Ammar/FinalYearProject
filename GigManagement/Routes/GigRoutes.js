@@ -13,5 +13,5 @@ gigRouter.get('/viewSpecificGigByFreelancer/:gigId',auth,isfreelancer,viewSpecif
 gigRouter.get('/all',getAllGigs)
 gigRouter.get('/viewSpecificGigByClient/:gigId',auth,isClient,viewSpecificGigByClient)
 gigRouter.get('/viewSpecificGigByFreelancer/:gigId',auth,isfreelancer,viewSpecificGigByFreelancer)
-gigRouter.get('/search',auth,searchGig)
+gigRouter.post('/search',auth,searchGig)
 module.exports=gigRouter
