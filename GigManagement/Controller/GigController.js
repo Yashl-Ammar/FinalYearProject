@@ -5,8 +5,16 @@ const getDataUri = require("../utils/dataUri");
 const bodyParser = require("body-parser");
 const searchGig = async (req, res) => {
   try {
-    const title = req.body.title;
-    const gigs = await Gig.find({ title: new RegExp(title, 'i') });
+    const search = req.body.search;
+    // Assuming skills are provided in the request body
+    // Using the $regex operator to perform a case-insensitive search on the title
+    const gigs = await Gig.find({
+      $or: [
+        { title: { $regex: new RegExp(search, 'i') } },
+        { skills: { $in: search } }
+      ]
+    });
+
     res.json(gigs);
   } catch (error) {
     console.error(error);
