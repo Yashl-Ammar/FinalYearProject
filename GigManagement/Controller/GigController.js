@@ -44,6 +44,29 @@ const namegetter = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+const clientData = async (req, res) => {
+  try {
+    const clientId = req.user._id;
+
+    const client = await Client.findById(clientId);
+
+
+    if (!client) {
+      res.status(404).json({ error: 'Client or freelancer not found' });
+      return;
+    }
+
+    const response = {
+      clientId: client._id,
+      client_fname: client.fname,
+      client_lname: client.lname,
+    };
+    res.json(response);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 
 const searchGig = async (req, res) => {
   try {
@@ -214,6 +237,7 @@ module.exports = {
   viewSpecificGigByFreelancer,
   searchGig,
   freelancerName,
-  namegetter
+  namegetter,
+  clientData
 };
 
