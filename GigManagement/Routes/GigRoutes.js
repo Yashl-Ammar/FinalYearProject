@@ -4,7 +4,7 @@ const auth=require("../Middleware/authentication")
 const isClient=require('../Middleware/isClient')
 const isfreelancer=require("../Middleware/isFreelancer")
 const arrayupload = require("../Middleware/multer");
-const { createGig,getAllGigs,updateGigById,deleteGigById,viewGigsByFreelancer,viewSpecificGigByClient,viewSpecificGigByFreelancer,searchGig,freelancerName,clientName}=require("../Controller/GigController")
+const { createGig,getAllGigs,updateGigById,deleteGigById,viewGigsByFreelancer,viewSpecificGigByClient,viewSpecificGigByFreelancer,searchGig,freelancerName,namegetter}=require("../Controller/GigController")
 gigRouter.post('/create',auth,isfreelancer,arrayupload,createGig)
 gigRouter.post('/update/:id',auth,isfreelancer,arrayupload,updateGigById)
 gigRouter.delete('/delete/:id',auth,isfreelancer,deleteGigById)
@@ -15,5 +15,5 @@ gigRouter.get('/viewSpecificGigByClient/:gigId',auth,isClient,viewSpecificGigByC
 gigRouter.get('/viewSpecificGigByFreelancer/:gigId',auth,isfreelancer,viewSpecificGigByFreelancer)
 gigRouter.post('/search',auth,searchGig)
 gigRouter.post("/freelancerName",auth,freelancerName)
-gigRouter.post("/clientName",auth,clientName)
+gigRouter.post("/namegetter/:freelancerId",auth,namegetter)
 module.exports=gigRouter

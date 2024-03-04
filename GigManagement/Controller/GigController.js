@@ -15,19 +15,36 @@ const freelancerName=async(req,res)=>{
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
-const clientName = async (req, res) => {
+const namegetter = async (req, res) => {
   try {
-    const id = req.user._id;
-    console.log(id)
-    const client = await Client.findById(id );
-    console.log(client);
-      res.json({ client });
-    
+    const clientId = req.user._id;
+    const { freelancerId } = req.params;
+
+    const client = await Client.findById(clientId);
+    const freelancer = await Freelancer.findById(freelancerId);
+
+    if (!client || !freelancer) {
+      res.status(404).json({ error: 'Client or freelancer not found' });
+      return;
+    }
+
+    // Assuming 'fname' and 'lname' are properties of both client and freelancer
+    const response = {
+      clientId: client._id,
+      freelancerId:freelancer._id,
+      client_fname: client.fname,
+      client_lname: client.lname,
+      freelancer_fname: freelancer.fname,
+      freelancer_lname: freelancer.lname,
+    };
+
+    res.json(response);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
 const searchGig = async (req, res) => {
   try {
     const search = req.body.search;
@@ -197,6 +214,6 @@ module.exports = {
   viewSpecificGigByFreelancer,
   searchGig,
   freelancerName,
-  clientName
+  namegetter
 };
 
