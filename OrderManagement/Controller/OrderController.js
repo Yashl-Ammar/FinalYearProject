@@ -114,7 +114,7 @@ const viewOrdersByClient=async(req,res)=>{
 const viewSpecificOrder=async(req,res)=>{
     const orderId=req.params.orderId
     const order=await Order.findById(orderId)
-    if(!orders) return res.status(400).send("Order with this id doesn't exist anymore");
+    if(!order) return res.status(400).send("Order with this id doesn't exist anymore");
     res.send(order)
 }
 const viewOrdersByFreelancer=async(req,res)=>{
