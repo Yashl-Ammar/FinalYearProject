@@ -3,6 +3,31 @@ const Freelancer=require("../Models/Freelancer")
 const cloudinary = require("../utils/cloudinary");
 const getDataUri = require("../utils/dataUri");
 const bodyParser = require("body-parser");
+const Client = require("../Models/Client");
+const freelancerName=async(req,res)=>{
+  try{
+    const id=req.user._id
+    const freelancer=await Freelancer.find({id})
+    res.json({freelancer})
+
+  }catch(error){
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+const clientName = async (req, res) => {
+  try {
+    const id = req.user._id;
+    console.log(id)
+    const client = await Client.findById(id );
+    console.log(client);
+      res.json({ client });
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 const searchGig = async (req, res) => {
   try {
     const search = req.body.search;
@@ -170,6 +195,8 @@ module.exports = {
   viewGigsByFreelancer,
   viewSpecificGigByClient,
   viewSpecificGigByFreelancer,
-  searchGig
+  searchGig,
+  freelancerName,
+  clientName
 };
 
