@@ -78,10 +78,22 @@ const toclient=async(req,res)=>{
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
-const viewFreelancerRnR=async(req,res)=>{
-  try{
-    
-  }catch(error){
+const viewFreelancerRnR = async (req, res) => {
+  try {
+    const freelancerId = req.user._id;
+    const rnr = await RnR.find({ $and: [{ freelancer: freelancerId }, { isclient: true }] });
+    res.send(rnr);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+const viewClientRnR=async(req,res)=>{
+  try {
+    const clientId = req.user._id;
+    const rnr = await RnR.find({ $and: [{ client: clientId }, { isfreelancer: true }] });
+    res.send(rnr);
+  } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
@@ -89,5 +101,6 @@ const viewFreelancerRnR=async(req,res)=>{
 module.exports={
     tofreelancer,
     toclient,
-    viewFreelancerRnR
+    viewFreelancerRnR,
+    viewClientRnR
 }
