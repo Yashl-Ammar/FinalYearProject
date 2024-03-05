@@ -52,7 +52,7 @@ const clientData = async (req, res) => {
 
 
     if (!client) {
-      res.status(404).json({ error: 'Client or freelancer not found' });
+      res.status(404).json({ error: 'Client  not found' });
       return;
     }
 
@@ -60,6 +60,29 @@ const clientData = async (req, res) => {
       clientId: client._id,
       client_fname: client.fname,
       client_lname: client.lname,
+    };
+    res.json(response);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+const freelancerData = async (req, res) => {
+  try {
+    const freelancerId = req.user._id;
+
+    const freelancer = await Client.findById(freelancerId);
+
+
+    if (!freelancer) {
+      res.status(404).json({ error: 'freelancer not found' });
+      return;
+    }
+
+    const response = {
+      freelancerId: freelancer._id,
+      freelancer_fname: freelancer.fname,
+      freelancer_lname: freelancer.lname,
     };
     res.json(response);
   } catch (error) {
@@ -238,6 +261,7 @@ module.exports = {
   searchGig,
   freelancerName,
   namegetter,
-  clientData
+  clientData,
+  freelancerData
 };
 

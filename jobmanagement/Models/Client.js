@@ -5,27 +5,23 @@ const clientSchema=new mongoose.Schema({
     fname:{
         type: String,
         require:true,
-        minlength:5,
-        maxlength:50
+
     },
     lname:{
         type: String,
         require:true,
-        minlength:5,
-        maxlength:50
+  
     },
     email:{
         type: String,
         require:true,
         unique:true,
-        minlength:5,
-        maxlength:255
+    
     },
     password:{
         type: String,
         require:true,
-        minlength:5,
-        maxlength:1024
+      
     },
     country:{
         type: String,
@@ -57,6 +53,10 @@ const clientSchema=new mongoose.Schema({
         default:0
     },
     totalSpending:{
+        type:Number,
+        default:0
+    },
+    totalRatings:{
         type:Number,
         default:0
     }
