@@ -6,7 +6,8 @@ const tofreelancer = async (req, res) => {
       const freelancerId = req.params.freelancerId;
       const { rating, review } = req.body;
       const freelancer = await Freelancer.findById(freelancerId);
-  
+      const checkRnR=await RnR.findOne({client:req.user._id,freelancer:freelancerId})
+      if(checkRnR) return res.status(400).send("You have already gave Reviews and Rating to this Account")
       if (freelancer.totalRatings < 1 ) { 
         freelancer.rating = ((Number(rating) + freelancer.rating) / (freelancer.totalRatings + 1));
       } else {
@@ -39,7 +40,8 @@ const toclient=async(req,res)=>{
     const clientId = req.params.clientId;
     const { rating, review } = req.body;
     const client = await Client.findById(clientId);
-
+    const checkRnR=await RnR.findOne({client:clientId,freelancer:req.user._id})
+    if(checkRnR) return res.status(400).send("You have already gave Reviews and Rating to this Account")
     if (client.totalRatings < 1 ) { 
       client.rating = ((Number(rating) + client.rating) / (client.totalRatings + 1));
     } else {

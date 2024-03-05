@@ -17,5 +17,5 @@ gigRouter.post('/search',auth,searchGig)
 gigRouter.post("/freelancerName",auth,freelancerName)
 gigRouter.post("/namegetter/:freelancerId",auth,namegetter)
 gigRouter.get("/clientData",auth,isClient,clientData)
-gigRouter.get("/clientData",auth,isfreelancer,freelancerData)
+gigRouter.get("/freelancerData",auth,isfreelancer,freelancerData)
 module.exports=gigRouter

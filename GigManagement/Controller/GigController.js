@@ -71,7 +71,7 @@ const freelancerData = async (req, res) => {
   try {
     const freelancerId = req.user._id;
 
-    const freelancer = await Client.findById(freelancerId);
+    const freelancer = await Freelancer.findById(freelancerId);
 
 
     if (!freelancer) {
