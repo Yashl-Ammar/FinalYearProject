@@ -118,12 +118,24 @@ const viewOrdersByClient=async(req,res)=>{
     if(!orders) return res.status(400).send("Order with this id doesn't exist anymore");
     res.send(orders)
 }
-const viewSpecificOrder=async(req,res)=>{
-    const orderId=req.params.orderId
-    const order=await Order.findById(orderId)
-    if(!order) return res.status(400).send("Order with this id doesn't exist anymore");
-    res.send(order)
-}
+const viewSpecificOrder = async (req, res) => {
+    const orderId = req.params.orderId;
+
+    try {
+        const order = await Order.findById(orderId)
+            .populate('freelancer', 'fname lname')
+            .populate('client', 'fname lname');
+
+        if (!order) {
+            return res.status(400).send("Order with this id doesn't exist anymore");
+        }
+
+        res.send(order);
+    } catch (error) {
+        console.error("Error:", error.message);
+        res.status(500).send("Internal Server Error");
+    }
+};
 const viewOrdersByFreelancer=async(req,res)=>{
     const freelancerId=req.user._id
     const orders=await Order.find({freelancer:freelancerId})
