@@ -14,8 +14,8 @@ const orderSchema = mongoose.Schema(
     },
     type: {
       type: String,
-      enum:["Custom","Job Order"],
-      default: "Custom",
+      enum:["Custom Order","Job Order"],
+      default: "Custom Order",
       required: true // Reference to the gig (service) being ordered
     },
     orderDate: {

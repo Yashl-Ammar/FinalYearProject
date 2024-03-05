@@ -144,6 +144,15 @@ const acceptOrder=async(req,res)=>{
     const savedOrder=await order.save()
     res.send(saveOrder)
 }
+const acceptAndRejectOrder=async(req,res)=>{
+    try{
+        const order=req.params.orderId
+        
+    }catch(error){
+        console.error("Error:", error.message);
+        res.status(500).send("Internal Server Error");
+    }
+}
 module.exports = {
     placeOrder,
     deliverOrder,
