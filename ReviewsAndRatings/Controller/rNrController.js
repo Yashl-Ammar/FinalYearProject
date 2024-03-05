@@ -78,8 +78,16 @@ const toclient=async(req,res)=>{
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
-
+const viewFreelancerRnR=async(req,res)=>{
+  try{
+    
+  }catch(error){
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
 module.exports={
     tofreelancer,
-    toclient
+    toclient,
+    viewFreelancerRnR
 }

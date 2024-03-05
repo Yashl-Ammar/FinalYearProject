@@ -6,4 +6,5 @@ const isFreelancer=require("../Middleware/isFreelancer")
 const {tofreelancer,toclient}=require("../Controller/rNrController")
 rNrRouter.post("/tofreelancer/:freelancerId/:orderId",auth,isClient,tofreelancer)
 rNrRouter.post("/toclient/:clientId/:orderId",auth,isFreelancer,toclient)
+rNrRouter.get("/viewFreelancerRnR",auth)
 module.exports=rNrRouter

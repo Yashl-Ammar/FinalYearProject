@@ -7,7 +7,7 @@ const Job=require("../Models/Job")
 const getDataUri = require("../utils/dataUri");
 
 const placeOrder = async (req, res) => {
-    const { title,description,type,jobId,orderStatus, paymentMethod, paymentStatus, price, revisions, activities } = req.body;
+    let { title,description,type,jobId,orderStatus, paymentMethod, paymentStatus, price, revisions, activities } = req.body;
     // const files = req.files;
     if(type=="Job Order"){
         const job =await Job.findById(jobId)
