@@ -12,6 +12,12 @@ const orderSchema = mongoose.Schema(
       ref: "Client", // Reference to the client who placed the order
       required: true,
     },
+    title:{
+      type:String
+    },
+    description:{
+      type:String
+    },
     type: {
       type: String,
       enum:["Custom Order","Job Order"],

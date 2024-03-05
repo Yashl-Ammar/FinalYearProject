@@ -3,12 +3,17 @@ const Client = require("../Models/Client");
 const Freelancer = require("../Models/Freelancer");
 const Order = require("../Models/order");
 const cloudinary = require("../utils/cloudinary");
+const Job=require("../Models/Job")
 const getDataUri = require("../utils/dataUri");
 
 const placeOrder = async (req, res) => {
-    const { type, orderStatus, paymentMethod, paymentStatus, price, revisions, activities } = req.body;
+    const { title,description,type,jobId,orderStatus, paymentMethod, paymentStatus, price, revisions, activities } = req.body;
     // const files = req.files;
-
+    if(type=="Job Order"){
+        const job =await Job.findById(jobId)
+        title=job.title
+        description=job.description
+    }
     const clientId = req.user._id;
     const freelancerId = req.params.freelancerId;
     const client = await Client.findById(clientId);
@@ -47,6 +52,8 @@ const placeOrder = async (req, res) => {
         const order = new Order({
             freelancer: freelancer._id,
             client: client._id,
+            title,
+            description,
             type,
             orderStatus,
             paymentMethod,
