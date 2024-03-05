@@ -11,6 +11,11 @@ const rnrSchema= new mongoose.Schema({
         ref: "Client",
         require:true
     },
+    order:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Order",
+        require:"true"
+    },
     rating:{
         type:Number,
         required:true,

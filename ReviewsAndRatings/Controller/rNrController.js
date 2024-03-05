@@ -1,13 +1,17 @@
 const Freelancer = require("../Models/Freelancer")
 const RnR=require("../Models/RnR")
+const Order=require("../Models/order")
 const Client=require("../Models/Client")
 const tofreelancer = async (req, res) => {
     try {
       const freelancerId = req.params.freelancerId;
+      const orderId=req.params.orderId
       const { rating, review } = req.body;
       const freelancer = await Freelancer.findById(freelancerId);
-      const checkRnR=await RnR.findOne({client:req.user._id,freelancer:freelancerId})
-      if(checkRnR) return res.status(400).send("You have already gave Reviews and Rating to this Account")
+      const order=await Order.findById(orderId)
+      const checkRnR=await RnR.findOne({client:req.user._id,freelancer:freelancerId,order:order._id})
+      if(checkRnR && checkRnR.isclient) return res.status(400).send("You have already gave Reviews and Rating to this Account")
+      console.log(checkRnR)
       if (freelancer.totalRatings < 1 ) { 
         freelancer.rating = ((Number(rating) + freelancer.rating) / (freelancer.totalRatings + 1));
       } else {
@@ -17,6 +21,7 @@ const tofreelancer = async (req, res) => {
       const rNr = new RnR({
         client: req.user._id,
         freelancer: freelancerId,
+        order:order._id,
         rating,
         review,
         isclient: true
@@ -39,9 +44,13 @@ const toclient=async(req,res)=>{
   try {
     const clientId = req.params.clientId;
     const { rating, review } = req.body;
+    const orderId=req.params.orderId
+    
     const client = await Client.findById(clientId);
-    const checkRnR=await RnR.findOne({client:clientId,freelancer:req.user._id})
-    if(checkRnR) return res.status(400).send("You have already gave Reviews and Rating to this Account")
+    const order=await Order.findById(orderId)
+    const checkRnR=await RnR.findOne({client:clientId,freelancer:req.user._id,order:order._id})
+    if(checkRnR && checkRnR.isfreelancer ) return res.status(400).send("You have already gave Reviews and Rating to this Account")
+    console.log(checkRnR)
     if (client.totalRatings < 1 ) { 
       client.rating = ((Number(rating) + client.rating) / (client.totalRatings + 1));
     } else {
@@ -52,6 +61,7 @@ const toclient=async(req,res)=>{
       client: clientId,
       freelancer: req.user._id,
       rating,
+      order:order._id,
       review,
       isfreelancer: true
     });
