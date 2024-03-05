@@ -138,7 +138,7 @@ const viewSpecificOrder = async (req, res) => {
 };
 const viewOrdersByFreelancer=async(req,res)=>{
     const freelancerId=req.user._id
-    const orders=await Order.find({freelancer:freelancerId})
+    const orders=await Order.find({freelancer:freelancerId}).populate('client','fname lname')
     if(!orders) return res.status(400).send("Order with this id doesn't exist anymore");
     res.send(orders)
 }
