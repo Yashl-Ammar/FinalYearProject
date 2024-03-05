@@ -107,7 +107,7 @@ const deliverOrder= async(req,res)=>{
 }
 const viewOrdersByClient=async(req,res)=>{
     const clientId=req.user._id
-    const orders=await Order.find({client:clientId})
+    const orders=await Order.find({client:clientId}).populate('client','fname lname')
     if(!orders) return res.status(400).send("Order with this id doesn't exist anymore");
     res.send(orders)
 }
@@ -144,15 +144,27 @@ const acceptOrder=async(req,res)=>{
     const savedOrder=await order.save()
     res.send(saveOrder)
 }
-const acceptAndRejectOrder=async(req,res)=>{
-    try{
-        const order=req.params.orderId
-        
-    }catch(error){
+const acceptAndRejectOrder = async (req, res) => {
+    try {
+        const orderId = req.params.orderId;
+        const order = await Order.findById(orderId);
+
+        if (order.orderStatus == "Requested") {
+            order.orderStatus = "Active";
+            order.save();
+            console.log(order);
+            res.send("Order Status Updated");
+        } else {
+            order.orderStatus = "Cancelled";
+            order.save();
+            res.send("Order Cancelled");
+        }
+
+    } catch (error) {
         console.error("Error:", error.message);
         res.status(500).send("Internal Server Error");
     }
-}
+};
 module.exports = {
     placeOrder,
     deliverOrder,
@@ -160,5 +172,6 @@ module.exports = {
     viewOrdersByFreelancer,
     viewSpecificOrder,
     sendForRevisions,
-    acceptOrder
+    acceptOrder,
+    acceptAndRejectOrder
 };

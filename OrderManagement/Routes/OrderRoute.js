@@ -4,7 +4,7 @@ const verifyuserloggedIn= require("../Middleware/authentication")
 const isClient =require("../Middleware/isClient")
 const isFreelancer=require("../Middleware/isFreelancer")
 const arrayUpload=require("../Middleware/multer")
-const {placeOrder,deliverOrder,viewOrdersByClient,viewOrdersByFreelancer,viewSpecificOrder,sendForRevisions,acceptOrder}=require("../Controller/OrderController")
+const {placeOrder,deliverOrder,viewOrdersByClient,viewOrdersByFreelancer,viewSpecificOrder,sendForRevisions,acceptOrder,acceptAndRejectOrder}=require("../Controller/OrderController")
 orderRouter.post("/placeOrder/:freelancerId",verifyuserloggedIn,isClient,arrayUpload,placeOrder)
 orderRouter.post("/deliverOrder/:id",verifyuserloggedIn,isFreelancer,arrayUpload,deliverOrder)
 orderRouter.get("/viewOrdersByClient",verifyuserloggedIn,isClient,viewOrdersByClient)
@@ -12,5 +12,5 @@ orderRouter.get("/viewOrdersByFreelancer",verifyuserloggedIn,isFreelancer,viewOr
 orderRouter.get('/viewSpecifcOrder/:orderId',verifyuserloggedIn,viewSpecificOrder)
 orderRouter.put('/sendForRevisions',verifyuserloggedIn,isClient,sendForRevisions)
 orderRouter.put('/acceptOrder/:orderId',verifyuserloggedIn,isClient,acceptOrder)
-
+orderRouter.post("/acceptOrRejectOrder/:orderId",verifyuserloggedIn,isFreelancer,acceptAndRejectOrder)
 module.exports =orderRouter
