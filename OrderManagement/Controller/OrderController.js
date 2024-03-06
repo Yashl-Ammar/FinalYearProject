@@ -151,6 +151,7 @@ const sendForRevisions=async(req,res)=>{
         return res.status(304).send("You don't have any revisions left")
     }
     order.revisions--
+    order.orderStatus="Active"
     order.save()
     res.send(order)
 }
