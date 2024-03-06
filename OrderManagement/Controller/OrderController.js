@@ -5,12 +5,13 @@ const Order = require("../Models/order");
 const cloudinary = require("../utils/cloudinary");
 const Job=require("../Models/Job")
 const getDataUri = require("../utils/dataUri");
-
+const Proposal=require("../Models/Proposal")
 const placeOrder = async (req, res) => {
     let { title,description,type,jobId,orderStatus, paymentMethod, paymentStatus, price, revisions, activities } = req.body;
     // const files = req.files;
     if(type=="Job Order"){
         const job =await Job.findOneAndDelete({_id:jobId})
+        const proposals=await Proposal.deleteMany({job:jobId})
         // const job =await Job.findById(jobId)
         title=job.title
         description=job.description
