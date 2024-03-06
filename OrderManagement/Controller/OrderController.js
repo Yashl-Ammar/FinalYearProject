@@ -145,7 +145,7 @@ const viewOrdersByFreelancer=async(req,res)=>{
 const sendForRevisions=async(req,res)=>{
     const orderId=req.params.orderId
     const order=await Order.findById(orderId)
-    if(!orders) return res.status(400).send("Order with this id doesn't exist anymore");
+    if(!order) return res.status(400).send("Order with this id doesn't exist anymore");
     if(order.revisions==0)
     {
         return res.status(304).send("You don't have any revisions left")
@@ -157,11 +157,11 @@ const sendForRevisions=async(req,res)=>{
 const acceptOrder=async(req,res)=>{
     const orderId=req.params.orderId
     const order=await Order.findById(orderId)
-    if(!orders) return res.status(400).send("Order with this id doesn't exist anymore");
+    if(!order) return res.status(400).send("Order with this id doesn't exist anymore");
     order.status="Completed"
     order.revisions=0
     const savedOrder=await order.save()
-    res.send(saveOrder)
+    res.send(savedOrder)
 }
 const acceptAndRejectOrder = async (req, res) => {
     try {

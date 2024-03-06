@@ -10,7 +10,7 @@ orderRouter.post("/deliverOrder/:id",verifyuserloggedIn,isFreelancer,arrayUpload
 orderRouter.get("/viewOrdersByClient",verifyuserloggedIn,isClient,viewOrdersByClient)
 orderRouter.get("/viewOrdersByFreelancer",verifyuserloggedIn,isFreelancer,viewOrdersByFreelancer)
 orderRouter.get('/viewSpecifcOrder/:orderId',verifyuserloggedIn,viewSpecificOrder)
-orderRouter.put('/sendForRevisions',verifyuserloggedIn,isClient,sendForRevisions)
+orderRouter.put('/sendForRevisions/:orderId',verifyuserloggedIn,isClient,sendForRevisions)
 orderRouter.put('/acceptOrder/:orderId',verifyuserloggedIn,isClient,acceptOrder)
 orderRouter.post("/acceptOrRejectOrder/:orderId",verifyuserloggedIn,isFreelancer,acceptAndRejectOrder)
 module.exports =orderRouter
