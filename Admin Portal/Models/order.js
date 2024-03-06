@@ -12,10 +12,16 @@ const orderSchema = mongoose.Schema(
       ref: "Client", // Reference to the client who placed the order
       required: true,
     },
+    title:{
+      type:String
+    },
+    description:{
+      type:String
+    },
     type: {
       type: String,
-      enum:["Custom","Job Order"],
-      default: "Custom",
+      enum:["Custom Order","Job Order"],
+      default: "Custom Order",
       required: true // Reference to the gig (service) being ordered
     },
     orderDate: {
@@ -24,7 +30,7 @@ const orderSchema = mongoose.Schema(
     },
     orderStatus: {
       type: String,
-      default: "Pending",
+      default: "Requested",
     },
     paymentMethod: {
       type: String,
