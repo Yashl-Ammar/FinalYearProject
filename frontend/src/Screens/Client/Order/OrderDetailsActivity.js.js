@@ -18,13 +18,13 @@ import NavBarClient from "../../../Components/Nav/NavBarClient";
 
 function OrderDetailsActivityPage() {
 
-    return ( <div className="w-full flex justify-center">
+    return ( <div className="w-full flex justify-center text-white dark:bg-aamdanBackground text-aamdanBackground dark:text-white">
     <div className="w-full lg:w-4/5">
         <NavBarClient />
         <div className="text-center">
             <h1 className="font-heading text-5xl mb-12">Order Details</h1>
         </div>
-            <div className="bg-aamdanSuperDeepBlack rounded-xl w-full px-12 py-9">
+            <div className="bg-aamdanSuperDeepWhite dark:bg-aamdanSuperDeepBlack rounded-xl w-full px-12 py-9">
                 <h2 className="font-bold font-heading text-3xl mb-7">Freelancer Details</h2>
                 <div className="w-full flex border-b mb-8">
                     <div className="grid grid-cols-2 mb-8 w-full">
@@ -44,15 +44,15 @@ function OrderDetailsActivityPage() {
                 <div className="hidden sm:flex mb-12">
                     <div className="w-full lg:w-1/4 text-center">
                         <p className="text-lg font-bold mb-3 px-5" ><Link>Activity</Link></p>
-                        <div className={`w-full bg-aamdanBackground`} style={{height:'1px'}} ></div>
+                        <div className={`w-full bg-white dark:bg-aamdanBackground`} style={{height:'1px'}} ></div>
                     </div>
                     <div className="w-full lg:w-1/4 text-center">
                         <p className="text-lg font-bold mb-3 px-5" ><Link>Order Delivery</Link></p>
-                        <div className={`w-full bg-white`} style={{height:'1px'}} ></div>
+                        <div className={`w-full bg-aamdanBackground dark:bg-white`} style={{height:'1px'}} ></div>
                     </div>
                     <div className="w-full lg:w-2/4">
                         <p className="text-lg font-bold mb-3 px-5">&nbsp;</p>
-                        <div className="w-full bg-white" style={{height:'1px'}} ></div>
+                        <div className="w-full bg-aamdanBackground dark:bg-white" style={{height:'1px'}} ></div>
                     </div>
                 </div>
                 <section className="w-full">
@@ -60,23 +60,23 @@ function OrderDetailsActivityPage() {
                         <h2 className="text-3xl font-bold font-heading mb-5">Activity</h2>
                         <p>Order Id: XXXXXXXXXX</p>
                     </div>
-                    <div className="bg-aamdanDarkGray w-full py-5 px-7 flex justify-between my-5">
+                    <div className="bg-aamdanDarkWhite dark:bg-aamdanDarkGray w-full py-5 px-7 flex justify-between my-5">
                         <p>lathamtom placed the Order</p>
                         <p className="text-aamdanBlue">Oct 18, 1:15PM</p>
                     </div>
-                    <div className="bg-aamdanDarkGray w-full py-5 px-7 flex justify-between my-5">
+                    <div className="bg-aamdanDarkWhite dark:bg-aamdanDarkGray w-full py-5 px-7 flex justify-between my-5">
                         <p>lathamtom placed the Order</p>
                         <p className="text-aamdanBlue">Oct 18, 1:15PM</p>
                     </div>
-                    <div className="bg-aamdanDarkGray w-full py-5 px-7 flex justify-between my-5">
+                    <div className="bg-aamdanDarkWhite dark:bg-aamdanDarkGray w-full py-5 px-7 flex justify-between my-5">
                         <p>lathamtom placed the Order</p>
                         <p className="text-aamdanBlue">Oct 18, 1:15PM</p>
                     </div>
-                    <div className="bg-aamdanDarkGray w-full py-5 px-7 flex justify-between my-5">
+                    <div className="bg-aamdanDarkWhite dark:bg-aamdanDarkGray w-full py-5 px-7 flex justify-between my-5">
                         <p>lathamtom placed the Order</p>
                         <p className="text-aamdanBlue">Oct 18, 1:15PM</p>
                     </div>
-                    <div className="bg-aamdanDarkGray w-full py-5 px-7 flex justify-between my-5">
+                    <div className="bg-aamdanDarkWhite dark:bg-aamdanDarkGray w-full py-5 px-7 flex justify-between my-5">
                         <p>lathamtom placed the Order</p>
                         <p className="text-aamdanBlue">Oct 18, 1:15PM</p>
                     </div>

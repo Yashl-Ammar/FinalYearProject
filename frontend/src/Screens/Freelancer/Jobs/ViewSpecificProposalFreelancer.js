@@ -61,17 +61,17 @@ function ViewSpecificProposalFreelancerPage() {
         })
     }
 
-    return ( <div className="w-full flex justify-center">
+    return ( <div className="w-full flex justify-center bg-aamdanBackgroundWhite dark:bg-aamdanBackground text-aamdanBackground dark:text-white">
     <div className="w-full lg:w-4/5">
-        <NavBarClient />
-        <div className="bg-aamdanSuperDeepBlack rounded-xl w-full">
+        <NavBarFreelancer />
+        <div className="bg-aamdanSuperDeepWhite dark:bg-aamdanSuperDeepBlack rounded-xl w-full">
             {data !== undefined && <div>
                 <section className="px-6 sm:px-12 py-9">
                     <div className="flex justify-between">
                         <h1 className="text-5xl font-bold mb-8">Proposal By {data?.freelancer.fname + ' ' + data?.freelancer.lname}</h1>
                         <img className="w-12 h-12 rounded-full" src={data.freelancer.profilepic} alt="" />
                     </div>
-                    <p className="text-xl text-lightGray mb-12">Posted on {data && extractDateTime(data.createdAt)}</p>
+                    <p className="text-xl text-lightGrayWhite dark:text-lightGray mb-12">Posted on {data && extractDateTime(data.createdAt)}</p>
                 </section>
                 <hr/>
                 <div className="flex w-full flex-col lg:flex-row">

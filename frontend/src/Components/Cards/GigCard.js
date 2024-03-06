@@ -1,12 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 
-function GigCard({id, img, userImg, name, rating, title, completedOrders, startingPrice}) {
+function GigCard({id, img, userImg, name, rating, title, completedOrders, startingPrice, freelancer}) {
     
     const navigate = useNavigate();
     
     return ( 
-        <button className="flex flex-col hover:bg-aamdanDeepBlack p-5 rounded-lg" onClick={() => {
-            navigate('/client/viewSpecificGig', {state : {data : id}})
+        <button className="flex flex-col hover:bg-aamdanDeepWhite dark:hover:bg-aamdanDeepBlack p-5 rounded-lg" onClick={() => {
+            if(freelancer)
+                navigate('/freelancer/viewyourspecificgig', {state : {data : id}})
+            else
+                navigate('/client/viewSpecificGig', {state : {data : id}})
         }}>
             <div className="mb-2 w-full"><img className="object-cover w-full h-96 rounded-lg" src={img} alt="" /></div>
             <div className="flex justify-between items-center w-full">
@@ -19,9 +22,9 @@ function GigCard({id, img, userImg, name, rating, title, completedOrders, starti
                     <img src="/Star.svg" alt="" />
                 </div>
             </div>
-            <p className="text-lightGray text-left">{title}</p>
+            <p className="text-lightGrayWhite dark:text-lightGray text-left">{title}</p>
             <p className="font-bold">Completed Orders ({completedOrders})</p>
-            <p className="text-lightGray font-bold">Starting at <span className="text-white font-bold">$ {startingPrice}</span></p>
+            <p className="text-lightGrayWhite dark:text-lightGray font-bold">Starting at <span className="text-aamdanBackground dark:text-white font-bold">$ {startingPrice}</span></p>
         </ button>
      );
 }

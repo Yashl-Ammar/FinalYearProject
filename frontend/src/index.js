@@ -22,7 +22,6 @@ import CreateGigOverviewPage from './Screens/Freelancer/Gig/CreateGigOverviewPag
 import ViewGigsPage from './Screens/Client/Gig/ViewGigsPage';
 import ViewSpecificGigPage from './Screens/Client/Gig/ViewSpecificGigPage';
 import EditGigPage from './Screens/Freelancer/Gig/EditGig';
-import MessagingPage from './Screens/General/Messaging/MessagingPage';
 import ManageOrderClientPage from './Screens/Client/Order/ManageOrder';
 import OrderDetailsActivityPage from './Screens/Client/Order/OrderDetailsActivity.js';
 import OrderDetailsDeliveryPage from './Screens/Client/Order/OrderDetailsDelivery.js';
@@ -41,6 +40,12 @@ import AdminReportsPage from './Screens/Admin/AdminReportsPage.js';
 import AdminTicketsPage from './Screens/Admin/AdminTicketPage.js';
 import AdminUsersPage from './Screens/Admin/AdminUsersPage.js';
 import AdminLoginPage from './Screens/Admin/AdminLoginPage.js';
+import ViewYourGigsPage from './Screens/Freelancer/Gig/ViewyourGig.js';
+import ViewYourSpecificGigPage from './Screens/Freelancer/Gig/ViewourSpecificGig.js';
+import ClientMessagingPage from './Screens/Client/Messaging/ClientMessagingPage.js';
+import FreelancerMessagingPage from './Screens/Freelancer/Messaging/FreelancerMessaging.js';
+import OrderDetailsDeliveryFreelancerPage from './Screens/Freelancer/Order/OrderDetailDeliveryFreelancer.js';
+import ManageOrderFreelancerPage from './Screens/Freelancer/Order/ManageOrderFreelancer.js';
 
 
 // Wrap your App component with BrowserRouter
@@ -69,6 +74,8 @@ root.render(
         <Route path="/client/orderDetailsActivityPage" element={<OrderDetailsActivityPage />} />
         <Route path="/client/orderDetailsDeliveryPage/:id" element={<OrderDetailsDeliveryPage />} />
         <Route path="/client/home" element={<ClientHomepage />} />
+        <Route path="/client/messaging" element={<ClientMessagingPage />} />
+        
         <Route path="/freelancer/home" element={<FreelancerHomepage />} />
         <Route path="/freelancer/editGig" element={<EditGigPage />} />
         <Route path="/freelancer/editProfilePage" element={<FreelancerEditProfilePage />} />
@@ -77,6 +84,12 @@ root.render(
         <Route path="/freelancer/viewYourProposals" element={<ViewYourProposalsPage />} />
         <Route path="/freelancer/viewSpecificProposal" element={<ViewSpecificProposalFreelancerPage />} />
         <Route path="/freelancer/submitProposalPage/:id" element={<SubmitProposalPage />} />
+        <Route path="/freelancer/viewyourgigs" element={<ViewYourGigsPage />} />
+        <Route path="/freelancer/viewyourspecificgig" element={<ViewYourSpecificGigPage />} />
+        <Route path="/freelancer/messaging" element={<FreelancerMessagingPage />} />
+        <Route path="/freelancer/manageOrderPage" element={<ManageOrderFreelancerPage />} />
+        <Route path="/freelancer/orderDetailsDeliveryPage/:id" element={<OrderDetailsDeliveryFreelancerPage />} />
+
         <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
         <Route path="/admin/admins" element={<AdminAdminsPage />} />
         <Route path="/admin/customersupport" element={<AdminCustomerSupportPage />} />
@@ -84,7 +97,7 @@ root.render(
         <Route path="/admin/tickets" element={<AdminTicketsPage />} />
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin/users" element={<AdminUsersPage />} />
-        <Route path="/general/messaging" element={<MessagingPage />} />
+        
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

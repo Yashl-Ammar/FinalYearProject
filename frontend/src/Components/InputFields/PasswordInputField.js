@@ -8,7 +8,7 @@ function PasswordInputField({placeholder,register}) {
     return ( 
         <div className="relative">
             <input
-                className="rounded-lg bg-aamdanBackground py-3 px-5 border border-strokeColor border-opacity-50 w-full pr-10 focus:outline-none focus:border-blue-500"
+                className="rounded-lg bg-white dark:bg-aamdanBackground py-3 px-5 border border-strokeColor border-opacity-50 w-full pr-10 focus:outline-none focus:border-blue-500"
                 placeholder={placeholder}
                 type = {passwordReveal ? 'type' : 'password'}
                 {...register}

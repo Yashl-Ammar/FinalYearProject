@@ -5,14 +5,14 @@ function AdminSideBar({active}) {
 
     const navigate = useNavigate();
 
-    return ( <div className="flex flex-col py-10 w-1/4 bg-aamdanBackground sticky h-screen items-center top-0">
+    return ( <div className="flex flex-col py-10 w-1/4 bg-white dark:bg-aamdanBackground sticky h-screen items-center top-0">
     <div>
         <div className="flex items-center mb-7">
             <img className="h-8" src="/AamdanLogo.svg" alt="" />
             <h2 className="text-3xl font-heading font-bold" >Aamdan</h2>
         </div>
-        <p className="mb-7 font-bold text-base text-lightGray">Making freelancing easy</p>
-        <div className="h-[1px] bg-lightGray" ></div>
+        <p className="mb-7 font-bold text-base text-lightGrayWhite dark:text-lightGray">Making freelancing easy</p>
+        <div className="h-[1px] bg-lightGrayWhite dark:bg-lightGray" ></div>
     </div>
     <div className="flex flex-col w-full pt-12 justify-between h-full">
         <div className="w-full">

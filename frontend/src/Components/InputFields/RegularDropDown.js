@@ -7,7 +7,7 @@ function RegularDropDown({data,register}) {
     }
 
     return ( 
-        <select className="rounded-lg bg-aamdanBackground py-3 px-5 border border-strokeColor border-opacity-50 w-full" {...register}>
+        <select className="rounded-lg bg-white dark:bg-aamdanBackground py-3 px-5 border border-strokeColor border-opacity-50 w-full" {...register}>
             {mapData()}
         </select>
      );

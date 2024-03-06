@@ -19,17 +19,20 @@ function ClientHomepage() {
 
     const navigate = useNavigate();
 
-    return ( <div className="w-full flex justify-center">
+    const [search ,setSearch] = useState('');
+
+    return ( <div className="w-full flex justify-center bg-aamdanBackgroundWhite text-aamdanBackground dark:bg-aamdanBackground dark:text-white">
     <div className="w-full lg:w-4/5">
         <NavBarClient />
         <div className="flex items-center mb-10">
             <div className="pr-5 w-1/2 py-10">
                 <h1 className="font-bold text-5xl font-heading mb-10">Hi there, <span className="bg-gradient-to-r from-aamdanPurple to-aamdanPink text-transparent bg-clip-text" >Jenifer</span></h1>
-                <p className="text-lightGray mb-10">Thank you for choosing Aamdan. We're here to connect you with top-tier talent to bring your projects to life.</p>
+                <p className="text-lightGrayWhite dark:text-lightGray mb-10">Thank you for choosing Aamdan. We're here to connect you with top-tier talent to bring your projects to life.</p>
                 <div className="relative flex">
-                    <input type="text" className="w-full rounded-md py-2 px-5 bg-aamdanBackground border" placeholder="Search for any Service" />
+                    <input type="text" className="w-full rounded-md py-2 px-5 bg-aamdanBackgroundWhite dark:bg-aamdanBackground border" placeholder="Search for any Service" value={search} onChange={(e) => setSearch(e.target.value)} />
                     <button className="absolute top-0 right-0 h-full bg-gradient-to-r from-aamdanBlue to-aamdanPurple rounded-r px-5" onClick={() => {
-                        navigate('/client/viewGigs')
+                        if(search !== '')
+                            navigate('/client/viewGigs', {state:{search: search}})
                     }}>
                         <img src="/Search.svg" alt="" />
                     </button>

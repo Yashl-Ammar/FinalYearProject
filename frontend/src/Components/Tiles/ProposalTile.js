@@ -9,7 +9,7 @@ function Proposaltile({id,postTime,description,amount,rating,country,user,pinned
     const navigate = useNavigate();
 
     return ( 
-        <button className="w-full text-left rounded-xl px-11 py-14 bg-aamdanDeepBlack mb-14 hover:bg-aamdanDarkGray" onClick={() => {
+        <button className="w-full text-left rounded-xl px-11 py-14 bg-aamdanDeepWhite dark:bg-aamdanDeepBlack mb-14 hover:bg-aamdanDarkWhite dark:hover:bg-aamdanDarkGray" onClick={() => {
             if(isFreelancer)
             {
                 navigate('/freelancer/viewSpecificProposal', {state: {pid: id}});
@@ -22,7 +22,7 @@ function Proposaltile({id,postTime,description,amount,rating,country,user,pinned
                     <h1 className="text-3xl font-bold mb-4">Proposal by {user}</h1>
                     <img className="rounded-full w-12 h-12" src={url} alt="" />
                 </div>
-                <p className="text-lightGray mb-10">Posted on {extractDateTime(postTime)}</p>
+                <p className="text-lightGrayWhite dark:text-lightGray mb-10">Posted on {extractDateTime(postTime)}</p>
                 <p className="mb-10">{description}</p>
                 <div className="flex mb-5 flex-col sm:flex-row">
                     

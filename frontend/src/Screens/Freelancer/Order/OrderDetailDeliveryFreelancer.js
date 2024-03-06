@@ -1,25 +1,22 @@
 import {  useEffect, useState } from "react";
 import {   Link, useNavigate, useParams, } from "react-router-dom";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import RegularInputField from "../../../Components/InputFields/RegularInputField";
-import RegularSquareButton from "../../../Components/Buttons/RegularSquareButton";
-import RegularTextArea from "../../../Components/InputFields/RegularTextArea";
+import { ToastContainer } from "react-toastify";
+
 import RegularRoundedButton from "../../../Components/Buttons/RegularRoundedButton";
-import { useForm } from "react-hook-form";
-import { zodResolver } from '@hookform/resolvers/zod';
+
 import NavBarFreelancer from "../../../Components/Nav/NavBarFreelancer";
-import { CreateGigValidationSchema } from "../../../Validations/CreateGigValidation";
+
 import RegularTag from "../../../Components/Tag/RegularTag";
 import DragDrop from "../../../Components/DragDrop/DragDrop";
-import RoundedTransparentButton from "../../../Components/Buttons/RoundedTransparentButton";
+
 import Footer from "../../../Components/Nav/Footer";
-import NavBarClient from "../../../Components/Nav/NavBarClient";
+
 import { extractDateTime } from "../../../Utilities/ExtractDate";
+import RoundedTransparentButton from "../../../Components/Buttons/RoundedTransparentButton";
 
-const x=''
 
-function OrderDetailsDeliveryPage() {
+function OrderDetailsDeliveryFreelancerPage() {
 
     const [data, setData] = useState();
 
@@ -45,6 +42,30 @@ function OrderDetailsDeliveryPage() {
             console.log(e)
         }
     }
+    const [files, setFiles] = useState([]);
+
+    const deliverOrder = async () => {
+        try{
+            const formData = new FormData();
+
+            files.forEach((file, index) => {
+                formData.append('files', file);
+              });
+
+            let response = await axios.post(process.env.REACT_APP_OrderPath+'order/deliverOrder/'+id, formData,{
+                headers:{
+                    'token':localStorage.getItem('token'),
+                    'Content-Type': 'multipart/form-data',
+                }
+            })
+
+            navigate('/freelancer/manageOrderPage');
+        }  
+        catch(e){
+            console.log(e)
+        }
+    }
+
 
     const mapDelivered = () => {
         return data?.deliveredfiles.map((val, index) => {
@@ -54,13 +75,15 @@ function OrderDetailsDeliveryPage() {
 
     const acceptOrder = async () => {
         try{
-            let response = await axios.put(process.env.REACT_APP_OrderPath+'order/acceptOrder/'+id,{},{
+            let response = await axios.post(process.env.REACT_APP_OrderPath+'order/acceptOrRejectOrder/'+id,{
+                request: 'Accept'
+            },{
                 headers:{
                     'token':localStorage.getItem('token'),
                 }
             })
 
-            navigate('/client/manageOrderClientPage');
+            navigate('/freelancer/manageOrderPage');
         }  
         catch(e){
             console.log(e)
@@ -71,36 +94,34 @@ function OrderDetailsDeliveryPage() {
         try{
             console.log('asds')
 
-            let response = await axios.put(process.env.REACT_APP_OrderPath+'order/sendForRevisions/'+id,{},{
+            let response = await axios.post(process.env.REACT_APP_OrderPath+'order/acceptOrRejectOrder/'+id,{
+                request: 'reject'
+            },{
                 headers:{
                     'token':localStorage.getItem('token'),
                 }
             })
 
 
-            navigate('/client/manageOrderClientPage');
+            navigate('/freelancer/manageOrderPage');
         }  
         catch(e){
             console.log(e)
         }
     }
 
-
-
-    const [files, setFiles] = useState([]);
-
     return ( <div className="w-full flex justify-center bg-white dark:bg-aamdanBackground text-aamdanBackground dark:text-white">
     <div className="w-full lg:w-4/5">
-        <NavBarClient />
+        <NavBarFreelancer />
         <div className="text-center">
             <h1 className="font-heading text-5xl mb-12">Order Details</h1>
         </div>
             <div className="bg-aamdanSuperDeepWhite dark:bg-aamdanSuperDeepBlack rounded-xl w-full px-12 py-9">
-                <h2 className="font-bold font-heading text-3xl mb-7">Freelancer Details</h2>
+                <h2 className="font-bold font-heading text-3xl mb-7">Client Details</h2>
                 <div className="w-full flex border-b mb-8">
                     <div className="grid grid-cols-2 mb-8 w-full">
 
-                            <p className="font-bold mb-5">Name: <span className="font-normal">{data?.freelancer.fname + ' ' + data?.freelancer.lname}</span></p>
+                            <p className="font-bold mb-5">Name: <span className="font-normal">{data?.client.fname + ' ' + data?.client.lname}</span></p>
                             <p className="font-bold">Start Date: <span className="font-normal">{extractDateTime(data?.orderDate)}</span></p>
                             <div className="flex">
                                 <p className="font-bold mr-10 flex items-center ">Type:</p>
@@ -140,24 +161,29 @@ function OrderDetailsDeliveryPage() {
                         </table>
                     </div>
                     <div className="bg-aamdanDarkWhite dark:bg-aamdanDarkGray w-full py-5 px-7 flex justify-between my-5 rounded-lg">
-                        <div className="bg-white dark:bg-aamdanBackground border border-dashed rounded-xl px-5 py-7 w-full">
-                            <h2 className="font-heading font-bold text-3xl mb-5">Delivery Details</h2>
-                            <p className="font-bold mb-5">Attachments</p>
-                            Mapped Attachments
-                            <div>
-                                {mapDelivered()}
+                        <div className={`${data?.orderStatus === 'Requested' ? 'block' :  'hidden'} w-full`}>
+                            <div className="mb-5">
+                                <RegularRoundedButton text={'Accept Order'} onClick={acceptOrder} />
                             </div>
+                            <RoundedTransparentButton text={'Reject Order'} onClick={rejectOrder} />
                         </div>
-                    </div>
-                    { data?.orderStatus === 'Delivered' &&
-                        <div>
-                                <div className="w-full mb-5">
-                                    <RoundedTransparentButton text='Send for Revision' onClick={rejectOrder}/>
+                        {data?.orderStatus !== 'Requested' && 
+                            <div className="bg-white dark:bg-aamdanBackground border border-dashed rounded-xl px-5 py-7 w-full">
+                                <h2 className="font-heading font-bold text-3xl mb-5">Delivery Details</h2>
+                                <p className="font-bold mb-5">Attachments</p>
+                                <div>
+                                    {mapDelivered()}
                                 </div>
-                                <RegularRoundedButton text={'Accept Delivery'} onClick={acceptOrder} />
-                        </div>
-                    }
-
+                                <div className={`${data?.orderStatus === 'Active' ? 'block' :  'hidden'}`}>
+                                    <DragDrop files={files} setFiles={setFiles}/>
+                                </div>
+                                
+                            </div>
+                        }   
+                    </div>
+                    <div className={`${data?.orderStatus === 'Active' ? 'block' :  'hidden'}`}>
+                        <RegularRoundedButton text={'Deliver Project'} onClick={deliverOrder} />
+                    </div>
                 </section>
             </div>
         <ToastContainer />
@@ -166,4 +192,4 @@ function OrderDetailsDeliveryPage() {
 </div> );
 }
 
-export default OrderDetailsDeliveryPage;
+export default OrderDetailsDeliveryFreelancerPage;

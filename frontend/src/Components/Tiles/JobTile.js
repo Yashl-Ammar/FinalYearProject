@@ -35,7 +35,7 @@ function Jobtile({isFreelancer,id,title,difficulty,postTime,budgetType,descripti
     }
 
     return ( 
-        <button className="w-full text-left rounded-xl px-11 py-14 bg-aamdanDeepBlack mb-14 hover:bg-aamdanDarkGray" onClick={() => {
+        <button className="w-full text-left rounded-xl px-11 py-14 bg-aamdanDeepWhite dark:bg-aamdanDeepBlack mb-14 hover:bg-aamdanDarkWhite dark:hover:bg-aamdanDarkGray" onClick={() => {
             if(isFreelancer){
                 navigate('/freelancer/job/'+id)
             }
@@ -44,12 +44,12 @@ function Jobtile({isFreelancer,id,title,difficulty,postTime,budgetType,descripti
             }
         }}>
                 <h1 className="text-3xl font-bold mb-4">{title}</h1>
-                <p className="text-lightGray mb-10">{budgetType ? budgetType.toUpperCase(): ''} - {difficultyCheck()} - Posted {extractDateTime(postTime)}</p>
+                <p className="text-lightGrayWhite dark:text-lightGray mb-10">{budgetType ? budgetType.toUpperCase(): ''} - {difficultyCheck()} - Posted {extractDateTime(postTime)}</p>
                 <p className="mb-10">{description}</p>
                 <div className="flex mb-5 flex-col sm:flex-row">
                     <p className="text-xl mr-12 mb-5">Estimated Budget: ${amount}</p>
                     <div className="flex ">
-                        <p className="text-lightGray mr-8">Difficulty:</p>
+                        <p className="text-lightGrayWhite dark:text-lightGray mr-8">Difficulty:</p>
                         <div className="flex flex-col justify-center items-center">
                             {ImageCheck()}
                             <p className="text-xs font-bold">{difficulty}</p>
@@ -57,7 +57,7 @@ function Jobtile({isFreelancer,id,title,difficulty,postTime,budgetType,descripti
                     </div>
                 </div>
                 <div>
-                    <p className="text-lightGray mb-5">Tags:</p>
+                    <p className="text-lightGrayWhite dark:text-lightGray mb-5">Tags:</p>
                     <div className="flex flex-col sm:flex-row mb-5">
                         {mapTags()}
                     </div>
