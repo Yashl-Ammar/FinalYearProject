@@ -12,7 +12,6 @@ const placeOrder = async (req, res) => {
     if(type=="Job Order"){
         const job =await Job.findOneAndDelete({_id:jobId})
         const proposals=await Proposal.deleteMany({job:jobId})
-        // const job =await Job.findById(jobId)
         title=job.title
         description=job.description
     }
