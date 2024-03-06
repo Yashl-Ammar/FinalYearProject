@@ -159,7 +159,7 @@ const acceptOrder=async(req,res)=>{
     const orderId=req.params.orderId
     const order=await Order.findById(orderId)
     if(!order) return res.status(400).send("Order with this id doesn't exist anymore");
-    order.status="Completed"
+    order.orderStatus="Completed"
     order.revisions=0
     const savedOrder=await order.save()
     res.send(savedOrder)
