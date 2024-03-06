@@ -167,7 +167,7 @@ const acceptAndRejectOrder = async (req, res) => {
     try {
         const orderId = req.params.orderId;
         const order = await Order.findById(orderId);
-        const request=req.body
+        const request=req.body.request
 
         if (request == "Accept") {
             order.orderStatus = "Active";
