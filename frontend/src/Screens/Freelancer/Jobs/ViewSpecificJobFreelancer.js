@@ -50,15 +50,15 @@ function ViewSpecificJobFreelancerPage() {
         return <img className="w-9 mr-4" src="/Instagram Verification Badge.svg" alt="" />
     }
 
-    return ( <div className="w-full flex justify-center">
+    return ( <div className="w-full flex justify-center bg-white dark:bg-aamdanBackground text-aamdanBackground dark:text-white">
     <div className="w-full lg:w-4/5">
-        <NavBarClient />
-        <div className="bg-aamdanSuperDeepBlack rounded-xl w-full">
+        <NavBarFreelancer />
+        <div className="bg-aamdanSuperDeepWhite dark:bg-aamdanSuperDeepBlack rounded-xl w-full">
             {data !== undefined && <div>
                 <section className="px-6 sm:px-12 py-9">
                     <h1 className="text-5xl font-bold mb-8">{data?.title}</h1>
                     <p className="text-xl font-bold">{data?.category}</p>
-                    <p className="text-xl text-lightGray mb-12">Posted on {data && extractDateTime(data.createdAt)}</p>
+                    <p className="text-xl text-lightGrayWhite dark:text-lightGray mb-12">Posted on {data && extractDateTime(data.createdAt)}</p>
                 </section>
                 <hr/>
                 <div className="flex w-full flex-col lg:flex-row">
@@ -128,7 +128,7 @@ function ViewSpecificJobFreelancerPage() {
                         <hr />
                         <section className="px-6 sm:px-12 py-9 w-full">
                             <h2 className="text-3xl font-bold mb-7">Job link</h2>
-                            <input disabled className="rounded-lg bg-aamdanBackground py-3 px-5 border border-strokeColor border-opacity-50 w-full mb-5" value={`www.amdan.com/job/${id}`}/>
+                            <input disabled className="rounded-lg bg-white dark:bg-aamdanBackground py-3 px-5 border border-strokeColor border-opacity-50 w-full mb-5" value={`www.amdan.com/job/${id}`}/>
                             <RoundedTransparentIconButton img='/Copy.svg' text='Copy Link' onClick={() => {navigator.clipboard.writeText(`www.amdan.com/job/${id}`);}} />
                         </section>
                     </div>

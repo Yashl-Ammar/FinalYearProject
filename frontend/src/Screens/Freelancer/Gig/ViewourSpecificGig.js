@@ -17,52 +17,21 @@ import { allCategories } from "../../../Data/Categories";
 import RegularSkillTag from "../../../Components/Tag/RegularSkillTag";
 import Footer from "../../../Components/Nav/Footer";
 import NavBarClient from "../../../Components/Nav/NavBarClient";
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: '#222222',
-  borderRadius: '20px',
-  color: 'white',
-  boxShadow: 24,
-  p: 4,
-};
 
 
 
-function ViewSpecificGigPage() {
+function ViewYourSpecificGigPage() {
 
     const location = useLocation();
     const id = location.state ? location.state.data : '';
 
-    const [errorText, setErrorText] = useState('')
-
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => {
-      setOpen(true);
-    };
-    const handleClose = () => {
-      setOpen(false);
-    };
+    console.log(id);
 
     const [selectedPackage, setSelectedPackage] = useState('basic');
 
     let navigate = useNavigate();
 
     const [data,setData] = useState([]);
-
-    const [title, setTitle] = useState('');
-    const [desc, setDesc] = useState('');
-    const [price, setPrice] = useState('');
-    const [revisions, setRevisions] = useState('');
 
     useEffect(() => {
         fetchData()
@@ -73,7 +42,7 @@ function ViewSpecificGigPage() {
     const fetchData = async () => {
         try{
 
-            let response = await axios.get(process.env.REACT_APP_GigPath + 'gig/viewSpecificGigByClient/' + id,{
+            let response = await axios.get(process.env.REACT_APP_GigPath + 'gig/viewSpecificGigByFreelancer/' + id,{
                 headers:{
                     'token': localStorage.getItem('token')
                 }
@@ -86,8 +55,6 @@ function ViewSpecificGigPage() {
             console.log(e)
         }
     } 
-
-    console.log(data)
 
     const mapLanguages = () => {
         
@@ -155,42 +122,10 @@ function ViewSpecificGigPage() {
         return <p className="text-lg mb-5">No Details Given</p>
     }
 
-    const createOrderRequest = async () => {
-        try{
-            if(title === '' || desc === '' || price === '' || revisions === '' ){
-                setErrorText('Kindly fill all of the fields')
-            }
-            else{
-                const obj = {
-                    title: title,
-                    description: desc,
-                    type: 'Custom Order',
-                    orderStatus: 'Requested',
-                    paymentMethod: 'Card',
-                    paymentStatus: 'Verified',
-                    price: price,
-                    revisions: revisions,
-                    activities: [] 
-                }
-                let response = await axios.post(process.env.REACT_APP_OrderPath +'order/placeOrder/' + data.freelancer._id,obj,{
-                    headers:{
-                        token: localStorage.getItem('token')
-                    }
-                })
-
-                navigate('/client/manageOrderClientPage')
-            }
-
-
-        }catch(e){
-            console.log(e)
-        }
-    }
-
 
     return ( <div className="w-full flex justify-center bg-white dark:bg-aamdanBackground text-aamdanBackground dark:text-white" >
     <div className="w-4/5">
-        <NavBarClient />
+        <NavBarFreelancer />
         <div className="text-center">
             <h1 className="font-heading text-5xl mb-12">View Gigs</h1>
             <h1 className="font-bold text-5xl mb-12">Get your work done by professionals</h1>
@@ -198,18 +133,26 @@ function ViewSpecificGigPage() {
         <div className="flex w-full flex-col lg:flex-row">
             <div className="w-full lg:w-2/3 lg:pr-5 mb-10">
                 <h1 className="font-heading font-bold text-5xl mb-7">{data?.title}</h1>
-                <div className="flex">
-                    <div><img className="mr-3" src='/femaleUser.svg' alt="" /></div>
+                <div className="flex justify-between">
                     <div>
-                        <h2 className="text-3xl font-bold">{data?.freelancer?.fname} {data?.freelancer?.lname}</h2>
                         <div className="flex">
-                            <p>{data?.freelancer?.rating}</p>
-                            <img src="/Star.svg" alt="" />
-                        </div>
+                            <div><img className="mr-3" src='/femaleUser.svg' alt="" /></div>
+                            <div>
+                                <h2 className="text-3xl font-bold">{data?.freelancer?.fname} {data?.freelancer?.lname}</h2>
+                                <div className="flex">
+                                    <p>{data?.freelancer?.rating}</p>
+                                    <img src="/Star.svg" alt="" />
+                                </div>
+                            </div>
+                        </div> 
+                        <p className="font-bold text-lg">Completed Orders ({data?.freelancer?.completedOrder})</p>
+                        <p className="text-lightGray font-bold text-lg mb-7">Starting at <span className="text-aamdanBackground dark:text-white">$ {data?.basic?.price}</span></p>
                     </div>
-                </div> 
-                <p className="font-bold text-lg">Completed Orders ({data?.freelancer?.completedOrder})</p>
-                <p className="text-lightGray font-bold text-lg mb-7">Starting at <span className="text-aamdanBackground dark:text-white">$ {data?.basic?.price}</span></p>
+                    <div className="w-1/6 flex flex-col justify-between mb-5">
+                        <RegularSquareButton text={'Edit'} onClick={() => {navigate('/freelancer/editGig',{state: {gigid: data._id}})}} />
+                        <RegularSquareButton text={'Disable'} onClick={() => {}} />
+                    </div>
+                </div>
                 <img className="w-full xl:w-[700px] xl:h-[400px] object-cover" src={data.file ? data?.file[0] : ''} alt="" />
             </div>
             <div className="flex flex-col w-full lg:w-1/3 mb-10">
@@ -222,12 +165,6 @@ function ViewSpecificGigPage() {
                     <h3 className="text-xl font-bold mb-5">Education</h3>
                     {mapEducation()}
                     <hr className="mb-7" />
-                    <div className="mb-5">    
-                        <RegularSquareButton text='Contact' onClick={() => {
-                            navigate('/client/messaging', {state:{id: data.freelancer?._id}})
-                        }} />
-                    </div>
-                    <RegularSquareButton text='Place Order Request' onClick={handleOpen} />
                 </div>
                 <div className="rounded-lg border border-aamdanBackground dark:border-white px-7 py-5">
                     <h2 className="text-3xl font-bold text-center mb-7">Skills for this gig</h2>
@@ -266,9 +203,7 @@ function ViewSpecificGigPage() {
                     <p className="font-bold text-lg mb-7">What you will receive</p>
                     {mapBasicBullets()}
                 </div>
-                <RegularSquareButton text='Contact' onClick={() => {
-                    navigate('/client/messaging', {state:{id: data.freelancer?._id}})
-                }} />
+
             </div>}
             {selectedPackage === 'standard' &&<div className="mb-10 px-5 lg:px-20 py-10">
                 <div className="flex justify-between mb-8">
@@ -288,9 +223,6 @@ function ViewSpecificGigPage() {
                     <p className="font-bold text-lg mb-7">What you will receive</p>
                     {mapStandardBullets()}
                 </div>
-                <RegularSquareButton text='Contact' onClick={() => {
-                    navigate('/client/messaging', {state:{id: data.freelancer?._id}})
-                }} />
             </div>}
             {selectedPackage === 'premium' &&<div className="mb-10 px-5 lg:px-20 py-10">
                 <div className="flex justify-between mb-8">
@@ -310,43 +242,12 @@ function ViewSpecificGigPage() {
                     <p className="font-bold text-lg mb-7">What you will receive</p>
                     {mapPremiumBullets()}
                 </div>
-                <RegularSquareButton text='Contact' onClick={() => {
-                    navigate('/client/messaging', {state:{id: data.freelancer?._id}})
-                }} />
             </div>}
         </div>   
         <ToastContainer />
-        <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-            >
-            <Box sx={style}>
-                <h3 className="font-bold text-3xl mb-5">Create an order request</h3>
-                <h3 className="font-bold text-lg mb-5">Order Title</h3>
-                <div className="my-5">
-                    <input type="text" className="bg-aamdanSuperDeepBlack border border-lightGray rounded-md w-full py-2 px-2" placeholder="Make a website" value={title} onChange={(e) => {setTitle(e.target.value)}} />
-                </div>
-                <h3 className="font-bold text-lg mb-3">Order Description</h3>
-                <div className="my-3">
-                    <textarea type="text" className="bg-aamdanSuperDeepBlack border border-lightGray rounded-md w-full py-2 px-2" placeholder="I would like you to make a website for me with 3 pages..." value={desc} onChange={(e) => {setDesc(e.target.value)}} />
-                </div>
-                <h3 className="font-bold text-lg mb-3">Order Price in dollars</h3>
-                <div className="my-3">
-                    <input type="number" className="bg-aamdanSuperDeepBlack border border-lightGray rounded-md w-full py-2 px-2" placeholder="3" value={price} onChange={(e) => {setPrice(e.target.value)}} />
-                </div>
-                <h3 className="font-bold text-lg mb-3">Order Revisions</h3>
-                <div className="mt-3 mb-5">
-                    <input type="number" className="bg-aamdanSuperDeepBlack border border-lightGray rounded-md w-full py-2 px-2" placeholder="3" value={revisions} onChange={(e) => {setRevisions(e.target.value)}} />
-                    <p className="text-red my-2">{errorText}</p>
-                </div>
-                <RegularSquareButton text={'Create'} onClick={createOrderRequest} />
-            </Box>
-        </Modal>
         <Footer />
     </div>
 </div> );
 }
 
-export default ViewSpecificGigPage;
+export default ViewYourSpecificGigPage;

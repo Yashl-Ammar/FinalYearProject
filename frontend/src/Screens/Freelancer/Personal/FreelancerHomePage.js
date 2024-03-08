@@ -18,19 +18,20 @@ import Footer from "../../../Components/Nav/Footer";
 
 function FreelancerHomepage() {
 
+    const navigate = useNavigate()
    
-    return ( <div className="w-full flex justify-center">
+    return ( <div className="w-full flex justify-center bg-white dark:bg-aamdanBackground text-aamdanBackground dark:text-white">
     <div className="w-full lg:w-4/5">
         <NavBarFreelancer />
             <div className="flex">
-                <div className="w-full bg-aamdanSuperDeepBlack rounded-lg">
+                <div className="w-full bg-aamdanSuperDeepWhite dark:bg-aamdanSuperDeepBlack rounded-lg">
                     <section className="flex flex-col items-center py-5 border-b">
                         <img className="w-32" src="/femaleUser.svg" alt="" />
                         <h1 className="mb-5 font-bold text-5xl font-heading bg-gradient-to-r from-aamdanPurple to-aamdanPink text-transparent bg-clip-text">Tom Latham</h1>
-                        <h2 className="text-lightGray text-3xl mb-5">@lathamtom</h2>
-                        <p className="text-lightGray mb-5">Professional Developer</p>
+                        <h2 className="text-lightGrayWhite dark:text-lightGray text-3xl mb-5">@lathamtom</h2>
+                        <p className="text-lightGrayWhite dark:text-lightGray mb-5">Professional Developer</p>
                         <div className="w-2/3">
-                            <RegularSquareButton text={'Edit Profile'} />
+                            <RegularSquareButton text={'Edit Profile'} onClick={() => {navigate('/freelancer/editProfilePage')}} />
                         </div>
                     </section>
                     <section className="py-5 px-5 border-b">
@@ -119,7 +120,7 @@ function FreelancerHomepage() {
                             </div>
                             <RegularSquareButton text={'View all'} />
                         </section>
-                        <section className="bg-aamdanSuperDeepBlack w-full px-5 py-3 rounded-lg mb-10">
+                        <section className="bg-aamdanSuperDeepWhite dark:bg-aamdanSuperDeepBlack w-full px-5 py-3 rounded-lg mb-10">
                             <div className="flex items-center justify-between">
                                 <h2 className="text-3xl">Active Orders - 0 ($0). </h2>
                                 <div>
@@ -127,7 +128,7 @@ function FreelancerHomepage() {
                                 </div>
                             </div>
                         </section>
-                    <section className="bg-aamdanSuperDeepBlack w-full px-5 py-7 rounded-lg">
+                    <section className="bg-aamdanSuperDeepWhite dark:bg-aamdanSuperDeepBlack w-full px-5 py-7 rounded-lg">
                         <h1 className="font-bold text-5xl">Jobs you may like</h1>
                     </section>
                 </div>

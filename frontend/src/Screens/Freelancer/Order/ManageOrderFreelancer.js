@@ -16,7 +16,7 @@ import { extractDateTime } from "../../../Utilities/ExtractDate";
 
 
 
-function ManageOrderClientPage() {
+function ManageOrderFreelancerPage() {
 
     const [selectedFilter, setSelectedFilter] = useState('All');
     const [data, setData] = useState([]);
@@ -31,7 +31,7 @@ function ManageOrderClientPage() {
 
     const fetchData = async () => {
         try{
-            let response = await axios.get(process.env.REACT_APP_OrderPath+'order/viewOrdersByClient',{
+            let response = await axios.get(process.env.REACT_APP_OrderPath+'order/viewOrdersByFreelancer',{
                 headers:{
                     'token':localStorage.getItem('token')
                 }
@@ -64,7 +64,7 @@ function ManageOrderClientPage() {
     const mapData = () => {
         return data.map((val,index) => {
             const temp = <tr className="hover:bg-aamdanDarkWhite dark:hover:bg-aamdanDarkGray border-y-8 border-aamdanSuperDeepWhite dark:border-aamdanSuperDeepBlack " onClick={() => {
-                navigate('/client/orderDetailsDeliveryPage/'+val._id)
+                navigate('/freelancer/orderDetailsDeliveryPage/'+val._id)
             }}>
             <td className="py-3"><div className="flex items-center justify-center"><img className="mr-2" src="/femaleUser.svg" alt="" />{val.client.fname + ' ' + val.client.lname}</div></td>
             <td ><div className="flex items-center justify-center"><div className={`${val.type === 'Custom Order'  ? 'bg-aamdanBlue' : 'bg-aamdanPurple' } rounded-md w-28 text-xs py-2 px-2 font-bold`}>{val.type}</div></div></td>
@@ -86,6 +86,9 @@ function ManageOrderClientPage() {
             else if(selectedFilter === 'Requested' && val.orderStatus === 'Requested'){
                 return temp;
             }
+            else if(selectedFilter === 'Delivered' && val.orderStatus === 'Delivered'){
+                return temp;
+            }
             else if(selectedFilter === 'All'){
                 return temp;
             }
@@ -96,7 +99,7 @@ function ManageOrderClientPage() {
 
     return ( <div className="w-full flex justify-center bg-white dark:bg-aamdanBackground text-aamdanBackground dark:text-white">
     <div className="w-full lg:w-4/5">
-        <NavBarClient />
+        <NavBarFreelancer />
         <div className="text-center">
             <h1 className="font-heading text-5xl mb-12">Manage Order</h1>
         </div>
@@ -109,6 +112,10 @@ function ManageOrderClientPage() {
                     <div className="w-full lg:w-1/8 text-center">
                         <p className="text-lg font-bold mb-3 px-5" onClick={() => {setSelectedFilter('Active')}}><Link>Active</Link></p>
                         <div className={`w-full ${selectedFilter === 'Active' ? 'bg-white dark:bg-aamdanBackground' : 'bg-aamdanBackground dark:bg-white'}`} style={{height:'1px'}} ></div>
+                    </div>
+                    <div className="w-full lg:w-1/8 text-center">
+                        <p className="text-lg font-bold mb-3 px-5" onClick={() => {setSelectedFilter('Delivered')}}><Link>Delivered</Link></p>
+                        <div className={`w-full ${selectedFilter === 'Delivered' ? 'bg-white dark:bg-aamdanBackground' : 'bg-aamdanBackground dark:bg-white'}`} style={{height:'1px'}} ></div>
                     </div>
                     <div className="w-full lg:w-1/8 text-center">
                         <p className="text-lg font-bold mb-3 px-5" onClick={() => {setSelectedFilter('Completed')}}><Link>Completed </Link></p>
@@ -148,4 +155,4 @@ function ManageOrderClientPage() {
 </div> );
 }
 
-export default ManageOrderClientPage;
+export default ManageOrderFreelancerPage;

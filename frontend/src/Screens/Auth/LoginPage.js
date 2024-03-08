@@ -13,6 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { loginSchema } from "../../Validations/LoginValidation";
 import RoundedTransparentButton from "../../Components/Buttons/RoundedTransparentButton";
+import Footer from "../../Components/Nav/Footer";
 
 function LoginPage() {
 
@@ -57,19 +58,19 @@ function LoginPage() {
             }   
     }
 
-    return ( <div className="w-full flex justify-center">
+    return ( <div className="w-full flex justify-center bg-white dark:bg-aamdanBackground text-aamdanBackground dark:text-white">
     <div className="w-full lg:w-4/5">
         <NavBarOnlyLogo />
         <div className="flex justify-center w-full">
-            <form className="bg-aamdanSuperDeepBlack sm:rounded-xl w-full sm:w-4/5 py-2 px-4 sm:py-8 sm:px-20 flex flex-col justify-center items-center mb-8" onSubmit={handleSubmit(onSubmit)} >
+            <form className="bg-aamdanSuperDeepWhite dark:bg-aamdanSuperDeepBlack sm:rounded-xl w-full sm:w-4/5 py-2 px-4 sm:py-8 sm:px-20 flex flex-col justify-center items-center mb-8" onSubmit={handleSubmit(onSubmit)} >
                 <h1 className={LargeHeadingStyle}>Log in to Aamdan</h1>
                 <div className="h-16"></div>
                 <div className="flex w-full">
-                    <button type="button" className={`w-full flex flex-col items-center justify-center ${selectedUser === 'client'? 'text-aamdanBlue' : 'text-white'}`} onClick={() => {setSelectedUser('client')}}>
+                    <button type="button" className={`w-full flex flex-col items-center justify-center ${selectedUser === 'client'? 'text-aamdanBlue' : 'text-aamdanBackground dark:text-white'}`} onClick={() => {setSelectedUser('client')}}>
                         <p className="text-xl">Client</p>
                         <hr className="w-full" />
                     </button>
-                    <button type="button" className={`w-full flex flex-col items-center justify-center ${selectedUser === 'freelancer'? 'text-aamdanBlue' : 'text-white'}`} onClick={() => {setSelectedUser('freelancer')}}>
+                    <button type="button" className={`w-full flex flex-col items-center justify-center ${selectedUser === 'freelancer'? 'text-aamdanBlue' : 'text-aamdanBackground dark:text-white'}`} onClick={() => {setSelectedUser('freelancer')}}>
                         <p className="text-xl">Freelancer</p>
                         <hr className="w-full" />
                     </button>
@@ -91,16 +92,18 @@ function LoginPage() {
                 <RegularRoundedButton text='Login' type='submit'/>
                 <div className="h-12"></div>
                 <div className="flex w-full justify-center items-center mb-10">
-                    <div className="w-1/4 bg-lightGray" style={{height:'1px'}}></div>
+                    <div className="w-1/4 bg-lightGrayWhite dark:bg-lightGray" style={{height:'1px'}}></div>
                     <p className="text-xl w-2/4 text-center">Don’t have an Aamdan Account?</p>
-                    <div className="w-1/4 bg-lightGray" style={{height:'1px'}}></div>
+                    <div className="w-1/4 bg-lightGrayWhite dark:bg-lightGray" style={{height:'1px'}}></div>
                 </div>
                 <div className="w-full">
                     <Link to='/joinas'><RoundedTransparentButton text='Sign up' /></Link>
                 </div>
+                
                 <ToastContainer />
             </form>
         </div>
+        <Footer />
     </div>
 </div> );
 }

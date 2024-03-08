@@ -22,10 +22,10 @@ import SkillTagWithClose from "../../../Components/Tag/SkillTagwithClose";
 function FreelancerEditProfilePage() {
 
    
-    return ( <div className="w-full flex justify-center">
+    return ( <div className="w-full flex justify-center bg-white dark:bg-aamdanBackground text-aamdanBackground dark:text-white">
     <div className="w-full lg:w-4/5">
         <NavBarFreelancer />
-            <div className="bg-aamdanSuperDeepBlack py-7 rounded-xl flex justify-center">
+            <div className="bg-aamdanSuperDeepWhite dark:bg-aamdanSuperDeepBlack py-7 rounded-xl flex justify-center">
                 <div className="flex flex-col items-center w-1/2">
                     <h1 className="text-5xl font-heading mb-5">Profile Management</h1>
                     <img className="w-40" src="/femaleUser.svg" alt="" />
@@ -45,7 +45,7 @@ function FreelancerEditProfilePage() {
                     <div className="w-full">
                         <h2 className="text-3xl font-heading font-bold mb-5">Languages</h2>
                         <div className="relative flex mb-5">
-                            <input type="text" className="w-full rounded-md py-2 px-5 bg-aamdanBackground border" placeholder="Add Language" />
+                            <input type="text" className="w-full rounded-md py-2 px-5 bg-white dark:bg-aamdanBackground border" placeholder="Add Language" />
                             <button className="absolute top-0 right-0 h-full bg-gradient-to-r from-aamdanBlue to-aamdanPurple rounded-r px-5">
                                 <p className="font-bold">Add</p>
                             </button>
@@ -71,7 +71,7 @@ function FreelancerEditProfilePage() {
                     <div className="w-full">
                         <h2 className="text-3xl font-heading font-bold mb-5">Skills</h2>
                         <div className="relative flex mb-5">
-                            <input type="text" className="w-full rounded-md py-2 px-5 bg-aamdanBackground border" placeholder="Add Skill" />
+                            <input type="text" className="w-full rounded-md py-2 px-5 bg-white dark:bg-aamdanBackground border" placeholder="Add Skill" />
                             <button className="absolute top-0 right-0 h-full bg-gradient-to-r from-aamdanBlue to-aamdanPurple rounded-r px-5">
                                 <p className="font-bold">Add</p>
                             </button>
@@ -97,7 +97,7 @@ function FreelancerEditProfilePage() {
                     <div className="w-full">
                         <h2 className="text-3xl font-heading font-bold mb-5">Education</h2>
                         <div className="relative flex mb-5">
-                            <input type="text" className="w-full rounded-md py-2 px-5 bg-aamdanBackground border" placeholder="Add Education" />
+                            <input type="text" className="w-full rounded-md py-2 px-5 bg-white dark:bg-aamdanBackground border" placeholder="Add Education" />
                             <button className="absolute top-0 right-0 h-full bg-gradient-to-r from-aamdanBlue to-aamdanPurple rounded-r px-5">
                                 <p className="font-bold">Add</p>
                             </button>
