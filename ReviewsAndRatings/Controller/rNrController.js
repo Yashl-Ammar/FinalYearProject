@@ -101,8 +101,7 @@ const viewClientRnR=async(req,res)=>{
 const viewFreelancerRnrByClient=async(req,res)=>{
   try {
     const freelancerId=req.params.freelancerId
-    const clientId = req.user._id;
-    const rnr = await RnR.find({ $and: [{ freelancer: freelancerId }, { isclient: true }] });
+    const rnr = await RnR.find({ $and: [{ freelancer: freelancerId }, { isclient: true }] }).populate('client',"fname lname");
     res.send(rnr);
   } catch (error) {
     console.error(error);
@@ -113,5 +112,6 @@ module.exports={
     tofreelancer,
     toclient,
     viewFreelancerRnR,
-    viewClientRnR
+    viewClientRnR,
+    viewFreelancerRnrByClient
 }
