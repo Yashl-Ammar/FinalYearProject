@@ -8,4 +8,5 @@ rNrRouter.post("/tofreelancer/:freelancerId/:orderId",auth,isClient,tofreelancer
 rNrRouter.post("/toclient/:clientId/:orderId",auth,isFreelancer,toclient)
 rNrRouter.get("/viewFreelancerRnR",auth,viewFreelancerRnR)
 rNrRouter.get("/viewClientRnR",auth,viewClientRnR)
+rNrRouter.get("/viewFreelancerRnrByClient/:freelancerId",auth,)
 module.exports=rNrRouter
