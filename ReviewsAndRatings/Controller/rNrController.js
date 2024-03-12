@@ -78,6 +78,18 @@ const toclient=async(req,res)=>{
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
+const CheckFreelancerToClient=async(req,res)=>{
+  try {
+    const clientId = req.params.clientId;
+    const orderId=req.params.orderId
+    const order=await Order.findById(orderId)
+    const checkRnR=await RnR.findOne({$and:[{client:clientId},{freelancer:req.user._id},{order:order._id}]})
+    if(checkRnR && checkRnR.isfreelancer) return res.status(400).send("You have already gave Reviews and Rating to this Account")
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
 const viewFreelancerRnR = async (req, res) => {
   try {
     const freelancerId = req.user._id;
@@ -124,5 +136,6 @@ module.exports={
     viewFreelancerRnR,
     viewClientRnR,
     viewFreelancerRnrByClient,
-    viewClientRnrByFreelancer
+    viewClientRnrByFreelancer,
+    CheckFreelancerToClient
 }
