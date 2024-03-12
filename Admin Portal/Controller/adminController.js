@@ -9,7 +9,7 @@ const dashboardInformation = async (req, res) => {
       const clientCount = await Client.countDocuments();
       const freelancerCount = await Freelancer.countDocuments();
       const orderCount = await Order.countDocuments();
-      const admins=await Admin.countDocuments()
+      const admin=await Admin.countDocuments()
       const totalusers=clientCount+freelancerCount
       res.json({
         clientCount,
