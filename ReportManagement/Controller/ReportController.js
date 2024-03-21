@@ -1,12 +1,11 @@
 const Report=require('../Models/Report')
 
 const addReportByClient=async(req,res)=>{
-    const{title,description,details,links,type}=req.body
+    const{title,details,links,type}=req.body
 
     const report=new Report({
         client:req.user._id,
         title,
-        description,
         details,
         links,
         type
@@ -17,12 +16,11 @@ const addReportByClient=async(req,res)=>{
     res.send(newReport)
 }
 const addReportByfreelancer=async(req,res)=>{
-    const{title,description,details,links,type}=req.body
+    const{title,details,links,type}=req.body
 
     const report=new Report({
         freelancer:req.user._id,
         title,
-        description,
         details,
         links,
         type
