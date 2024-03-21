@@ -85,7 +85,7 @@ const CheckFreelancerToClient=async(req,res)=>{
     const order=await Order.findById(orderId)
     const checkRnR=await RnR.findOne({$and:[{client:clientId},{freelancer:req.user._id},{order:order._id}]})
     if(checkRnR && checkRnR.isfreelancer) return res.status(400).send("You have already gave Reviews and Rating to this Account")
-    else return res.status(400).send("You can Give Reviews and Rating to this client")
+    else return res.status(200).send("You can Give Reviews and Rating to this client")
 
   } catch (error) {
     console.error(error);
