@@ -9,7 +9,7 @@ const getClientData=async(req,res)=>{
 }
 const clientEditProfile=async(req,res)=>{
     const id=req.user._id
-    const{username,country,languages,education,fname,lname}=req.body
+    const{languages,fname,lname}=req.body
     const profilepic=req.file;
     let client= await Client.findById(id)
     if(!client) return res.status(404).send("Client Not found")
@@ -18,10 +18,7 @@ const clientEditProfile=async(req,res)=>{
 
     client.fname=fname
     client.lname=lname
-    client.username=username
     client.languages=languages
-    client.country=country
-    client.education=education
     client.profilepic=mycloud.secure_url
 
     client.save()
