@@ -41,6 +41,8 @@ function PostJobPage() {
     const [allSkills, setAllSkills] = useState([]);
     let [checkedRadio, setCheckedRadio] = useState('hourly');
 
+    const [gptResponse, setGptResponse] = useState('');
+
     const [prompt, setPrompt] = useState('');
 
     const [open, setOpen] = useState(false);
@@ -133,32 +135,18 @@ function PostJobPage() {
 
     const askChatGPT = async function (prompt) {
         try {
-            const apiKey = process.env.REACT_APP_GPTAPIKey; // Replace 'YOUR_API_KEY' with your actual API key
-            const endpoint = 'https://api.openai.com/v1/completions/chat';
-    
-            // Set up the request headers
-            const headers = {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
-            };
-    
-            // Set up the request data
-            const data = {
-                model: 'text-davinci-002', // Specify the model you want to use
-                prompt: prompt,
-                max_tokens: 100 // Specify the maximum number of tokens for the completion
-            };
     
             // Make the HTTP POST request using Axios
-            const response = await axios.post(endpoint, data, { headers });
-    
-            // Check if the request was successful
-            if (response.status === 200) {
-                console.log(response);
-                return response.data.choices[0].text.trim();
-            } else {
-                throw new Error(`Error: ${response.status} - ${response.statusText}`);
-            }
+            const response = await axios.post(process.env.REACT_APP_JobPath+'job/askGpt',{
+                prompt: prompt
+            },{
+                headers:{
+                    'token':localStorage.getItem('token')
+                }
+            })
+            
+            setGptResponse(response.data);
+
         } catch (error) {
             console.error('An error occurred:', error);
             return 'An error occurred while fetching the response.';
@@ -301,6 +289,8 @@ function PostJobPage() {
                 <div className="my-5">
                     <input type="text" className="bg-aamdanSuperDeepBlack border border-lightGray rounded-md w-full py-2 px-2" placeholder="Ask gpt..." value={prompt} onChange={(e) => {setPrompt(e.target.value)}} />
                 </div>
+                <h3 className="font-bold text-3xl mb-5">Reponse</h3>
+                <p className=" mb-5">{gptResponse}</p>
                 <RegularSquareButton text={'Ask'} onClick={() => {askChatGPT(prompt)}} />
             </Box>
         </Modal>
