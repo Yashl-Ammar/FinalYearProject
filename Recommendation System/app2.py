@@ -37,7 +37,7 @@ def vectorize_skills_tfidf(skills, vectorizer=None):
 
 def recommend_jobs_based_on_skills_tfidf(dataset, freelancer_skills, top_n=10):
     """Recommend jobs based on a list of freelancer's skills using TF-IDF."""
-    # Ensure 'skills' are in list format
+    # Ensure 'tags' are in list format
     dataset['skills'] = preprocess_tags(dataset['skills'])
     dataset['skills_joined'] = dataset['skills'].apply(lambda x: ' '.join(x))
 
@@ -55,8 +55,7 @@ def recommend_jobs_based_on_skills_tfidf(dataset, freelancer_skills, top_n=10):
     top_indexes = pd.Series(cosine_sim_skills.flatten()).nlargest(top_n).index
     recommended_jobs = dataset.iloc[top_indexes]
 
-    return recommended_jobs  # Return the entire DataFrame row of recommended jobs
-
+    return recommended_jobs[['title', 'skills']]
 
 
 @app.route('/recommend_jobs', methods=['POST'])
