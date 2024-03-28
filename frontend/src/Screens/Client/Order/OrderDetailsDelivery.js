@@ -15,9 +15,21 @@ import DragDrop from "../../../Components/DragDrop/DragDrop";
 import RoundedTransparentButton from "../../../Components/Buttons/RoundedTransparentButton";
 import Footer from "../../../Components/Nav/Footer";
 import NavBarClient from "../../../Components/Nav/NavBarClient";
+import { Box, InputLabel, MenuItem, Modal, Select } from "@mui/material";
 import { extractDateTime } from "../../../Utilities/ExtractDate";
 
-const x=''
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: '#222222',
+    borderRadius: '20px',
+    color: 'white',
+    boxShadow: 24,
+    p: 4,
+  };
 
 function OrderDetailsDeliveryPage() {
 
@@ -26,6 +38,21 @@ function OrderDetailsDeliveryPage() {
     const {id} = useParams();
 
     const navigate = useNavigate();
+
+    const [numberofStars, setNumberofStars] = useState(0);
+    const [lockStars, setLockStars] = useState(false);
+
+    const [review, setReview] = useState('');
+
+    const [errorText, setErrorText] = useState('');
+
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => {
+      setOpen(true);
+    };
+    const handleClose = () => {
+      setOpen(false);
+    };
 
     useEffect(() => {
         fetchData()
@@ -43,7 +70,20 @@ function OrderDetailsDeliveryPage() {
         }  
         catch(e){
             console.log(e)
+     
         }
+    }
+
+    const mapStars = () => {
+        let arr = [];
+        for(let i = 0 ; i < numberofStars ; i++){
+            arr.push(<img className="h-7 w-7" src="/Star.svg" alt="" onMouseOver={() => {setNumberofStars(i+1) }} onClick={() => {setNumberofStars(i+1);setLockStars(true)}} />)
+        }
+        for(let i = numberofStars ; i < 5 ; i++){
+            arr.push(<img className="h-7 w-7" src="/GrayStar.svg" alt="" onMouseOver={() => {setNumberofStars(i+1)}} onClick={() => {setNumberofStars(i+1);setLockStars(true)}} />)
+        }
+
+        return arr;
     }
 
     const mapDelivered = () => {
@@ -54,13 +94,29 @@ function OrderDetailsDeliveryPage() {
 
     const acceptOrder = async () => {
         try{
-            let response = await axios.put(process.env.REACT_APP_OrderPath+'order/acceptOrder/'+id,{},{
-                headers:{
-                    'token':localStorage.getItem('token'),
-                }
-            })
 
-            navigate('/client/manageOrderClientPage');
+            if(numberofStars === 0 || review === '' ) {
+                setErrorText('Kindly fill all fields')
+            }
+            else{
+
+                let rateRequest = await axios.post(process.env.REACT_APP_ReviewPath+'rnr/tofreelancer/'+data.freelancer._id + '/' + data._id, {
+                    rating: numberofStars, 
+                    review: review
+                },{
+                    headers:{
+                        'token':localStorage.getItem('token'),
+                    }
+                })
+
+                let response = await axios.put(process.env.REACT_APP_OrderPath+'order/acceptOrder/'+id,{},{
+                    headers:{
+                        'token':localStorage.getItem('token'),
+                    }
+                })
+
+                navigate('/client/manageOrderClientPage');
+            }
         }  
         catch(e){
             console.log(e)
@@ -154,12 +210,32 @@ function OrderDetailsDeliveryPage() {
                                 <div className="w-full mb-5">
                                     <RoundedTransparentButton text='Send for Revision' onClick={rejectOrder}/>
                                 </div>
-                                <RegularRoundedButton text={'Accept Delivery'} onClick={acceptOrder} />
+                                <RegularRoundedButton text={'Accept Delivery'} onClick={handleOpen} />
                         </div>
                     }
 
                 </section>
             </div>
+            <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            >
+            <Box sx={style}>
+                <h3 className="font-bold text-3xl mb-5">Give Review of Freelancer</h3>
+                <h3 className="font-bold text-lg mb-5">Rating</h3>
+                <div className="flex lg mb-5">
+                    {mapStars()}
+                </div>
+                <h3 className="font-bold text-lg mb-5">Review</h3>
+                <div className="my-5">
+                    <textarea type="text" className="bg-aamdanSuperDeepBlack border border-lightGray rounded-md w-full py-2 px-2" placeholder="Please share your thoughts and feedback here..." value={review} onChange={(e) => {setReview(e.target.value)}} />
+                </div>
+                <p className="text-red mb-5">{errorText}</p>
+                <RegularSquareButton text={'Accept'} onClick={acceptOrder} />
+            </Box>
+        </Modal>
         <ToastContainer />
         <Footer />
     </div>

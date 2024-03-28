@@ -11,6 +11,7 @@ const clientEditProfile=async(req,res)=>{
     const id=req.user._id
     const{languages,fname,lname}=req.body
     const profilepic=req.file;
+    console.log(req.files)
     let client= await Client.findById(id)
     if(!client) return res.status(404).send("Client Not found")
     const fileUri=getDataUri(profilepic)

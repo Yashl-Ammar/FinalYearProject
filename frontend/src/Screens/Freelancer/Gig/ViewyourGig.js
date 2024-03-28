@@ -51,7 +51,7 @@ function ViewYourGigsPage() {
     const mapGigs = () => {
 
         return data.map((val) => {
-            return <GigCard id={val?._id} img={val?.file[0]} completedOrders={val.freelancer.completedOrder} name={`${val.freelancer.fname} ${val.freelancer.lname}`} rating={val.freelancer.rating} startingPrice={val?.basic?.price} title={val?.title} freelancer={true} userImg='/femaleUser.svg' />
+            return <GigCard id={val?._id} img={val?.file[0]} completedOrders={val.freelancer.completedOrder} name={`${val.freelancer.fname} ${val.freelancer.lname}`} rating={val.freelancer.rating} startingPrice={val?.basic?.price} title={val?.title} freelancer={true} userImg={val?.freelancer.profilepic} />
         })
     }
 

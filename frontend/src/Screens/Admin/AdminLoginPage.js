@@ -13,6 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { loginSchema } from "../../Validations/LoginValidation";
 import RoundedTransparentButton from "../../Components/Buttons/RoundedTransparentButton";
+import Footer from "../../Components/Nav/Footer";
 
 function AdminLoginPage() {
 
@@ -32,10 +33,7 @@ function AdminLoginPage() {
             }
             else{
                 try{
-                    let path = process.env.REACT_APP_AuthPath+'client/signin';
-                    if(selectedUser === 'freelancer'){
-                        path = process.env.REACT_APP_AuthPath+'freelancer/signin';
-                    }
+                    let path = process.env.REACT_APP_AuthPath+'admin/signin';
 
                     let response = await axios.post(path,{
                         email: data.email,
@@ -44,12 +42,7 @@ function AdminLoginPage() {
                     
                     let token = response.data;
                     localStorage.setItem('token', token);
-                    if(selectedUser === 'freelancer'){
-                        navigate('/freelancer/home');
-                    }
-                    else{
-                        navigate('/client/home');
-                    }
+                    navigate('/admin/dashboard');
                 }
                 catch(e){
                     toast(e.response.data);
@@ -57,31 +50,37 @@ function AdminLoginPage() {
             }   
     }
 
-    return ( <div className="w-full flex justify-center bg-aamdanBackgroundWhite dark:bg-aamdanBackground text-aamdanBackground dark:text-white">
-    <div className="w-full lg:w-4/5">
-        <NavBarOnlyLogo />
-        <div className="flex justify-center w-full">
-            <form className="bg-aamdanSuperDeepWhite dark:bg-aamdanSuperDeepBlack sm:rounded-xl w-full sm:w-4/5 py-2 px-4 sm:py-8 sm:px-20 flex flex-col justify-center items-center mb-8" onSubmit={handleSubmit(onSubmit)} >
-                <h1 className={LargeHeadingStyle}>Log in to Aamdan</h1>
-                <div className="w-full my-8">
-                    
-                    <div className="mb-8">
-                        <RegularInputField placeholder={'Email'} register={register('email')} type='email' />
-                    </div>
-                    <div className="mb-8">
-                        <PasswordInputField placeholder='Password' register={register('password')} />
-                    </div>
-                    <div className="flex">
-                        <input className="w-6 mr-3" type="checkbox" {...register('remember')} />
-                        <p className="text-sm">Remember me</p>
-                    </div>
+    return ( 
+    <div className="flex flex-col bg-aamdanBackgroundWhite dark:bg-aamdanBackground text-aamdanBackground dark:text-white h-screen">
+        <div className="w-full flex justify-center flex-1">
+            <div className="w-full lg:w-4/5">
+                <NavBarOnlyLogo />
+                <div className="flex justify-center w-full">
+                    <form className="bg-aamdanSuperDeepWhite dark:bg-aamdanSuperDeepBlack sm:rounded-xl w-full sm:w-4/5 py-2 px-4 sm:py-8 sm:px-20 flex flex-col justify-center items-center mb-8" onSubmit={handleSubmit(onSubmit)} >
+                        <h1 className={LargeHeadingStyle}>Log in to Aamdan</h1>
+                        <div className="w-full my-8">
+                            
+                            <div className="mb-8">
+                                <RegularInputField placeholder={'Email'} register={register('email')} type='email' />
+                            </div>
+                            <div className="mb-8">
+                                <PasswordInputField placeholder='Password' register={register('password')} />
+                            </div>
+                            <div className="flex">
+                                <input className="w-6 mr-3" type="checkbox" {...register('remember')} />
+                                <p className="text-sm">Remember me</p>
+                            </div>
+                        </div>
+                        <RegularRoundedButton text='Login' type='submit'/>
+                        <ToastContainer />
+                    </form>
                 </div>
-                <RegularRoundedButton text='Login' type='submit'/>
-                <ToastContainer />
-            </form>
+            </div>
+        
         </div>
+        <Footer />
     </div>
-</div> );
+);
 }
 
 export default AdminLoginPage;

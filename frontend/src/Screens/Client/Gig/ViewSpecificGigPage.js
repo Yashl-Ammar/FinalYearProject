@@ -22,13 +22,15 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import ReviewTile from "../../../Components/Tiles/ReviewTile";
+import { extractDateTime } from "../../../Utilities/ExtractDate";
 
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: '50%',
   bgcolor: '#222222',
   borderRadius: '20px',
   color: 'white',
@@ -58,6 +60,8 @@ function ViewSpecificGigPage() {
     let navigate = useNavigate();
 
     const [data,setData] = useState([]);
+    const [reviews, setReviews] = useState([])
+
 
     const [title, setTitle] = useState('');
     const [desc, setDesc] = useState('');
@@ -68,6 +72,8 @@ function ViewSpecificGigPage() {
         fetchData()
     },[])
 
+
+    console.log(reviews)
 
 
     const fetchData = async () => {
@@ -80,6 +86,15 @@ function ViewSpecificGigPage() {
             })
 
             console.log(response);
+
+            let reviews = await axios.get(process.env.REACT_APP_ReviewPath + 'rnr/viewFreelancerRnrByClient/' + response.data.freelancer._id,{
+                headers:{
+                    'token': localStorage.getItem('token')
+                }
+            })
+
+
+            setReviews(reviews.data);
             setData(response.data);
 
         }catch(e){
@@ -187,6 +202,13 @@ function ViewSpecificGigPage() {
         }
     }
 
+    const mapReviews = () => {
+        return reviews.map((val, index) => {
+            console.log(index)
+            return <ReviewTile key={index} name={val.client.fname + '' + val.client.lname} rating={val.rating} review={val.review} date={extractDateTime(val.createdAt)} />
+        })
+    }
+
 
     return ( <div className="w-full flex justify-center bg-white dark:bg-aamdanBackground text-aamdanBackground dark:text-white" >
     <div className="w-4/5">
@@ -199,7 +221,10 @@ function ViewSpecificGigPage() {
             <div className="w-full lg:w-2/3 lg:pr-5 mb-10">
                 <h1 className="font-heading font-bold text-5xl mb-7">{data?.title}</h1>
                 <div className="flex">
-                    <div><img className="mr-3" src='/femaleUser.svg' alt="" /></div>
+                    <div>
+                        {data?.freelancer && data?.freelancer.profilepic && <img className="w-10 h-10 rounded-full object-cover mr-3" src={data?.freelancer.profilepic} alt="" />}
+                        {!data?.freelancer?.profilepic && <img className="mr-3" src='/femaleUser.svg' alt="" />}
+                    </div>
                     <div>
                         <h2 className="text-3xl font-bold">{data?.freelancer?.fname} {data?.freelancer?.lname}</h2>
                         <div className="flex">
@@ -314,7 +339,22 @@ function ViewSpecificGigPage() {
                     navigate('/client/messaging', {state:{id: data.freelancer?._id}})
                 }} />
             </div>}
+
+            
+
         </div>   
+        <div className="">
+            <div className="mb-12">
+                <h3 className="text-3xl font-bold mb-5">Reviews</h3>
+                <div className="flex items-center mb-5">
+                    <p className="text-xl font-bold mr-5">Rating</p>
+                    <p className="font-bold text-lg">{data?.freelancer?.rating}</p>
+                    <img src="/Star.svg" alt="" />
+                </div>
+                <p className="text-lightGrayWhite dark:text-lightGray font-bold">Completed Orders ({data?.freelancer?.completedOrder})</p>
+            </div>
+            {mapReviews()}
+         </div>
         <ToastContainer />
         <Modal
             open={open}

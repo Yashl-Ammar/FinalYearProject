@@ -1,7 +1,7 @@
 import {  useEffect, useState } from "react";
 import {   Link, useNavigate, useParams, } from "react-router-dom";
 import axios from "axios";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 import RegularRoundedButton from "../../../Components/Buttons/RegularRoundedButton";
 
@@ -14,6 +14,22 @@ import Footer from "../../../Components/Nav/Footer";
 
 import { extractDateTime } from "../../../Utilities/ExtractDate";
 import RoundedTransparentButton from "../../../Components/Buttons/RoundedTransparentButton";
+import { Box, InputLabel, MenuItem, Modal, Select } from "@mui/material";
+import RegularSquareButton from "../../../Components/Buttons/RegularSquareButton";
+import { number } from "zod";
+import RegularTextArea from "../../../Components/InputFields/RegularTextArea";
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: '#222222',
+    borderRadius: '20px',
+    color: 'white',
+    boxShadow: 24,
+    p: 4,
+  };
 
 
 function OrderDetailsDeliveryFreelancerPage() {
@@ -22,7 +38,56 @@ function OrderDetailsDeliveryFreelancerPage() {
 
     const {id} = useParams();
 
+    const [numberofStars, setNumberofStars] = useState(0);
+    const [lockStars, setLockStars] = useState(false);
+
+    const [review, setReview] = useState('');
+
+    const [errorText, setErrorText] = useState('');
+
+    const [files, setFiles] = useState([]);
+
     const navigate = useNavigate();
+
+    const [open, setOpen] = useState(false);
+    const handleOpen = async () => {
+        try{
+            let response = await axios.get(process.env.REACT_APP_ReviewPath + 'rnr/CheckFreelancerToClient/'+ data.client._id +'/' + data._id,{
+                headers:{
+                    'token':localStorage.getItem('token')
+                }
+            })
+            console.log(response)
+            setOpen(true);
+        }  
+        catch(e){
+            
+            console.log(e)
+            if(files.length === 0){
+                toast('Kindly add some files');
+            }
+            else{
+
+                const formData = new FormData();
+        
+                files.forEach((file, index) => {
+                    formData.append('files', file);
+                });
+        
+                let response = await axios.post(process.env.REACT_APP_OrderPath+'order/deliverOrder/'+id, formData,{
+                    headers:{
+                        'token':localStorage.getItem('token'),
+                        'Content-Type': 'multipart/form-data',
+                    }
+                })
+        
+                navigate('/freelancer/manageOrderPage');
+            }
+        }
+    };
+    const handleClose = () => {
+      setOpen(false);
+    };
 
     useEffect(() => {
         fetchData()
@@ -42,27 +107,45 @@ function OrderDetailsDeliveryFreelancerPage() {
             console.log(e)
         }
     }
-    const [files, setFiles] = useState([]);
+    
 
     const deliverOrder = async () => {
         try{
-            const formData = new FormData();
 
-            files.forEach((file, index) => {
-                formData.append('files', file);
-              });
+            if(numberofStars === 0 || review === '' || files.length === 0) {
+                setErrorText('Kindly fill all fields or make sure you have uploaded a file')
+            }
+            else{
 
-            let response = await axios.post(process.env.REACT_APP_OrderPath+'order/deliverOrder/'+id, formData,{
-                headers:{
-                    'token':localStorage.getItem('token'),
-                    'Content-Type': 'multipart/form-data',
-                }
-            })
+                let rateRequest = await axios.post(process.env.REACT_APP_ReviewPath+'rnr/toclient/'+data.client._id + '/' + data._id, {
+                    rating: numberofStars, 
+                    review: review
+                },{
+                    headers:{
+                        'token':localStorage.getItem('token'),
+                    }
+                })
 
-            navigate('/freelancer/manageOrderPage');
+                const formData = new FormData();
+    
+                files.forEach((file, index) => {
+                    formData.append('files', file);
+                  });
+    
+                let response = await axios.post(process.env.REACT_APP_OrderPath+'order/deliverOrder/'+id, formData,{
+                    headers:{
+                        'token':localStorage.getItem('token'),
+                        'Content-Type': 'multipart/form-data',
+                    }
+                })
+    
+                navigate('/freelancer/manageOrderPage');
+            }
+
         }  
         catch(e){
             console.log(e)
+            toast('Looks like there was an issue delivering your project please try later!')
         }
     }
 
@@ -108,6 +191,19 @@ function OrderDetailsDeliveryFreelancerPage() {
         catch(e){
             console.log(e)
         }
+    }
+
+
+    const mapStars = () => {
+        let arr = [];
+        for(let i = 0 ; i < numberofStars ; i++){
+            arr.push(<img className="h-7 w-7" src="/Star.svg" alt="" onMouseOver={() => {setNumberofStars(i+1) }} onClick={() => {setNumberofStars(i+1);setLockStars(true)}} />)
+        }
+        for(let i = numberofStars ; i < 5 ; i++){
+            arr.push(<img className="h-7 w-7" src="/GrayStar.svg" alt="" onMouseOver={() => {setNumberofStars(i+1)}} onClick={() => {setNumberofStars(i+1);setLockStars(true)}} />)
+        }
+
+        return arr;
     }
 
     return ( <div className="w-full flex justify-center bg-white dark:bg-aamdanBackground text-aamdanBackground dark:text-white">
@@ -182,10 +278,31 @@ function OrderDetailsDeliveryFreelancerPage() {
                         }   
                     </div>
                     <div className={`${data?.orderStatus === 'Active' ? 'block' :  'hidden'}`}>
-                        <RegularRoundedButton text={'Deliver Project'} onClick={deliverOrder} />
+                        <RegularRoundedButton text={'Deliver Project'} onClick={handleOpen} />
                     </div>
                 </section>
+                
             </div>
+            <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            >
+            <Box sx={style}>
+                <h3 className="font-bold text-3xl mb-5">Give Review of Client</h3>
+                <h3 className="font-bold text-lg mb-5">Rating</h3>
+                <div className="flex lg mb-5">
+                    {mapStars()}
+                </div>
+                <h3 className="font-bold text-lg mb-5">Review</h3>
+                <div className="my-5">
+                    <textarea type="text" className="bg-aamdanSuperDeepBlack border border-lightGray rounded-md w-full py-2 px-2" placeholder="Please share your thoughts and feedback here..." value={review} onChange={(e) => {setReview(e.target.value)}} />
+                </div>
+                <p className="text-red mb-5">{errorText}</p>
+                <RegularSquareButton text={'Deliver'} onClick={deliverOrder} />
+            </Box>
+        </Modal>
         <ToastContainer />
         <Footer />
     </div>

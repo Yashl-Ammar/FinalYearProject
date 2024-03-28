@@ -1,9 +1,53 @@
+import { useEffect, useState } from "react";
 import RegularSquareButton from "../../Components/Buttons/RegularSquareButton";
 import SidebarButton from "../../Components/Buttons/SidebarButton";
 import AdminDashboardCard from "../../Components/Cards/AdminDashboardCards";
 import AdminSideBar from "../../Components/Nav/AdminSideBar";
+import axios from "axios";
+import ReportDashboardTile from "../../Components/Tiles/ReportDashboardTile";
+import { extractDateTime } from "../../Utilities/ExtractDate";
 
 function AdminReportsPage() {
+
+    const [data,setData] = useState([]);
+    const [reportData,setReportData] = useState([]);
+
+    useEffect(() => {
+        fetchData()
+    },[])
+
+    const fetchData = async () => {
+        try{
+
+            let response = await axios.get(process.env.REACT_APP_AdminPath + 'admin/reportsInformation',{
+                headers:{
+                    'token': localStorage.getItem('token')
+                }
+            })
+            
+            let reportsData = await axios.get(process.env.REACT_APP_AdminPath + 'admin/getReports',{
+                headers:{
+                    'token': localStorage.getItem('token')
+                }
+            })
+            
+            console.log(reportsData)
+            console.log(response)
+            
+            setData(response.data);
+            setReportData(reportsData.data.reports);
+
+        }catch(e){
+            console.log(e)
+        }
+    } 
+
+    const mapReports = () => {
+        return reportData?.map((val, index) => {
+            return <ReportDashboardTile serial={index+1} status={val.reportStatus} title={val.title} type={val.type} date={extractDateTime(val.createdAt)}/>
+        }) 
+    }
+
     return ( <div className="flex bg-white dark:bg-aamdanBackground text-aamdanBackground dark:text-white">
         <AdminSideBar active={'reports'} />
         <div className="w-full flex flex-col">
@@ -24,52 +68,13 @@ function AdminReportsPage() {
                     <table className="w-full">
                         <tr className="text-left">
                             <th>No.</th>
-                            <th>Subject</th>
-                            <th>Submitted by</th>
-                            <th>Category</th>
-                            <th>Against</th>
+                            <th>Title</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Date</th>
                             <th>Actions</th>
                         </tr>
-                        <tr className="h-20 border-b border-lightGrayWhite dark:border-lightGray">
-                            <td>1.</td>
-                            <td>Use of inappropriate language while messaging</td>
-                            <td>Tiffany Jay</td>
-                            <td className="font-bold">Inappropriate language</td>
-                            <td>Tiffany Jay</td>
-                            <td>Actions</td>
-                        </tr>
-                        <tr className="h-20 border-b border-lightGrayWhite dark:border-lightGray">
-                            <td>1.</td>
-                            <td>Use of inappropriate language while messaging</td>
-                            <td>Tiffany Jay</td>
-                            <td className="font-bold">Inappropriate language</td>
-                            <td>Tiffany Jay</td>
-                            <td>Actions</td>
-                        </tr>
-                        <tr className="h-20 border-b border-lightGrayWhite dark:border-lightGray">
-                            <td>1.</td>
-                            <td>Use of inappropriate language while messaging</td>
-                            <td>Tiffany Jay</td>
-                            <td className="font-bold">Inappropriate language</td>
-                            <td>Tiffany Jay</td>
-                            <td>Actions</td>
-                        </tr>
-                        <tr className="h-20 border-b border-lightGrayWhite dark:border-lightGray">
-                            <td>1.</td>
-                            <td>Use of inappropriate language while messaging</td>
-                            <td>Tiffany Jay</td>
-                            <td className="font-bold">Inappropriate language</td>
-                            <td>Tiffany Jay</td>
-                            <td>Actions</td>
-                        </tr>
-                        <tr className="h-20 border-b border-lightGrayWhite dark:border-lightGray">
-                            <td>1.</td>
-                            <td>Use of inappropriate language while messaging</td>
-                            <td>Tiffany Jay</td>
-                            <td className="font-bold">Inappropriate language</td>
-                            <td>Tiffany Jay</td>
-                            <td>Actions</td>
-                        </tr>
+                        {mapReports()}
                         
                     </table>
                 </div>

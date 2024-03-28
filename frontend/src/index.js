@@ -46,6 +46,7 @@ import ClientMessagingPage from './Screens/Client/Messaging/ClientMessagingPage.
 import FreelancerMessagingPage from './Screens/Freelancer/Messaging/FreelancerMessaging.js';
 import OrderDetailsDeliveryFreelancerPage from './Screens/Freelancer/Order/OrderDetailDeliveryFreelancer.js';
 import ManageOrderFreelancerPage from './Screens/Freelancer/Order/ManageOrderFreelancer.js';
+import ClientEditProfilePage from './Screens/Client/Personal/ClientEditProfilePage.js';
 
 
 // Wrap your App component with BrowserRouter
@@ -74,6 +75,7 @@ root.render(
         <Route path="/client/orderDetailsActivityPage" element={<OrderDetailsActivityPage />} />
         <Route path="/client/orderDetailsDeliveryPage/:id" element={<OrderDetailsDeliveryPage />} />
         <Route path="/client/home" element={<ClientHomepage />} />
+        <Route path="/client/editProfilePage" element={<ClientEditProfilePage />} />
         <Route path="/client/messaging" element={<ClientMessagingPage />} />
         
         <Route path="/freelancer/home" element={<FreelancerHomepage />} />

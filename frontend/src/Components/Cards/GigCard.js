@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 function GigCard({id, img, userImg, name, rating, title, completedOrders, startingPrice, freelancer}) {
     
     const navigate = useNavigate();
-    
+
     return ( 
         <button className="flex flex-col hover:bg-aamdanDeepWhite dark:hover:bg-aamdanDeepBlack p-5 rounded-lg" onClick={() => {
             if(freelancer)
@@ -14,7 +14,8 @@ function GigCard({id, img, userImg, name, rating, title, completedOrders, starti
             <div className="mb-2 w-full"><img className="object-cover w-full h-96 rounded-lg" src={img} alt="" /></div>
             <div className="flex justify-between items-center w-full">
                 <div className="flex items-center">
-                    <img src={userImg} alt="" />
+                    {!userImg && <img src='/femaleUser.svg' alt="" />}
+                    {userImg && <img className="w-10 h-10 mr-1 object-cover rounded-full" src={userImg} alt="" />}
                     <p>{name}</p>
                 </div>
                 <div className="flex items-center">

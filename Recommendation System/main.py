@@ -59,5 +59,5 @@ def content_recommendation_v2(title):
 
 
 
-title = 'Develop a Linux based BT receiving daemon to "grab" BT device values'
+title = 'Data entry'
 print(content_recommendation_v2(title))

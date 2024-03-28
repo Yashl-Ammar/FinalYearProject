@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import {  useEffect, useState } from "react";
 import {   useNavigate, } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -19,17 +19,109 @@ import Footer from "../../../Components/Nav/Footer";
 function FreelancerHomepage() {
 
     const navigate = useNavigate()
-   
+
+    const [profile, setProfile] = useState({
+        fname: '',
+        lname: '',
+        languages: [],
+        skills: [],
+        education: [],
+    })
+
+    const [data,setData] = useState([]);
+
+    useEffect(() => {
+        fetchData()
+    },[])
+
+
+    const fetchData = async () => {
+        try{
+            let response = await axios.get(process.env.REACT_APP_ProfilePath+'profileManagement/getFreelancerData',{
+                headers:{
+                    'token':localStorage.getItem('token')
+                }
+            })
+
+            let gigs = await axios.get(process.env.REACT_APP_GigPath + 'gig/viewGigsByFreelancer',{
+                headers:{
+                    'token': localStorage.getItem('token')
+                }
+            })
+
+            console.log(gigs);
+            setData(gigs.data);
+
+            const obj = {
+                fname: response.data.fname,
+                lname: response.data.lname,
+                languages: response.data.languages,
+                skills: response.data.skills,
+                education: response.data.education,
+                country: response.data.country,
+                profilepic: response.data.profilepic,
+            } 
+
+            console.log(response.data)
+            setProfile(obj);
+        }  
+        catch(e){
+            console.log(e)
+        }
+    }
+
+    const mapLanguages = () => {
+        if(profile.languages.length === 0){
+            return <h3 className="text-lg font-bold">No languages added</h3>
+        }
+
+        return profile.languages.map((val,i) => {
+            return <p key={i}>{val}</p>
+        })
+    }
+    
+    const mapEducation = () => {
+        if(profile.education.length === 0){
+            return <h3 className="text-lg font-bold">No education added</h3>
+        }
+
+        return profile.education.map((val,i) => {
+            return <p className="mb-5" key={i}>{val}</p>
+        })
+    }
+    
+    const mapSkills = () => {
+        if(profile.skills.length === 0){
+            return <h3 className="text-lg font-bold">No skills added</h3>
+        }
+
+        return profile.skills.map((val,i) => {
+            return (
+            <div className="mr-4 mb-4" key={i}>
+                <RegularSkillTag text={val} />
+            </div>)
+     
+    })
+    }
+
+    const mapGigs = () => {
+
+        return data.map((val,i) => {
+            if(i < 2)
+                return <GigCard id={val?._id} img={val?.file[0]} completedOrders={val.freelancer.completedOrder} name={`${val.freelancer.fname} ${val.freelancer.lname}`} rating={val.freelancer.rating} startingPrice={val?.basic?.price} title={val?.title} freelancer={true} userImg={val?.freelancer.profilepic} />
+        })
+    }
+
     return ( <div className="w-full flex justify-center bg-white dark:bg-aamdanBackground text-aamdanBackground dark:text-white">
     <div className="w-full lg:w-4/5">
         <NavBarFreelancer />
             <div className="flex">
                 <div className="w-full bg-aamdanSuperDeepWhite dark:bg-aamdanSuperDeepBlack rounded-lg">
                     <section className="flex flex-col items-center py-5 border-b">
-                        <img className="w-32" src="/femaleUser.svg" alt="" />
-                        <h1 className="mb-5 font-bold text-5xl font-heading bg-gradient-to-r from-aamdanPurple to-aamdanPink text-transparent bg-clip-text">Tom Latham</h1>
-                        <h2 className="text-lightGrayWhite dark:text-lightGray text-3xl mb-5">@lathamtom</h2>
-                        <p className="text-lightGrayWhite dark:text-lightGray mb-5">Professional Developer</p>
+                        {profile.profilepic && <img className="w-32 h-32 object-cover rounded-full" src={profile.profilepic} alt="" />}
+                        {!profile.profilepic && <img className="w-32 h-32 object-cover rounded-full" src='/femaleUser.svg' alt="" />}
+                        <h1 className="mb-5 font-bold text-5xl font-heading bg-gradient-to-r from-aamdanPurple to-aamdanPink text-transparent bg-clip-text">{profile.fname + ' ' + profile.lname}</h1>
+                        <p className="text-lightGrayWhite dark:text-lightGray mb-5">Freelancer</p>
                         <div className="w-2/3">
                             <RegularSquareButton text={'Edit Profile'} onClick={() => {navigate('/freelancer/editProfilePage')}} />
                         </div>
@@ -66,48 +158,21 @@ function FreelancerHomepage() {
                             <img className="mr-2" src="/Location.svg" alt="" />
                             <p>From</p>
                         </div>
-                        <p>Pakistan</p>
-                    </section>
-                    <section className="py-5 px-5 border-b">
-                        <h2 className="font-heading font-bold text-3xl mb-5">Description</h2>
-                        <p className="mb-5">As a professional developer, I offer high-quality programming solutions to help you excel in your assignments and tasks. With expertise in C++ and Java languages, I apply industry-standard programming practices to ensure your success. Whether you need help with Programming Fundamentals or Object-Oriented Programming, I can provide expert guidance and support. If you're looking for a reliable and efficient developer, don't hesitate to reach out to me. I specialize in assignments in C++ Programming Fundamentals and Java OOP and PF concepts.</p>
+                        <p>{profile.country}</p>
                     </section>
                     <section className="py-5 px-5 border-b">
                         <h2 className="font-heading font-bold text-3xl mb-5">Languages</h2>
-                        <p className="mb-5">English</p>
-                        <p className="mb-5">Urdu</p>
-                        <p className="mb-5">Hindi</p>
+                        {mapLanguages()}
                     </section>
                     <section className="py-5 px-5 border-b">
                         <h2 className="font-heading font-bold text-3xl mb-5">Skills</h2>
                         <div className="flex flex-wrap">
-                            <div className="mr-4 mb-4">
-                                <RegularSkillTag text={'Java'} />
-                            </div>
-                            <div className="mr-4 mb-4">
-                                <RegularSkillTag text={'User Authentication'} />
-                            </div>
-                            <div className="mr-4 mb-4">
-                                <RegularSkillTag text={'Android App Development'} />
-                            </div>
-                            <div className="mr-4 mb-4">
-                                <RegularSkillTag text={'CPP'} />
-                            </div>
-                            <div className="mr-4 mb-4">
-                                <RegularSkillTag text={'React'} />
-                            </div>
-                            <div className="mr-4 mb-4">
-                                <RegularSkillTag text={'NodeJs'} />
-                            </div>
-                            <div className="mr-4 mb-4">
-                                <RegularSkillTag text={'JQuery'} />
-                            </div>
+                            {mapSkills()}
                         </div>
                     </section>
                     <section className="py-5 px-5">
                         <h2 className="font-heading font-bold text-3xl mb-5">Education</h2>
-                        <p className="mb-5">MS- Computer Science</p>
-                        <p className="mb-5">BS-Software Engineering</p>
+                        {mapEducation()}
                     </section>
                     
                 </div>
@@ -115,16 +180,15 @@ function FreelancerHomepage() {
                         <section className="mb-10">
                             <h1 className="text-5xl">Iathamtom's Gigs</h1>
                             <div className="grid grid-cols-2 mb-10">
-                                <GigCard id={1} img='/cat1.jpg' completedOrders={21} name='Tiffany Jay' rating='4.3' startingPrice={11000} title={'I am a professional who creates professional looking websites.'} userImg='/femaleUser.svg' />
-                                <GigCard id={2} img='/cat2.jpg' completedOrders={21} name='Tiffany Jay' rating='4.3' startingPrice={11000} title={'I am a professional who creates professional looking websites.'} userImg='/femaleUser.svg' />
+                                {mapGigs()}
                             </div>
-                            <RegularSquareButton text={'View all'} />
+                            <RegularSquareButton text={'View all'} onClick={() => {navigate('/freelancer/viewyourgigs')}}/>
                         </section>
                         <section className="bg-aamdanSuperDeepWhite dark:bg-aamdanSuperDeepBlack w-full px-5 py-3 rounded-lg mb-10">
                             <div className="flex items-center justify-between">
                                 <h2 className="text-3xl">Active Orders - 0 ($0). </h2>
                                 <div>
-                                    <RegularSquareButton text={'View Orders'} />
+                                    <RegularSquareButton text={'View Orders'} onClick={() => {navigate('/freelancer/manageOrderPage')}} />
                                 </div>
                             </div>
                         </section>

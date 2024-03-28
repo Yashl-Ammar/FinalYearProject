@@ -68,7 +68,7 @@ function ViewGigsPage() {
     } 
     const mapGigs = () => {
         return data.map((val) => {
-            return <GigCard id={val?._id} img={val?.file[0]} completedOrders={val.freelancer.completedOrder} name={`${val.freelancer.fname} ${val.freelancer.lname}`} rating={val.freelancer.rating} startingPrice={val?.basic?.price} title={val?.title} freelancer={false} userImg='/femaleUser.svg' />
+            return <GigCard id={val?._id} img={val?.file[0]} completedOrders={val.freelancer.completedOrder} name={`${val.freelancer.fname} ${val.freelancer.lname}`} rating={val.freelancer.rating} startingPrice={val?.basic?.price} title={val?.title} freelancer={false} userImg={val?.freelancer.profilepic} />
         })
     }
 
@@ -90,7 +90,6 @@ function ViewGigsPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-28">
             {mapGigs()}
-            
         </div>
         <ToastContainer />
         <Footer />

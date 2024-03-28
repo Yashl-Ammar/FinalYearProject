@@ -1,9 +1,44 @@
+import { useEffect, useState } from "react";
 import RegularSquareButton from "../../Components/Buttons/RegularSquareButton";
 import SidebarButton from "../../Components/Buttons/SidebarButton";
 import AdminDashboardCard from "../../Components/Cards/AdminDashboardCards";
 import AdminSideBar from "../../Components/Nav/AdminSideBar";
+import axios from "axios";
 
 function AdminTicketsPage() {
+
+    const [data,setData] = useState([]);
+    const [freelancerData,setFreelanacerData] = useState([]);
+
+    useEffect(() => {
+        fetchData()
+    },[])
+
+    const fetchData = async () => {
+        try{
+
+            let response = await axios.get(process.env.REACT_APP_AdminPath + 'admin/reportsInformation',{
+                headers:{
+                    'token': localStorage.getItem('token')
+                }
+            })
+            
+            console.log(response)
+            
+            setData(response.data);
+            
+
+        }catch(e){
+            console.log(e)
+        }
+    } 
+
+    // const mapFreelancers = () => {
+    //     return freelancerData.map((val, index) => {
+    //         return <FreelancreDashboardTile email={val.email} name={val.fname + ' ' + val.lname} orders={val.completedOrder} ratings={val.rating} serial={index+1} since={extractDateTime(val.createdAt)} />
+    //     }) 
+    // }
+
     return ( <div className="flex bg-white dark:bg-aamdanBackground text-aamdanBackground dark:text-white">
         <AdminSideBar active={'tickets'} />
         <div className="w-full flex flex-col">
