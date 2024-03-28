@@ -1,5 +1,10 @@
 const Job=require("../Models/Job")
 const Client=require('../Models/Client')
+const OpenAI = require("openai");
+
+const openai = new OpenAI({ apiKey: process.env.GPTAPIKey });
+
+
 const postjob = async (req, res) => {
     try {
       // Assuming these fields come from a request body
@@ -99,11 +104,30 @@ const postjob = async (req, res) => {
       res.status(500).json({err:"Failed to get all jobs of Specific Client"})  
     }
   }
+
+  const askGpt=async(req,res)=>{
+    try{
+      const {prompt} = req.body;
+
+      const completion = await openai.chat.completions.create({
+        messages: [{"role": "user", "content": prompt}],
+        model: "gpt-3.5-turbo",
+      });
+    
+      res.status(200).json(completion.choices[0].message.content);
+    }catch(err){
+      console.log(err)
+      res.status(500).json({err:"Failed to get all jobs of Specific Client"})  
+    }
+
+  }
+
   module.exports = {
      postjob,
      deleteJob,
      updateJob,
      getAllJobs,
      getJob,
-     getSpecifiJobs
+     getSpecifiJobs,
+     askGpt
    }

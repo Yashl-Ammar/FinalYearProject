@@ -16,8 +16,23 @@ import { allDifficulties } from "../../../Data/Difficulty";
 import { allCategories } from "../../../Data/Categories";
 import Footer from "../../../Components/Nav/Footer";
 import NavBarClient from "../../../Components/Nav/NavBarClient";
+import RoundedTransparentIconButton from "../../../Components/Buttons/RoundedTransparentIconButton";
+import { Box, Modal } from "@mui/material";
 
 
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '50%',
+    bgcolor: '#222222',
+    borderRadius: '20px',
+    color: 'white',
+    boxShadow: 24,
+    p: 4,
+  };
+  
 
 function PostJobPage() {
 
@@ -26,6 +41,15 @@ function PostJobPage() {
     const [allSkills, setAllSkills] = useState([]);
     let [checkedRadio, setCheckedRadio] = useState('hourly');
 
+    const [prompt, setPrompt] = useState('');
+
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => {
+      setOpen(true);
+    };
+    const handleClose = () => {
+      setOpen(false);
+    };
     
 
     const {
@@ -107,16 +131,58 @@ function PostJobPage() {
         })
     }
 
+    const askChatGPT = async function (prompt) {
+        try {
+            const apiKey = process.env.REACT_APP_GPTAPIKey; // Replace 'YOUR_API_KEY' with your actual API key
+            const endpoint = 'https://api.openai.com/v1/completions/chat';
+    
+            // Set up the request headers
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+            };
+    
+            // Set up the request data
+            const data = {
+                model: 'text-davinci-002', // Specify the model you want to use
+                prompt: prompt,
+                max_tokens: 100 // Specify the maximum number of tokens for the completion
+            };
+    
+            // Make the HTTP POST request using Axios
+            const response = await axios.post(endpoint, data, { headers });
+    
+            // Check if the request was successful
+            if (response.status === 200) {
+                console.log(response);
+                return response.data.choices[0].text.trim();
+            } else {
+                throw new Error(`Error: ${response.status} - ${response.statusText}`);
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+            return 'An error occurred while fetching the response.';
+        }
+    }
+
     return ( <div className="w-full flex justify-center bgwhite dark:bg-aamdanBackground text-aamdanBackground dark:text-white">
 
     <div className="w-full lg:w-4/5">
         <NavBarClient />
         <div className="text-center">
-            <h1 className="font-heading text-5xl mb-12">Post a Job</h1>
+            <div>
+                <h1 className="font-heading text-5xl mb-12">Post a Job</h1>
+                
+            </div>
             <h1 className="font-bold text-5xl mb-12">Get your work done by professionals</h1>
         </div>
         <div className="bg-aamdanSuperDeepWhite dark:bg-aamdanSuperDeepBlack rounded-xl w-full px-12 py-9">
-            <h1 className="font-bold text-5xl mb-7">Post a Job</h1>
+            <div className="flex justify-between">
+                <h1 className="font-bold text-5xl mb-7">Post a Job</h1>
+                <div className="w-96">
+                    <RoundedTransparentIconButton img='/ChatGPT.svg' text={'Generate using gpt'} onClick={handleOpen}/>
+                </div>
+            </div>
             <p className="text-lightGrayWhite dark:text-lightGray mb-8">Posting a job is indeed the first and crucial step in the process of identifying and securing the right talent to complete your projects and achieve your organizational goals.</p>
             <hr className="mb-11" />
             <div className="rounded-xl sm:px-11 sm:py-14 sm:bg-aamdanDeepWhite sm:dark:bg-aamdanDeepBlack">
@@ -224,6 +290,20 @@ function PostJobPage() {
                 </form>
             </div>
         </div>
+        <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            >
+            <Box sx={style}>
+                <h3 className="font-bold text-3xl mb-5">Ask Gpt Anything</h3>
+                <div className="my-5">
+                    <input type="text" className="bg-aamdanSuperDeepBlack border border-lightGray rounded-md w-full py-2 px-2" placeholder="Ask gpt..." value={prompt} onChange={(e) => {setPrompt(e.target.value)}} />
+                </div>
+                <RegularSquareButton text={'Ask'} onClick={() => {askChatGPT(prompt)}} />
+            </Box>
+        </Modal>
         <ToastContainer />
         <Footer />
     </div>

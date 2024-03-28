@@ -1,6 +1,6 @@
 const express = require('express');
 const jobrouter = express.Router();
-const {postjob,deleteJob,updateJob,getAllJobs,getJob,getSpecifiJobs} = require("../Controller/JobController");
+const {postjob,deleteJob,updateJob,getAllJobs,getJob,getSpecifiJobs, askGpt} = require("../Controller/JobController");
 const verifyuserloggedIn= require("../Middleware/authentication")
 const isClient =require("../Middleware/isClient")
 const isfreelancer=require("../Middleware/isFreelancer")
@@ -11,5 +11,7 @@ jobrouter.put("/update/:id",verifyuserloggedIn,isClient, updateJob);
 jobrouter.get("/getPostedJobsByClient",verifyuserloggedIn,isClient,getSpecifiJobs)
 jobrouter.get("/all",verifyuserloggedIn,isfreelancer, getAllJobs);
 jobrouter.get("/getSpecificJob/:jobId",verifyuserloggedIn, getJob);
+
+jobrouter.post("/askGpt",verifyuserloggedIn, askGpt);
 
 module.exports = jobrouter;
