@@ -145,6 +145,7 @@ function PostJobPage() {
                 }
             })
             
+            
             setGptResponse(response.data);
 
         } catch (error) {

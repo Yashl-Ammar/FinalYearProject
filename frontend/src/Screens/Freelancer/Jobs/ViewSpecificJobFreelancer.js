@@ -11,15 +11,38 @@ import RoundedTransparentButton from "../../../Components/Buttons/RoundedTranspa
 import RoundedTransparentIconButton from "../../../Components/Buttons/RoundedTransparentIconButton";
 import Footer from "../../../Components/Nav/Footer";
 import NavBarClient from "../../../Components/Nav/NavBarClient";
+import { Box, Modal } from "@mui/material";
+import RegularSquareButton from "../../../Components/Buttons/RegularSquareButton";
 
-
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '50%',
+    bgcolor: '#222222',
+    borderRadius: '20px',
+    color: 'white',
+    boxShadow: 24,
+    p: 4,
+  };
 
 function ViewSpecificJobFreelancerPage() {
 
     const [data, setData] = useState();
 
+    const [gptResponse, setGptResponse] = useState('');
+
     const navigate = useNavigate();
     const { id } = useParams();
+
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => {
+      setOpen(true);
+    };
+    const handleClose = () => {
+      setOpen(false);
+    };
 
     useEffect(() => {
         fetchJob();
@@ -36,6 +59,26 @@ function ViewSpecificJobFreelancerPage() {
             setData(response.data);
         }catch(e){
             toast('There seems to be some issue fetching the data!');
+        }
+    }
+
+    const askChatGPT = async function (prompt) {
+        try {
+            // Make the HTTP POST request using Axios
+            const response = await axios.post(process.env.REACT_APP_JobPath+'job/askGpt',{
+                prompt: prompt
+            },{
+                headers:{
+                    'token':localStorage.getItem('token')
+                }
+            })
+            
+            
+            setGptResponse(response.data);
+
+        } catch (error) {
+            console.error('An error occurred:', error);
+            return 'An error occurred while fetching the response.';
         }
     }
 
@@ -56,7 +99,12 @@ function ViewSpecificJobFreelancerPage() {
         <div className="bg-aamdanSuperDeepWhite dark:bg-aamdanSuperDeepBlack rounded-xl w-full">
             {data !== undefined && <div>
                 <section className="px-6 sm:px-12 py-9">
-                    <h1 className="text-5xl font-bold mb-8">{data?.title}</h1>
+                    <div className="flex justify-between">
+                        <h1 className="text-5xl font-bold mb-8">{data?.title}</h1>
+                        <div className="w-96">
+                            <RoundedTransparentIconButton img='/ChatGPT.svg' text={'Summarize using gpt'} onClick={handleOpen}/>
+                        </div>
+                    </div>
                     <p className="text-xl font-bold">{data?.category}</p>
                     <p className="text-xl text-lightGrayWhite dark:text-lightGray mb-12">Posted on {data && extractDateTime(data.createdAt)}</p>
                 </section>
@@ -136,6 +184,18 @@ function ViewSpecificJobFreelancerPage() {
             </div>}
             
         </div>
+        <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            >
+            <Box sx={style}>
+                <h3 className="font-bold text-3xl mb-5">Summarize job description</h3>
+                <p className=" mb-5">{gptResponse}</p>
+                <RegularSquareButton text={'Summarize'} onClick={() => {askChatGPT('Summarize the following: ' + data?.description)}} />
+            </Box>
+        </Modal>
         <ToastContainer />
         <Footer />
     </div>

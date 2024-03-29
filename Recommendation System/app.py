@@ -8,10 +8,13 @@ from flask_pymongo import PyMongo
 from dotenv import load_dotenv
 import os
 import pymongo
+from flask_cors import CORS
 # Load environment variables
 load_dotenv()
 
 app = Flask(__name__)
+
+CORS(app)
 
 def preprocess_tags(tags_column):
     """Check if input is a string representation of a list and convert to a list if so.

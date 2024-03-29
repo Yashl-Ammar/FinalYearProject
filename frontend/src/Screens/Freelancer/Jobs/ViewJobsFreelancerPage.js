@@ -10,7 +10,7 @@ import Footer from "../../../Components/Nav/Footer";
 
 function ViewJobsFreelancerPage() {
 
-    const [selectedFilter, setSelectedFilter] = useState('active');
+    const [selectedFilter, setSelectedFilter] = useState('all');
     const [data, setData] = useState([]);
 
     useEffect(() => {
@@ -19,45 +19,39 @@ function ViewJobsFreelancerPage() {
     
     const fetchJobs = async () => {
         try{
-            let response = await axios.get(process.env.REACT_APP_JobPath+'job/all',{
+            let freelancerInfo = await axios.get(process.env.REACT_APP_ProfilePath+'profileManagement/getFreelancerData',{
                 headers:{
                     'token':localStorage.getItem('token')
                 }
             })
 
-            console.log(response);
-            setData(response.data);
+            console.log(freelancerInfo);
+
+            const skillsobject = {
+                skills: freelancerInfo.data.skills
+            }
+
+            let response = await axios.post(process.env.REACT_APP_Recommendation+'recommend_jobs', skillsobject, {
+                headers:{
+                    'token':localStorage.getItem('token')
+                }
+            })
+
+            console.log(JSON.parse(response.data));
+            setData(JSON.parse(response.data));
         }catch(e){
             toast('There seems to be some issue fetching the data!');
         }
     }
 
-    const countActive = () => {
-        let count = 0;
-        data.forEach((val) => {
-            if(val.jobStatus === 'Active'){
-                count++;
-            }
-        })
-        return count;
-    }
 
     console.log(data);
 
     const mapJobs = () => {
         return data.map((val,index) => {
-            if(selectedFilter === 'active')
-            {
-                if(val.jobStatus === 'Active')
-                    return <Jobtile isFreelancer={true} id={val._id} key={index} amount={val.amount} bookmarks={val.bookmarkCount} budgetType={val.budgetType} description={val.description} difficulty={val.difficulty} likes={val.dislikeCount} postTime={val.createdAt} proposalCount={val.numberOfProposals} tags={val.skills} title={val.title} />
-            }
-            else if(selectedFilter === 'removed'){
-                if(val.jobStatus === 'Removed')
-                    return <Jobtile isFreelancer={true} id={val._id} key={index} amount={val.amount} bookmarks={val.bookmarkCount} budgetType={val.budgetType} description={val.description} difficulty={val.difficulty} likes={val.dislikeCount} postTime={val.createdAt} proposalCount={val.numberOfProposals} tags={val.skills} title={val.title} />
-            }
-            else{
+            if(val.jobStatus !== 'Removed')
                 return <Jobtile isFreelancer={true} id={val._id} key={index} amount={val.amount} bookmarks={val.bookmarkCount} budgetType={val.budgetType} description={val.description} difficulty={val.difficulty} likes={val.dislikeCount} postTime={val.createdAt} proposalCount={val.numberOfProposals} tags={val.skills} title={val.title} />
-            }
+
         })
     } 
 
@@ -72,18 +66,10 @@ function ViewJobsFreelancerPage() {
                 <h1 className="font-bold text-5xl mb-10">Jobs you posted</h1>
                 <div className="hidden sm:flex mb-12">
                     <div className="w-full lg:w-1/5 text-center">
-                        <p className="text-lg font-bold mb-3 px-5" onClick={() => {setSelectedFilter('active')}}><Link>Best Matches ({countActive()})</Link></p>
-                        <div className={`w-full ${selectedFilter === 'active' ? 'bg-white dark:bg-aamdanBackground' : 'bg-aamdanBackground dark:bg-white'}`} style={{height:'1px'}} ></div>
-                    </div>
-                    <div className="w-full lg:w-1/5 text-center">
-                        <p className="text-lg font-bold mb-3 px-5" onClick={() => {setSelectedFilter('removed')}}><Link>Saved ({data.length - countActive()})</Link></p>
-                        <div className={`w-full ${selectedFilter === 'removed' ? 'bg-white dark:bg-aamdanBackground' : 'bg-aamdanBackground dark:bg-white'}`} style={{height:'1px'}} ></div>
-                    </div>
-                    <div className="w-full lg:w-1/5 text-center">
                         <p className="text-lg font-bold mb-3 px-5" onClick={() => {setSelectedFilter('all')}}><Link>All ({data.length})</Link></p>
                         <div className={`w-full ${selectedFilter === 'all' ? 'bg-white dark:bg-aamdanBackground' : 'bg-aamdanBackground dark:bg-white'}`} style={{height:'1px'}} ></div>
                     </div>
-                    <div className="w-0 lg:w-2/5">
+                    <div className="w-0 lg:w-4/5">
                         <p className="text-lg font-bold mb-3 px-5">&nbsp;</p>
                         <div className="w-full bg-aamdanBackground dark:bg-white" style={{height:'1px'}} ></div>
                     </div>

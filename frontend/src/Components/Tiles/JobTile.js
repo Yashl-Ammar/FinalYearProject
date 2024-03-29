@@ -8,6 +8,8 @@ function Jobtile({isFreelancer,id,title,difficulty,postTime,budgetType,descripti
 
     const navigate = useNavigate();
 
+    const date = new Date(postTime);
+
     let mapTags = () => { 
         return tags.map((val,index) => {
             return <div key={index} className="mb-5 sm:mr-5 sm:mb-0"><RegularSkillTag text={val} /></div>
@@ -44,7 +46,7 @@ function Jobtile({isFreelancer,id,title,difficulty,postTime,budgetType,descripti
             }
         }}>
                 <h1 className="text-3xl font-bold mb-4">{title}</h1>
-                <p className="text-lightGrayWhite dark:text-lightGray mb-10">{budgetType ? budgetType.toUpperCase(): ''} - {difficultyCheck()} - Posted {extractDateTime(postTime)}</p>
+                <p className="text-lightGrayWhite dark:text-lightGray mb-10">{budgetType ? budgetType.toUpperCase(): ''} - {difficultyCheck()} - Posted {date.toDateString()}</p>
                 <p className="mb-10">{description}</p>
                 <div className="flex mb-5 flex-col sm:flex-row">
                     <p className="text-xl mr-12 mb-5">Estimated Budget: ${amount}</p>
