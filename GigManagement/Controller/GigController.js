@@ -158,7 +158,7 @@ const viewGigsByFreelancer = async (req, res) => {
     console.log(gigs);
 
     if (!gigs || gigs.length === 0) {
-      return res.status(404).json({ error: 'Gigs not found for this freelancer' });
+      return res.status(200).json({ error: 'Gigs not found for this freelancer' });
     }
 
     res.status(200).json(gigs);
