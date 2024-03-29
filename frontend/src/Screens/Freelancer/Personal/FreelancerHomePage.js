@@ -178,7 +178,7 @@ function FreelancerHomepage() {
                 </div>
                 <div className="w-full pl-5 ">
                         <section className="mb-10">
-                            <h1 className="text-5xl">Iathamtom's Gigs</h1>
+                            <h1 className="text-5xl">{profile.fname}'s Gigs</h1>
                             <div className="grid grid-cols-2 mb-10">
                                 {mapGigs()}
                             </div>
