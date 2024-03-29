@@ -77,11 +77,14 @@ function NavBarFreelancer() {
                     <li><Link to={'/freelancer/messaging'}>Messages</Link></li>
                     <li><Link to={'/freelancer/manageOrderPage'}>Orders</Link></li>
                 </ul>
-                <div className="hidden lg:flex">
+                <div className="hidden lg:flex lg:items-center">
                     <div className="mr-5">
                         <Button variant="outlined" onClick={handleOpen}>Report an issue</Button>
                     </div>
-                    <img src="/Male User.png" alt=""/>
+                    <button onClick={() => {
+                        localStorage.setItem('token', '')
+                        navigate('/')
+                    }}>Logout</button>
                 </div>
                 <div className="block lg:hidden" onClick={() => {setToggleNav(true)}}>
                     <img className="h-7" src="/Menu.svg" alt="" />

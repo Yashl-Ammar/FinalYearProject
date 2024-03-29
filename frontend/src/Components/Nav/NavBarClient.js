@@ -81,7 +81,10 @@ function NavBarClient() {
                     <div className="mr-5">
                         <Button variant="outlined" onClick={handleOpen}>Report an issue</Button>
                     </div>
-                    <img src="/Male User.png" alt=""/>
+                    <button onClick={() => {
+                        localStorage.setItem('token', '')
+                        navigate('/')
+                    }}>Logout</button>
                 </div>
                 <div className="block lg:hidden" onClick={() => {setToggleNav(true)}}>
                     <img className="h-7" src="/Menu.svg" alt="" />
